@@ -11,19 +11,21 @@ namespace CarDealership.DataAccess.Configuration
         {
             builder.HasKey(am => am.Id);
 
-            builder.Property(am => am.Brand)
-                .HasMaxLength(AutoModel.MAX_BRAND_LENGTH)
-                .IsRequired();
-
             builder.Property(am => am.Name)
-                .HasMaxLength(AutoModel.MAX_BRAND_LENGTH)
+                .HasMaxLength(AutoModel.MAX_NAME_LENGTH)
                 .IsRequired();
 
-            builder.Property(am => am.BodyType)
-                .IsRequired();
+            builder.HasOne(am => am.Brand)
+                .WithMany(b => b.Models);
 
-            builder.Property(am => am.Price)
-                .IsRequired();
+            builder.HasMany(am => am.Configurations)
+                .WithOne(c => c.AutoModel)
+                .HasForeignKey(c => c.AutoModelId);
+
+            builder.HasMany(am => am.Equipments)
+                .WithOne(e => e.AutoModel)
+                .HasForeignKey(e => e.AutoModelId);
+
         }
     }
 }

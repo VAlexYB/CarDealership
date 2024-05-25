@@ -1,4 +1,4 @@
-﻿using CarDealership.Core.Abstractions;
+﻿using CarDealership.Core.Abstractions.Repositories;
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Factories;
@@ -28,6 +28,7 @@ namespace CarDealership.DataAccess.Repositories
         {
             var entities =  await _dbSet
                 .AsNoTracking()
+                .Where(x => !x.IsDeleted)
                 .ToListAsync();
 
             return entities.Select(entity => _factory.CreateModel(entity)).ToList();
@@ -37,6 +38,7 @@ namespace CarDealership.DataAccess.Repositories
         {
             var entities = await _dbSet
                 .AsNoTracking()
+                .Where(x => !x.IsDeleted)
                 .ToListAsync();
 
             return entities.Select(entity => _factory.CreateModel(entity)).ToList();

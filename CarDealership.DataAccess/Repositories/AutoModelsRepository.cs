@@ -1,4 +1,4 @@
-﻿using CarDealership.Core.Abstractions;
+﻿using CarDealership.Core.Abstractions.Repositories;
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Factories;

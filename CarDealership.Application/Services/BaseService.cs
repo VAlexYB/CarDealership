@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Abstractions;
+﻿using CarDealership.Core.Abstractions.Repositories;
+using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models;
 
 namespace CarDealership.Application.Services

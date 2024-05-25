@@ -2,11 +2,7 @@
 {
     public abstract class BaseEntity
     {
-        public BaseEntity(Guid id)
-        {
-            Id = id;
-        }
-
         public Guid Id { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

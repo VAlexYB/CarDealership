@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Abstractions;
+﻿using CarDealership.Application.Services;
+using CarDealership.Core.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CarDealership.Application
@@ -7,7 +8,7 @@ namespace CarDealership.Application
     {
         public static IServiceCollection AddBusinessLogic(this IServiceCollection services)
         {
-            services.AddScoped<IAutoModelsService, IAutoModelsService>();
+            services.AddScoped<IAutoModelsService, AutoModelsService>();
 
             return services;
         }
