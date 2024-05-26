@@ -1,15 +1,16 @@
-﻿using CarDealership.Application.Services;
+﻿using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class BrandRMFactory : IModelBuilderAsync<BrandRequest, Brand>, IResponseBuilder<BrandResponse, Brand>
+    public class BrandRMFactory : IBrandRMFactory
     {
-        private readonly CountriesService _countriesService;
+        private readonly ICountriesService _countriesService;
 
-        public BrandRMFactory(CountriesService countriesService)
+        public BrandRMFactory(ICountriesService countriesService)
         {
             _countriesService = countriesService ?? throw new ArgumentNullException(nameof(countriesService));
         }

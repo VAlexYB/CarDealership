@@ -1,21 +1,23 @@
 ﻿using CarDealership.Application.Services;
+using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
-using CarDealership.Web.Api.Factories;
+using CarDealership.Web.Api.Factories.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarDealership.Web.Api.Controllers
 {
     //TODO: добавить ActionResult, обработку ошибок
     [ApiController]
+    [Route("api/[controller]")]
     public abstract class BaseController <M, F, Req, Res> : ControllerBase
         where M: BaseModel
         where F: BaseFilter
         where Req: BaseRequest
         where Res: BaseResponse
     {
-        protected readonly BaseService<M, F> _service;
+        protected readonly IGenericService<M, F> _service;
 
         protected readonly IResponseBuilder<Res, M> _factory;
         protected readonly IModelBuilder<Req, M> _modelBuilder;
@@ -23,7 +25,7 @@ namespace CarDealership.Web.Api.Controllers
         private readonly bool _useAsyncBuilder;
 
         public BaseController(
-            BaseService<M, F> service,
+            IGenericService<M, F> service,
             IResponseBuilder<Res, M> factory
         )
         {

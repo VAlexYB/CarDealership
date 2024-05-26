@@ -5,9 +5,9 @@ namespace CarDealership.DataAccess.Factories
 {
     public class EngineTypeEMFactory : IEntityModelFactory<EngineType, EngineTypeEntity>
     {
-        private readonly EngineEMFactory _engineEMFactory;
+        private readonly IEntityModelFactory<Engine, EngineEntity> _engineEMFactory;
 
-        public EngineTypeEMFactory(EngineEMFactory engineEMFactory)
+        public EngineTypeEMFactory(IEntityModelFactory<Engine, EngineEntity> engineEMFactory)
         {
             _engineEMFactory = engineEMFactory ?? throw new ArgumentNullException(nameof(engineEMFactory));
         }

@@ -5,12 +5,11 @@ namespace CarDealership.DataAccess.Factories
 {
     public class BrandEMFactory : IEntityModelFactory<Brand, BrandEntity>
     {
-        private readonly CountryEMFactory _countryEMFactory;
-        private readonly AutoModelEMFactory _autoModelEMFactory;
+        private readonly IEntityModelFactory<AutoModel, AutoModelEntity> _autoModelEMFactory;
 
-        public BrandEMFactory(CountryEMFactory countryEMFactory, AutoModelEMFactory autoModelEMFactory)
+        public BrandEMFactory(
+            IEntityModelFactory<AutoModel, AutoModelEntity> autoModelEMFactory)
         {
-            _countryEMFactory = countryEMFactory ?? throw new ArgumentNullException(nameof(countryEMFactory));
             _autoModelEMFactory = autoModelEMFactory ?? throw new ArgumentNullException(nameof(autoModelEMFactory));
         }
 
@@ -18,15 +17,12 @@ namespace CarDealership.DataAccess.Factories
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            var countryEntity = model.Country != null ? _countryEMFactory.CreateEntity(model.Country) : null;
-
             var models = model.Models.Select(model => _autoModelEMFactory.CreateEntity(model)).ToList();
 
             var entity = new BrandEntity
             {
                 Name = model.Name,
                 CountryId = model.CountryId,
-                Country = countryEntity,
                 Models = models,
                 IsDeleted = model.IsDeleted,
             };
@@ -38,7 +34,11 @@ namespace CarDealership.DataAccess.Factories
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var country = entity.Country != null ? _countryEMFactory.CreateModel(entity.Country) : null;
+            var country = entity.Country != null ? Country.Create(
+                entity.CountryId,
+                entity.Country.Name,
+                entity.Country.IsDeleted
+            ).Value : null;
 
             var bodyTypeResult = Brand.Create(
                 entity.Id,

@@ -1,10 +1,11 @@
 ﻿using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class TransmissionTypeRMFactory : IModelBuilder<TransmissionTypeRequest, TransmissionType>, IResponseBuilder<TransmissionTypeResponse, TransmissionType>
+    public class TransmissionTypeRMFactory : ITransmissionTypeRMFactory
     {
         public TransmissionType CreateModel(TransmissionTypeRequest req)
         {

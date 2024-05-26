@@ -4,9 +4,9 @@
     {
         public string Name { get; set; } = string.Empty;
 
-        public List<AutoModelEntity> Models { get; set; } = [];
+        public virtual List<AutoModelEntity> Models { get; set; } = [];
 
         public Guid CountryId { get; set; }
-        public CountryEntity? Country { get; set; }
+        public virtual CountryEntity? Country { get; set; }
     }
 }

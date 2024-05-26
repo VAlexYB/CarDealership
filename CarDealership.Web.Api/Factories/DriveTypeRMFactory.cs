@@ -1,11 +1,12 @@
 ﻿using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 using DriveType = CarDealership.Core.Models.DriveType;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class DriveTypeRMFactory : IModelBuilder<DriveTypeRequest, DriveType>, IResponseBuilder<DriveTypeResponse, DriveType>
+    public class DriveTypeRMFactory : IDriveTypeRMFactory
     {
         public DriveType CreateModel(DriveTypeRequest req)
         {

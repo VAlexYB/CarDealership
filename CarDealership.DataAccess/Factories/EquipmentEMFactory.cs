@@ -5,12 +5,12 @@ namespace CarDealership.DataAccess.Factories
 {
     public class EquipmentEMFactory : IEntityModelFactory<Equipment, EquipmentEntity>
     {
-        private readonly AutoModelEMFactory _autoModelEMFactory;
-        private readonly EquipFeatureEMFactory _equipmentFeatureEMFactory;
+        private readonly IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> _equipmentFeatureEMFactory;
 
-        public EquipmentEMFactory(AutoModelEMFactory autoModelEMFactory, EquipFeatureEMFactory equipmentFeatureEMFactory)
+        public EquipmentEMFactory(
+            IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> equipmentFeatureEMFactory
+        )
         {
-            _autoModelEMFactory = autoModelEMFactory ?? throw new ArgumentNullException(nameof(autoModelEMFactory));
             _equipmentFeatureEMFactory = equipmentFeatureEMFactory ?? throw new ArgumentNullException(nameof(equipmentFeatureEMFactory));
         }
 
@@ -18,7 +18,6 @@ namespace CarDealership.DataAccess.Factories
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            var autoModelEntity = model.AutoModel != null ? _autoModelEMFactory.CreateEntity(model.AutoModel) : null;
             var featureEntities = model.EquipmentFeatures
                 .Select(feature => _equipmentFeatureEMFactory.CreateEntity(feature))
                 .ToList();
@@ -31,7 +30,6 @@ namespace CarDealership.DataAccess.Factories
                 ReleaseYear = model.ReleaseYear,
                 AutoModelId = model.AutoModelId,
                 IsDeleted = model.IsDeleted,
-                AutoModel = autoModelEntity,
                 equipmentFeatures = featureEntities
             };
 
@@ -42,7 +40,14 @@ namespace CarDealership.DataAccess.Factories
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var autoModel = entity.AutoModel != null ? _autoModelEMFactory.CreateModel(entity.AutoModel) : null;
+            var autoModel = entity.AutoModel != null ? AutoModel.Create(
+                entity.AutoModelId,
+                entity.AutoModel.Name,
+                entity.AutoModel.Price,
+                entity.AutoModel.BrandId,
+                entity.AutoModel.IsDeleted
+            ).Value : null;
+
             var equipmentCreateResult = Equipment.Create(
                 entity.Id,
                 entity.Name,

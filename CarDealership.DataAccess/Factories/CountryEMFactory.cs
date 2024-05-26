@@ -5,9 +5,9 @@ namespace CarDealership.DataAccess.Factories
 {
     public class CountryEMFactory : IEntityModelFactory<Country, CountryEntity>
     {
-        private readonly BrandEMFactory _brandEMFactory;
+        private readonly IEntityModelFactory<Brand, BrandEntity> _brandEMFactory;
 
-        public CountryEMFactory(BrandEMFactory brandEMFactory)
+        public CountryEMFactory(IEntityModelFactory<Brand, BrandEntity> brandEMFactory)
         {
             _brandEMFactory = brandEMFactory ?? throw new ArgumentNullException(nameof(brandEMFactory));
         }

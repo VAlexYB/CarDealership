@@ -9,8 +9,8 @@
         public string ReleaseYear { get; set; } = string.Empty;
 
         public Guid AutoModelId { get; set; }
-        public AutoModelEntity? AutoModel { get; set; }
+        public virtual AutoModelEntity? AutoModel { get; set; }
 
-        public List<EquipmentFeatureEntity> equipmentFeatures { get; set; } = [];
+        public virtual List<EquipmentFeatureEntity> equipmentFeatures { get; set; } = [];
     }
 }

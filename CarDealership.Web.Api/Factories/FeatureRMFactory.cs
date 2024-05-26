@@ -1,10 +1,11 @@
 ﻿using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class FeatureRMFactory : IModelBuilder<FeatureRequest, Feature>, IResponseBuilder<FeatureResponse, Feature>
+    public class FeatureRMFactory : IFeatureRMFactory
     {
         public Feature CreateModel(FeatureRequest req)
         {

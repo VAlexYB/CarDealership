@@ -7,7 +7,7 @@ namespace CarDealership.DataAccess.Repositories
 {
     public class DriveTypesRepository : BaseRepository<DriveType, DriveTypeEntity, BaseFilter>, IDriveTypesRepository
     {
-        public DriveTypesRepository(CarDealershipDbContext context, DriveTypeEMFactory factory) : base(context, factory)
+        public DriveTypesRepository(CarDealershipDbContext context, IEntityModelFactory<DriveType, DriveTypeEntity> factory) : base(context, factory)
         {
         }
     }

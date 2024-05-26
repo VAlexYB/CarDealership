@@ -77,7 +77,9 @@ namespace CarDealership.DataAccess.Repositories
 
         public async Task<bool> ExistsAsync(Guid entityId)
         {
-            return await _dbSet.AnyAsync(e => e.Id == entityId);
+            return await _dbSet
+                .AsNoTracking()
+                .AnyAsync(e => e.Id == entityId);
         }
     }
 }

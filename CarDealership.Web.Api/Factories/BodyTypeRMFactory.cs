@@ -1,10 +1,11 @@
 ﻿using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class BodyTypeRMFactory : IResponseBuilder<BodyTypeResponse, BodyType>, IModelBuilder<BodyTypeRequest, BodyType>
+    public class BodyTypeRMFactory : IBodyTypeRMFactory
     {
         public BodyType CreateModel(BodyTypeRequest req)
         {

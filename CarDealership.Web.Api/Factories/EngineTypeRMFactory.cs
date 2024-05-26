@@ -1,10 +1,11 @@
 ﻿using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class EngineTypeRMFactory : IModelBuilder<EngineTypeRequest, EngineType>, IResponseBuilder<EngineTypeResponse, EngineType>
+    public class EngineTypeRMFactory : IEngineTypeRMFactory
     {
         public EngineType CreateModel(EngineTypeRequest req)
         {

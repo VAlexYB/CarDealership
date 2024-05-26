@@ -17,7 +17,8 @@ namespace CarDealership.DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,7 +31,8 @@ namespace CarDealership.DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,7 +44,8 @@ namespace CarDealership.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,7 +58,8 @@ namespace CarDealership.DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,7 +71,8 @@ namespace CarDealership.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: false)
+                    Value = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,7 +84,8 @@ namespace CarDealership.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false)
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,7 +97,8 @@ namespace CarDealership.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: false)
+                    Value = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,7 +111,8 @@ namespace CarDealership.DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CountryId = table.Column<Guid>(type: "uuid", nullable: false)
+                    CountryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,7 +134,8 @@ namespace CarDealership.DataAccess.Migrations
                     Consumption = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     EngineTypeId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TransmissionTypeId = table.Column<Guid>(type: "uuid", nullable: false)
+                    TransmissionTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -151,7 +160,9 @@ namespace CarDealership.DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    BrandId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    BrandId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,7 +185,8 @@ namespace CarDealership.DataAccess.Migrations
                     BodyTypeId = table.Column<Guid>(type: "uuid", nullable: false),
                     DriveTypeId = table.Column<Guid>(type: "uuid", nullable: false),
                     EngineId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ColorId = table.Column<Guid>(type: "uuid", nullable: false)
+                    ColorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -219,7 +231,8 @@ namespace CarDealership.DataAccess.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     ReleaseYear = table.Column<string>(type: "text", nullable: false),
-                    AutoModelId = table.Column<Guid>(type: "uuid", nullable: false)
+                    AutoModelId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -238,14 +251,15 @@ namespace CarDealership.DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     VIN = table.Column<string>(type: "text", nullable: false),
-                    AutoCongigurationId = table.Column<Guid>(type: "uuid", nullable: false)
+                    AutoConfigurationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cars", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cars_AutoConfigurations_AutoCongigurationId",
-                        column: x => x.AutoCongigurationId,
+                        name: "FK_Cars_AutoConfigurations_AutoConfigurationId",
+                        column: x => x.AutoConfigurationId,
                         principalTable: "AutoConfigurations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -257,7 +271,8 @@ namespace CarDealership.DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EquipmentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    FeatureId = table.Column<Guid>(type: "uuid", nullable: false)
+                    FeatureId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -312,9 +327,9 @@ namespace CarDealership.DataAccess.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cars_AutoCongigurationId",
+                name: "IX_Cars_AutoConfigurationId",
                 table: "Cars",
-                column: "AutoCongigurationId");
+                column: "AutoConfigurationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Engines_EngineTypeId",

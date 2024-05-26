@@ -7,7 +7,7 @@ namespace CarDealership.DataAccess.Repositories
 {
     public class AutoConfigsRepository : BaseRepository<AutoConfiguration, AutoConfigurationEntity, BaseFilter>, IAutoConfigsRepository
     {
-        public AutoConfigsRepository(CarDealershipDbContext context, AutoConfigEMFactory factory) : base(context, factory)
+        public AutoConfigsRepository(CarDealershipDbContext context, IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> factory) : base(context, factory)
         {
         }
     }
