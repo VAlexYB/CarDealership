@@ -7,7 +7,7 @@ namespace CarDealership.DataAccess.Repositories
 {
     public class BodyTypesRepository : BaseRepository<BodyType, BodyTypeEntity, BaseFilter>, IBodyTypesRepository
     {
-        public BodyTypesRepository(CarDealershipDbContext context, BodyTypeEMFactory factory) : base(context, factory)
+        public BodyTypesRepository(CarDealershipDbContext context, IEntityModelFactory<BodyType, BodyTypeEntity> factory) : base(context, factory)
         {
         }
     }

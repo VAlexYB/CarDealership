@@ -1,10 +1,11 @@
 ﻿using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class CountryRMFactory : IModelBuilder<CountryRequest, Country>, IResponseBuilder<CountryResponse, Country>
+    public class CountryRMFactory : ICountryRMFactory
     {
         public Country CreateModel(CountryRequest req)
         {

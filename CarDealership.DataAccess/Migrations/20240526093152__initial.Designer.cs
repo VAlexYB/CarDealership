@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarDealership.DataAccess.Migrations
 {
     [DbContext(typeof(CarDealershipDbContext))]
-    [Migration("20240519181749__initial")]
+    [Migration("20240526093152__initial")]
     partial class _initial
     {
         /// <inheritdoc />
@@ -20,7 +20,10 @@ namespace CarDealership.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -45,6 +48,9 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.Property<Guid>("EngineId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -73,10 +79,16 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("BrandId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -90,6 +102,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -112,6 +127,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("CountryId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -129,8 +147,11 @@ namespace CarDealership.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AutoCongigurationId")
+                    b.Property<Guid>("AutoConfigurationId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("VIN")
                         .IsRequired()
@@ -138,7 +159,7 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AutoCongigurationId");
+                    b.HasIndex("AutoConfigurationId");
 
                     b.ToTable("Cars");
                 });
@@ -148,6 +169,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -167,6 +191,9 @@ namespace CarDealership.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -181,6 +208,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -206,6 +236,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("EngineTypeId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("Power")
                         .HasColumnType("integer");
 
@@ -230,6 +263,9 @@ namespace CarDealership.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnType("text");
@@ -247,6 +283,9 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.Property<Guid>("AutoModelId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -278,6 +317,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("FeatureId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EquipmentId");
@@ -297,6 +339,9 @@ namespace CarDealership.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.ToTable("Features");
@@ -307,6 +352,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -386,7 +434,7 @@ namespace CarDealership.DataAccess.Migrations
                 {
                     b.HasOne("CarDealership.DataAccess.Entities.AutoConfigurationEntity", "AutoConfiguration")
                         .WithMany("Cars")
-                        .HasForeignKey("AutoCongigurationId")
+                        .HasForeignKey("AutoConfigurationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

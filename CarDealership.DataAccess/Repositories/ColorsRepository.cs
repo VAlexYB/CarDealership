@@ -7,7 +7,7 @@ namespace CarDealership.DataAccess.Repositories
 {
     public class ColorsRepository : BaseRepository<Color, ColorEntity, BaseFilter>, IColorsRepository
     {
-        public ColorsRepository(CarDealershipDbContext context, ColorEMFactory factory) : base(context, factory)
+        public ColorsRepository(CarDealershipDbContext context, IEntityModelFactory<Color, ColorEntity> factory) : base(context, factory)
         {
         }
     }

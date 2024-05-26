@@ -1,12 +1,12 @@
 ﻿using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 
-namespace CarDealership.Web.Api.Factories
+namespace CarDealership.Web.Api.Factories.Abstract
 {
-    public interface IModelBuilderAsync <Req, M>
+    public interface IModelBuilder<Req, M>
         where Req : BaseRequest
         where M : BaseModel
     {
-        Task<M> CreateModelAsync(Req req);
+        M CreateModel(Req req);
     }
 }

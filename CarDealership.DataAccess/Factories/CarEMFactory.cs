@@ -5,22 +5,13 @@ namespace CarDealership.DataAccess.Factories
 {
     public class CarEMFactory : IEntityModelFactory<Car, CarEntity>
     {
-        private readonly AutoConfigEMFactory _autoConfigEMFactory;
-
-        public CarEMFactory(AutoConfigEMFactory autoConfigEMFactory)
-        {
-            _autoConfigEMFactory = autoConfigEMFactory ?? throw new ArgumentNullException(nameof(autoConfigEMFactory));
-        }
         public CarEntity CreateEntity(Car model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            var autoConfigEntity = model.AutoConfiguration  != null ? _autoConfigEMFactory.CreateEntity(model.AutoConfiguration) : null;
-
             var entity = new CarEntity
             { 
                 Id = model.Id,
-                AutoConfiguration = autoConfigEntity,
                 IsDeleted = model.IsDeleted,
                 AutoConfigurationId = model.AutoConfigurationId,
                 VIN = model.VIN
@@ -33,7 +24,16 @@ namespace CarDealership.DataAccess.Factories
         {
             if(entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var autoConfigModel = entity.AutoConfiguration != null ? _autoConfigEMFactory.CreateModel(entity.AutoConfiguration) : null;
+            var autoConfigModel = entity.AutoConfiguration != null ? AutoConfiguration.Create(
+                entity.AutoConfigurationId,
+                entity.AutoConfiguration.Price,
+                entity.AutoConfiguration.AutoModelId,
+                entity.AutoConfiguration.BodyTypeId,
+                entity.AutoConfiguration.DriveTypeId,
+                entity.AutoConfiguration.EngineId,
+                entity.AutoConfiguration.ColorId,
+                entity.AutoConfiguration.IsDeleted
+            ).Value : null;
 
             var carCreateResult = Car.Create(
                 entity.Id,

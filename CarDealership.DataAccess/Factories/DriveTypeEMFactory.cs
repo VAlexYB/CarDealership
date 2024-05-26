@@ -1,13 +1,14 @@
-﻿using CarDealership.DataAccess.Entities;
+﻿using CarDealership.Core.Models;
+using CarDealership.DataAccess.Entities;
 using DriveType = CarDealership.Core.Models.DriveType;
 
 namespace CarDealership.DataAccess.Factories
 {
     public class DriveTypeEMFactory : IEntityModelFactory<DriveType, DriveTypeEntity>
     {
-        private readonly AutoConfigEMFactory _autoConfigEMFactory;
+        private readonly IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> _autoConfigEMFactory;
 
-        public DriveTypeEMFactory(AutoConfigEMFactory autoConfigEMFactory)
+        public DriveTypeEMFactory(IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> autoConfigEMFactory)
         {
             _autoConfigEMFactory = autoConfigEMFactory ?? throw new ArgumentNullException(nameof(autoConfigEMFactory));
         }

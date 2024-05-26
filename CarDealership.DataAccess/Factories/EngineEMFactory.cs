@@ -5,18 +5,13 @@ namespace CarDealership.DataAccess.Factories
 {
     public class EngineEMFactory : IEntityModelFactory<Engine, EngineEntity>
     {
-        private readonly AutoConfigEMFactory _autoConfigEMFactory;
-        private readonly EngineTypeEMFactory _engineTypeEMFactory;
-        private readonly TransmissionTypeEMFactory _transmissionTypeEMFactory;
+        private readonly IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> _autoConfigEMFactory;
 
         public EngineEMFactory(
-            AutoConfigEMFactory autoConfigEMFactory,
-            EngineTypeEMFactory engineTypeEMFactory,
-            TransmissionTypeEMFactory transmissionTypeEMFactory)
+            IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> autoConfigEMFactory
+        )
         {
             _autoConfigEMFactory = autoConfigEMFactory ?? throw new ArgumentNullException(nameof(autoConfigEMFactory));
-            _engineTypeEMFactory = engineTypeEMFactory ?? throw new ArgumentNullException(nameof(engineTypeEMFactory));
-            _transmissionTypeEMFactory = transmissionTypeEMFactory ?? throw new ArgumentNullException(nameof(transmissionTypeEMFactory));
         }
 
         public EngineEntity CreateEntity(Engine model)
@@ -27,9 +22,6 @@ namespace CarDealership.DataAccess.Factories
                 .Select(configuration => _autoConfigEMFactory.CreateEntity(configuration))
                 .ToList();
 
-            var engineTypeEntity = model.EngineType != null ? _engineTypeEMFactory.CreateEntity(model.EngineType) : null;
-            var transmissionTypeEntity = model.TransmissionType != null ? _transmissionTypeEMFactory.CreateEntity(model.TransmissionType) : null;
-
             var entity = new EngineEntity
             {
                 Id = model.Id,
@@ -37,10 +29,8 @@ namespace CarDealership.DataAccess.Factories
                 Consumption = model.Consumption,
                 Price = model.Price,
                 EngineTypeId = model.EngineTypeId,
-                EngineType = engineTypeEntity,
                 TransmissionTypeId = model.TransmissionTypeId,
                 IsDeleted = model.IsDeleted,
-                TransmissionType = transmissionTypeEntity,
                 Configurations = configurationEntities
             };
 
@@ -52,8 +42,17 @@ namespace CarDealership.DataAccess.Factories
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var engineTypeModel = entity.EngineType != null ? _engineTypeEMFactory.CreateModel(entity.EngineType) : null;
-            var transmissionTypeModel = entity.TransmissionType != null ? _transmissionTypeEMFactory.CreateModel(entity.TransmissionType) : null;
+            var engineTypeModel = entity.EngineType != null ? EngineType.Create(
+                entity.EngineTypeId,
+                entity.EngineType.Value,
+                entity.EngineType.IsDeleted
+            ).Value : null;
+
+            var transmissionTypeModel = entity.TransmissionType != null ? TransmissionType.Create(
+                entity.TransmissionTypeId,
+                entity.TransmissionType.Value,
+                entity.TransmissionType.IsDeleted
+            ).Value : null;
 
             var engineCreateResult = Engine.Create(
                 entity.Id,

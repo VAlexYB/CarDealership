@@ -5,9 +5,9 @@ namespace CarDealership.DataAccess.Factories
 {
     public class BodyTypeEMFactory : IEntityModelFactory<BodyType, BodyTypeEntity>
     {
-        private readonly AutoConfigEMFactory _autoConfigEMFactory;
+        private readonly IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> _autoConfigEMFactory;
 
-        public BodyTypeEMFactory(AutoConfigEMFactory autoConfigEMFactory)
+        public BodyTypeEMFactory(IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> autoConfigEMFactory)
         {
             _autoConfigEMFactory = autoConfigEMFactory ?? throw new ArgumentNullException(nameof(autoConfigEMFactory));
         }

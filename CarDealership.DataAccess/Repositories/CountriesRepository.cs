@@ -7,7 +7,7 @@ namespace CarDealership.DataAccess.Repositories
 {
     public class CountriesRepository : BaseRepository<Country, CountryEntity, BaseFilter>, ICountriesRepository
     {
-        public CountriesRepository(CarDealershipDbContext context, CountryEMFactory factory) : base(context, factory)
+        public CountriesRepository(CarDealershipDbContext context, IEntityModelFactory<Country, CountryEntity> factory) : base(context, factory)
         {
         }
     }

@@ -2,11 +2,11 @@
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 
-namespace CarDealership.Web.Api.Factories
+namespace CarDealership.Web.Api.Factories.Abstract
 {
-    public interface IResponseBuilder <Res, M>
-        where Res: BaseResponse
-        where M: BaseModel
+    public interface IResponseBuilder<Res, M>
+        where Res : BaseResponse
+        where M : BaseModel
     {
         Res CreateResponse(M model);
     }

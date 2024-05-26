@@ -7,11 +7,11 @@
         public decimal Price { get; set; }
 
         public Guid EngineTypeId { get; set; }
-        public EngineTypeEntity? EngineType { get; set; }
+        public virtual EngineTypeEntity? EngineType { get; set; }
 
         public Guid TransmissionTypeId { get; set; }
-        public TransmissionTypeEntity? TransmissionType { get; set; }
+        public virtual TransmissionTypeEntity? TransmissionType { get; set; }
 
-        public List<AutoConfigurationEntity> Configurations { get; set; } = [];
+        public virtual List<AutoConfigurationEntity> Configurations { get; set; } = [];
     }
 }
