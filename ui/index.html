@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&family=Russo+One&display=swap"
+        rel="stylesheet">
+    <title>CarDealership</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/normalize.css">
+</head>
+
+<body>
+    <header>
+        <div class="custom_container">
+            <div class="header__top">
+                <div class="header__subtitle">
+                    <ul class="header__list">
+                        <li class="header__item">
+                            Интернет-автосалон<br>
+                        </li>
+                        <li class="header__item">
+                            CarDealership
+                        </li>
+                        <li class="header__item">
+                            8 800 333 22 33
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="header__bottom">
+                <img src="img/menu.png" alt="menuBurger" class="header__burger">
+                <nav class="header__nav">
+                    <ul class="nav__list">
+                        <li class="nav__item"><a href="#catalog">Каталог</a></li>
+                        <li class="nav__item"><a href="#hero">О компании</a></li>
+                        <li class="nav__item"><a href="index3.html">Избранные</a></li>
+                        <li class="nav__item">
+                            <button class="btn__reset nav__iconLog">
+                                <a href="index2.html">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="36" height="36" viewBox="0 0 36 36">
+                                        <image id="account_1_" data-name="account (1)"
+                                            xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACvUlEQVRYhc2Xy0tVURjFf93A1CgQqUzsnU0CIU1HJf0BYY20Jg2CDBrloFGU0GNQDWrcTIKSQGoWUQN7miMHFUQPKYgsmxRRKZFf7FgXLmfvc+45p+u1Bct7+R7rW+5z7t7nYGZ5edDM7pmPUeUKeXQXuT8ZsRcYAparbRR4ru9bgV36/g04ANzMJB9ymcDTWo9pM9sXswqLzWy/ahxOBWpiGZsI8KQGXA3k4nhNPSdi8h69QAw7JHwrJp/E2+ptT6jJfA9NAhuAgrvKXjYZrue3NDYlVqq4HDpkZjCHGYc59W4E2r1sFKFli/CSlnxFIJeWK6VxsVx9mhXqBn4Bn71MekxLo7tcRxpDTcAnL5rPVJMXzWHoB7DUi2ZHPfCzEoaeAQ0pa+NQkMbTmHwmQzf0ucPLpMfOiFY8Qnd6hPX6hYwFcmn5RBp1ldqpz0uwJ5Arxz3qPVemLvNZNinhzkAujp3qeROT9+gFEthkZl804EhCXZGHVftVvaEaj16gDJeZ2YgGTZjZUTPbbmYNYqdiE6oZUU/qGV4gBTeb2QvvOdHHS9Vm0k972tcBh4BjQItir4C3wEdgVrEl2o3XA62KvQcuAJeBGU85ipDLCPtL/vcpMztuZm2BuijbVPuhpL8/UJf6kq0ys4cSeq2fb6guDXt0CR0eJd3kXkB0T3dzEhgI5PNyQJpOe1tIwwuUPK46dAXy/8quEv2OcoaaVThjZmvnwUyRTntWs5qTDBV349aASKW5JbSLlw4pnle9VTBTZF/0nCsmGpW4H2iabz7Q7MZSQ1cUbFkAQ2s0e6hoqEaBx4HianFMHmrcE2OPNu8z3jZePZzVpN3uLBsG+oDakjOp2qjVC8CwMzSlN9LmBVwhh78+Cjqd73jp6uMusNqtkFudd8D1Cr1/5cF3oBdY5wyNA13/wQoBjP8BHySAqMJVs14AAAAASUVORK5CYII=" />
+                                    </svg>
+                                </a>
+                                <a href="login.html">Логин</a>
+                            </button>
+                        </li>
+                        <li class="nav__item"><a href="index4.html">Корзина</a></li>
+                        <li class="nav__item"><a href="#feedback">Отзывы</a></li>
+                        <li class="nav__item"><a href="#footer">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="hero" id="hero">
+            <div class="custom_container">
+                <div class="hero__body">
+                    <div class="hero__title">
+                        Интернет-автосалон <br> <span>CarDealership</span>
+                    </div>
+                    <div class="hero__line"></div>
+                    <div class="hero__text">
+
+                    </div>
+                    <div class="hero__list list">
+                        <ul class="list__list">
+                            <li class="list__item">Широкий ассортимент от мировых производителей</li>
+                            <li class="list__item">Постоянное обновление ассортимента</li>
+                            <li class="list__item">Прямые поставки от производителя</li>
+                            <li class="list__item">Индивидуальный подбор товара для каждого клиента</li>
+                        </ul>
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <a href="#catalog">
+                            <button class="hero__btn">
+                                Автомобили в наличии
+                            </button>
+                        </a>
+                        <a href="#catalog">
+                            <button class="hero__btn">
+                                Конфигуратор
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="catalog" id="catalog">
+            <div class="custom_container">
+                <div class="catalog__body">
+                    <div class="catalog__top">
+                        <div class="catalog__titles">
+                            <div class="catalog__title">Ассортимент машин <span>ANNUAL</span></div>
+                            <div class="catalog__subtitle">
+                                В нашем интернет-магазине вы найдете различные модели машин
+                            </div>
+                            <div class="catalog__btn">
+                                <button class="btn__reset btn">Показать / скрыть меню</button>
+                            </div>
+                        </div>
+                        <div class="catalog__row">
+                            <div class="catalog__block">
+                                <ul class="catalog__links">
+                                    <li class="catalog__item"><a href="#hero">О компании</a></li>
+                                    <li class="catalog__item"><a href="#catalog">Ассортимент машин</a></li>
+                                    <li class="catalog__item"><a href="#vehicle">Ассортимент внедорожников</a></li>
+                                </ul>
+                            </div>
+                            <div class="catalog__cars">
+                                <ul class="catalog__car car">
+                                    <li class="car__item">
+                                        <a href="index9.html">
+                                            <div class="car__LINES">
+                                                <div class="car__LINE"></div>
+                                                <div class="car__LINE"></div>
+                                                <div class="car__LINE"></div>
+                                                <div class="car__LINE"></div>
+                                            </div>
+                                        </a>
+                                        <img src="img/682915.png" alt="" class="car__img">
+                                        <div class="car__info">
+                                            <div class="car__name" title="Toyota Camry 2017">Toyota Camry 2017</div>
+                                            <div class="car__icons">
+                                                <a href="#"><img src="img/corzina.png" alt=""></a>
+                                                <a href="#"><img src="img/heart.png" alt=""></a>
+                                            </div>
+                                        </div>
+                                        <div class="car__charact">
+                                            <p class="car__text">Тип кузова
+                                                .............................................. седан</p>
+                                            <p class="car__text">Объём двигателя ................................... 2.0
+                                            </p>
+                                            <p class="car__text">Мощность .......................................... 150
+                                                л.с.</p>
+                                            <p class="car__text">Коробка ........................................
+                                                Автомат</p>
+                                        </div>
+                                        <div class="car__price">Цена: 1 850 000 <img src="img/valute.png" alt=""
+                                                class="car__valute"></div>
+                                        <a href="index9.html"><button class="car__btn">Оставить заявку</button></a>
+                                    </li>
+                                    <li class="car__item">
+                                        <a href="index10.html">
+                                            <div class="car__LINES">
+                                                <div class="car__LINE"></div>
+                                                <div class="car__LINE"></div>
+                                                <div class="car__LINE"></div>
+                                                <div class="car__LINE"></div>
+                                            </div>
+                                        </a>
+                                        <img src="img/2023-04-30_15-29-02.png" alt="" class="car__img">
+                                        <div class="car__info">
+                                            <div class="car__name" title="Audi A5 2011">Audi A5 2011</div>
+                                            <div class="car__icons">
+                                                <a href="#"><img src="img/corzina.png" alt=""></a>
+                                                <a href="#"><img src="img/heart.png" alt=""></a>
+                                            </div>
+                                        </div>
+                                        <div class="car__charact">
+                                            <p class="car__text">Тип кузова
+                                                ................................................. купе</p>
+                                            <p class="car__text">Объём двигателя .................................. 2.0
+                                            </p>
+                                            <p class="car__text">Мощность .......................................... 211
+                                                л.с.</p>
+                                            <p class="car__text">Коробка
+                                                ................................................ Робот</p>
+                                        </div>
+                                        <div class="car__price">Цена: 1 200 000 <img src="img/valute.png" alt=""
+                                                class="car__valute"></div>
+                                        <a href="index10.html"><button class="car__btn">Оставить заявку</button></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="catalog__bottom">
+                        <div class="car__links">
+                            <a href="index.html">Сначала дешёвые</a>
+                            <a href="index8.html">Сначала дорогие</a>
+                        </div>
+                        <div class="catalog__cars">
+                            <ul class="catalog__car car">
+                                <li class="car__item">
+                                    <a href="index5.html">
+                                        <div class="car__LINES">
+                                            <div class="car__LINE"></div>
+                                            <div class="car__LINE"></div>
+                                            <div class="car__LINE"></div>
+                                            <div class="car__LINE"></div>
+                                        </div>
+                                    </a>
+                                    <img src="img/car8.png" alt="" class="car__img">
+                                    <div class="car__info">
+                                        <div class="car__name" title="Mercedes-Benz S-Класс 500 2012">Mercedes-Benz
+                                            S...</div>
+                                        <div class="car__icons">
+                                            <a href="#"><img src="img/corzina.png" alt=""></a>
+                                            <a href="#"><img src="img/heart.png" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="car__charact">
+                                        <p class="car__text">Тип кузова ..............................................
+                                            седан</p>
+                                        <p class="car__text">Объём двигателя .................................. 4.7</p>
+                                        <p class="car__text">Мощность ......................................... 435 л.с.
+                                        </p>
+                                        <p class="car__text">Коробка ........................................ Автомат
+                                        </p>
+                                    </div>
+                                    <div class="car__price">Цена: 1 850 000 <img src="img/valute.png" alt=""
+                                            class="car__valute"></div>
+                                    <a href="index5.html"><button class="car__btn">Оставить заявку</button></a>
+                                </li>
+                                <li class="car__item">
+                                    <a href="index11.html">
+                                        <div class="car__LINES">
+                                            <div class="car__LINE"></div>
+                                            <div class="car__LINE"></div>
+                                            <div class="car__LINE"></div>
+                                            <div class="car__LINE"></div>
+                                        </div>
+                                    </a>
+                                    <img src="img/2023-04-30_15-40-01.png" alt="" class="car__img">
+                                    <div class="car__info">
+                                        <div class="car__name" title="BMW 3 серии 320i 2012">BMW 3 серии 320i...</div>
+                                        <div class="car__icons">
+                                            <a href="#"><img src="img/corzina.png" alt=""></a>
+                                            <a href="#"><img src="img/heart.png" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="car__charact">
+                                        <p class="car__text">Тип кузова ..............................................
+                                            седан</p>
+                                        <p class="car__text">Объём двигателя .................................. 2.0</p>
+                                        <p class="car__text">Мощность ......................................... 184 л.с.
+                                        </p>
+                                        <p class="car__text">Коробка ........................................ Автомат
+                                        </p>
+                                    </div>
+                                    <div class="car__price">Цена: 1 200 000 <img src="img/valute.png" alt=""
+                                            class="car__valute"></div>
+                                    <a href="index11.html"><button class="car__btn">Оставить заявку</button></a>
+                                </li>
+                                <li class="car__item">
+                                    <a href="index12.html">
+                                        <div class="car__LINES">
+                                            <div class="car__LINE"></div>
+                                            <div class="car__LINE"></div>
+                                            <div class="car__LINE"></div>
+                                            <div class="car__LINE"></div>
+                                        </div>
+                                    </a>
+                                    <img src="img/2023-04-30_15-45-40.png" alt="" class="car__img">
+                                    <div class="car__info">
+                                        <div class="car__name" title="Hyundai Sonata 2022">Hyundai Sonata 2022</div>
+                                        <div class="car__icons">
+                                            <a href="#"><img src="img/corzina.png" alt=""></a>
+                                            <a href="#"><img src="img/heart.png" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="car__charact">
+                                        <p class="car__text">Тип кузова ..............................................
+                                            седан</p>
+                                        <p class="car__text">Объём двигателя ................................... 2.5</p>
+                                        <p class="car__text">Мощность ......................................... 180 л.с.
+                                        </p>
+                                        <p class="car__text">Коробка ........................................ Автомат
+                                        </p>
+                                    </div>
+                                    <div class="car__price">Цена: 1 200 000 <img src="img/valute.png" alt=""
+                                            class="car__valute"></div>
+                                    <a href="index12.html"><button class="car__btn">Оставить заявку</button></a>
+                                </li>
+                                <li class="car__item">
+                                    <img src="img/Снимок экрана 2023-05-28 142130.png" alt="" class="car__img">
+                                    <div class="car__info">
+                                        <div class="car__name" title="Honda Accord, 2020">Honda Accord, 2020</div>
+                                        <div class="car__icons">
+                                            <a href="#"><img src="img/corzina.png" alt=""></a>
+                                            <a href="#"><img src="img/heart.png" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="car__charact">
+                                        <p class="car__text">Тип кузова ..............................................
+                                            седан</p>
+                                        <p class="car__text">Объём двигателя ................................... 1.5</p>
+                                        <p class="car__text">Мощность ......................................... 192 л.с.
+                                        </p>
+                                        <p class="car__text">Коробка ...................................... Вариатор</p>
+                                    </div>
+                                    <div class="car__price">Цена: 2 180 000 <img src="img/valute.png" alt=""
+                                            class="car__valute"></div>
+                                    <button class="car__btn">Оставить заявку</button>
+                                </li>
+                                <li class="car__item">
+                                    <img src="img/Снимок экрана 2023-05-28 143325.png" alt="" class="car__img">
+                                    <div class="car__info">
+                                        <div class="car__name" title="Volkswagen Jetta GLI, 2019">Volkswagen Jetta...
+                                        </div>
+                                        <div class="car__icons">
+                                            <a href="#"><img src="img/corzina.png" alt=""></a>
+                                            <a href="#"><img src="img/heart.png" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="car__charact">
+                                        <p class="car__text">Тип кузова ..............................................
+                                            седан</p>
+                                        <p class="car__text">Объём двигателя ................................... 2.0</p>
+                                        <p class="car__text">Мощность ......................................... 230 л.с.
+                                        </p>
+                                        <p class="car__text">Коробка ................................................
+                                            Робот</p>
+                                    </div>
+                                    <div class="car__price">Цена: 2 300 000 <img src="img/valute.png" alt=""
+                                            class="car__valute"></div>
+                                    <button class="car__btn">Оставить заявку</button>
+                                </li>
+                                <li class="car__item">
+                                    <img src="img/Снимок экрана 2023-05-28 144032.png" alt="" class="car__img">
+                                    <div class="car__info">
+                                        <div class="car__name" title="Kia Optima, 2017">Kia Optima, 2017</div>
+                                        <div class="car__icons">
+                                            <a href="#"><img src="img/corzina.png" alt=""></a>
+                                            <a href="#"><img src="img/heart.png" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="car__charact">
+                                        <p class="car__text">Тип кузова ..............................................
+                                            седан</p>
+                                        <p class="car__text">Объём двигателя ................................... 2.4</p>
+                                        <p class="car__text">Мощность ......................................... 188 л.с.
+                                        </p>
+                                        <p class="car__text">Коробка ........................................ Автомат
+                                        </p>
+                                    </div>
+                                    <div class="car__price">Цена: 2 220 000 <img src="img/valute.png" alt=""
+                                            class="car__valute"></div>
+                                    <button class="car__btn">Оставить заявку</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="vehicle" id="vehicle">
+            <div class="custom_container">
+                <div class="vehicle__body">
+                    <div class="vehicle__titles">
+                        <div class="vehicle__title">
+                            Ассортимент внедорожников <br><span>ANNUAL</span>
+                        </div>
+                    </div>
+                    <div class="vehicle__links">
+                        <a href="index.html">Сначала дешёвые</a>
+                        <a href="index8.html">Сначала дорогие</a>
+                    </div>
+                    <div class="vehicle__cars">
+                        <ul class="vehicle__car veh">
+                            <li class="veh__item">
+                                <a href="index13.html">
+                                    <div class="car__LINES">
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                    </div>
+                                </a>
+                                <img src="img/2023-04-30_19-30-15.png" alt="" class="car__img">
+                                <div class="car__info">
+                                    <div class="car__name" title="BMW X5 30d 2016">BMW X5 30d 2016</div>
+                                    <div class="car__icons">
+                                        <a href="#"><img src="img/corzina.png" alt=""></a>
+                                        <a href="#"><img src="img/heart.png" alt=""></a>
+                                    </div>
+                                </div>
+                                <div class="car__charact">
+                                    <p class="car__text">Тип кузова .............................................. кросо
+                                    </p>
+                                    <p class="car__text">Объём двигателя .................................. 3.0</p>
+                                    <p class="car__text">Мощность ......................................... 249 л.с.</p>
+                                    <p class="car__text">Коробка ........................................ Автомат</p>
+                                </div>
+                                <div class="car__price">Цена: 3 250 000 <img src="img/valute.png" alt=""
+                                        class="car__valute"></div>
+                                <a href="index13.html"><button class="car__btn">Оставить заявку</button></a>
+                            </li>
+                            <li class="veh__item">
+                                <a href="index14.html">
+                                    <div class="car__LINES">
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                    </div>
+                                </a>
+                                <img src="img/2023-04-30_19-36-20.png" alt="" class="car__img">
+                                <div class="car__info">
+                                    <div class="car__name" title="Audi Q7 2007">Audi Q7 2007</div>
+                                    <div class="car__icons">
+                                        <a href="#"><img src="img/corzina.png" alt=""></a>
+                                        <a href="#"><img src="img/heart.png" alt=""></a>
+                                    </div>
+                                </div>
+                                <div class="car__charact">
+                                    <p class="car__text">Тип кузова .............................................. кросо
+                                    </p>
+                                    <p class="car__text">Объём двигателя .................................. 4.2</p>
+                                    <p class="car__text">Мощность ......................................... 350 л.с.</p>
+                                    <p class="car__text">Коробка ........................................ Автомат</p>
+                                </div>
+                                <div class="car__price">Цена: 1 100 000 <img src="img/valute.png" alt=""
+                                        class="car__valute"></div>
+                                <a href="index14.html"><button class="car__btn">Оставить заявку</button></a>
+                            </li>
+                            <li class="veh__item">
+                                <a href="index15.html">
+                                    <div class="car__LINES">
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                    </div>
+                                </a>
+                                <img src="img/F1.png" alt="" class="car__img">
+                                <div class="car__info">
+                                    <div class="car__name" title="Ford Explorer, 2017">Ford Explorer, 2017</div>
+                                    <div class="car__icons">
+                                        <a href="#"><img src="img/corzina.png" alt=""></a>
+                                        <a href="#"><img src="img/heart.png" alt=""></a>
+                                    </div>
+                                </div>
+                                <div class="car__charact">
+                                    <p class="car__text">Тип кузова ........................................... внедор
+                                    </p>
+                                    <p class="car__text">Объём двигателя ................................... 3.5</p>
+                                    <p class="car__text">Мощность ......................................... 249 л.с.</p>
+                                    <p class="car__text">Коробка ........................................ Автомат</p>
+                                </div>
+                                <div class="car__price">Цена: 2 550 000 <img src="img/valute.png" alt=""
+                                        class="car__valute"></div>
+                                <a href="index15.html"><button class="car__btn">Оставить заявку</button></a>
+                            </li>
+                            <li class="veh__item">
+                                <a href="index16.html">
+                                    <div class="car__LINES">
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                    </div>
+                                </a>
+                                <img src="img/2023-04-30_19-44-59.png" alt="" class="car__img">
+                                <div class="car__info">
+                                    <div class="car__name" title="Hyundai Tucson 2023">Hyundai Tucson 2023</div>
+                                    <div class="car__icons">
+                                        <a href="#"><img src="img/corzina.png" alt=""></a>
+                                        <a href="#"><img src="img/heart.png" alt=""></a>
+                                    </div>
+                                </div>
+                                <div class="car__charact">
+                                    <p class="car__text">Тип кузова .............................................. кросо
+                                    </p>
+                                    <p class="car__text">Объём двигателя ................................... 2.5</p>
+                                    <p class="car__text">Мощность ......................................... 190 л.с.</p>
+                                    <p class="car__text">Коробка ........................................ Автомат</p>
+                                </div>
+                                <div class="car__price">Цена: 3 200 000 <img src="img/valute.png" alt=""
+                                        class="car__valute"></div>
+                                <a href="index16.html"><button class="car__btn">Оставить заявку</button></a>
+                            </li>
+                            <li class="veh__item">
+                                <a href="index17.html">
+                                    <div class="car__LINES">
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                    </div>
+                                </a>
+                                <img src="img/2023-04-30_19-47-03.png" alt="" class="car__img">
+                                <div class="car__info">
+                                    <div class="car__name" title="Kia Sportage 2011">Kia Sportage 2011</div>
+                                    <div class="car__icons">
+                                        <a href="#"><img src="img/corzina.png" alt=""></a>
+                                        <a href="#"><img src="img/heart.png" alt=""></a>
+                                    </div>
+                                </div>
+                                <div class="car__charact">
+                                    <p class="car__text">Тип кузова .............................................. кросо
+                                    </p>
+                                    <p class="car__text">Объём двигателя ................................... 2.0</p>
+                                    <p class="car__text">Мощность ......................................... 150 л.с.</p>
+                                    <p class="car__text">Коробка ........................................ Механика</p>
+                                </div>
+                                <div class="car__price">Цена: 1 175 000 <img src="img/valute.png" alt=""
+                                        class="car__valute"></div>
+                                <a href="index17.html"><button class="car__btn">Оставить заявку</button></a>
+                            </li>
+                            <li class="veh__item">
+                                <a href="index18.html">
+                                    <div class="car__LINES">
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                        <div class="car__LINE"></div>
+                                    </div>
+                                </a>
+                                <img src="img/2023-04-30_19-50-46.png" alt="" class="car__img">
+                                <div class="car__info">
+                                    <div class="car__name" title="Mercedes-Benz GL 350 CDI  2014">Mercedes-Benz GL...
+                                    </div>
+                                    <div class="car__icons">
+                                        <a href="#"><img src="img/corzina.png" alt=""></a>
+                                        <a href="#"><img src="img/heart.png" alt=""></a>
+                                    </div>
+                                </div>
+                                <div class="car__charact">
+                                    <p class="car__text">Тип кузова .............................................. кросо
+                                    </p>
+                                    <p class="car__text">Объём двигателя ................................... 3.0</p>
+                                    <p class="car__text">Мощность ......................................... 249 л.с.</p>
+                                    <p class="car__text">Коробка ........................................ Автомат</p>
+                                </div>
+                                <div class="car__price">Цена: 1 200 000 <img src="img/valute.png" alt=""
+                                        class="car__valute"></div>
+                                <a href="index18.html"><button class="car__btn">Оставить заявку</button></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="gallery">
+            <div class="custom_container">
+                <div class="gallery__body">
+                    <div class="gallery__block">
+                        <ul class="gallery__list">
+                            <li class="gallery__item gal">
+                                <div class="gal__blocks">
+                                    <div class="gal__titles">
+                                        <div class="gal__title">
+                                            Идеальный выбор для поездки в разное время года
+                                        </div>
+                                        <div class="gal__subtitle">
+                                            Полный контроль качества на всех этапах
+                                            производства и гарантийное обслуживание
+                                            после покупки
+                                        </div>
+                                        <button class="gal__btn" onclick="window.dialog.showModal();">Консультация
+                                            менеджера</button>
+                                    </div>
+                                    <dialog id="dialog">
+                                        <div class="gallery__modal-body">
+                                            <div class="gallery__modal-title">Оставить заявку</div>
+                                            <form action="#" enctype="multipart/form-data" method="post">
+                                                <div class="gallery__form">
+                                                    <input type="hidden" name="Название формы" value="">
+                                                    <div class="gallery__field field">
+                                                        <div class="field_title ">Введите имя</div>
+                                                        <div class="field_description"></div>
+                                                        <div class="field_input">
+                                                            <input type="text" required="required" name="Введите имя"
+                                                                placeholder="Введите имя" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="gallery__field field">
+                                                        <div class="field_title  ">Введите E-mail</div>
+                                                        <div class="field_description"></div>
+                                                        <div class="field_input field_input_email">
+                                                            <input type="email" required="required"
+                                                                name="Введите E-mail" placeholder="mail@mail.ru"
+                                                                autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="gallery__field field">
+                                                        <div class="field_title  ">Введите номер телефона</div>
+                                                        <div class="field_description"></div>
+                                                        <div class="field_input field_input_phone">
+                                                            <input type="text" required="required"
+                                                                pattern="[+)( .-]*[0-9]+[0-9+)( .-]*" minlength="6"
+                                                                name="Введите номер телефона" placeholder="xxx-xxx-xxx"
+                                                                autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="gallery__field field">
+                                                        <div class="field_input">
+                                                            <button class="submit_btn">Отправить</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+                                    </dialog>
+                                    <div class="gal__imgs">
+                                        <img src="img/car__ocen.png" alt="" class="gal__img">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="gallery__item gal">
+                                <div class="gal__blocks">
+                                    <div class="gal__imgs">
+                                        <img src="img/man__car.png" alt="" class="gal__img">
+                                    </div>
+                                    <div class="gal__titles">
+                                        <div class="gal__title">
+                                            Любые модели
+                                        </div>
+                                        <div class="gal__subtitle">
+                                            При заказе до 1 июня скидка 20%
+                                        </div>
+                                        <a href="#catalog"><button class="gal__btn">Перейти в каталог</button></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="gallery__item gal">
+                                <div class="gal__blocks">
+                                    <div class="gal__imgs">
+                                        <img src="img/salon.png" alt="" class="gal__img">
+                                    </div>
+                                    <div class="gal__titles">
+                                        <div class="gal__imgs">
+                                            <img src="img/cars.png" alt="" class="gal__img">
+                                        </div>
+                                        <div class="gal__title">
+                                            Выбор подходящей машины
+                                        </div>
+                                        <div class="gal__subtitle">
+                                            Каждые 2 недели мы обновляем автомобили
+                                        </div>
+                                        <button class="gal__btn" onclick="window.dialog2.showModal();">Написать
+                                            отзыв</button>
+                                    </div>
+                                    <dialog id="dialog2">
+                                        <div class="gallery__modal-body">
+                                            <div class="gallery__modal-title">Напишите отзыв</div>
+                                            <form action="#" enctype="multipart/form-data" method="post">
+                                                <div class="gallery__form">
+                                                    <input type="hidden" name="Название формы" value="">
+                                                    <div class="gallery__field field">
+                                                        <div class="field_title ">Введите ФИО</div>
+                                                        <div class="field_description"></div>
+                                                        <div class="field_input">
+                                                            <input type="text" required="required" name="Введите имя"
+                                                                placeholder="Введите ФИО" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="gallery__field field">
+                                                        <div class="field_title  ">Напишите ваше впечатление</div>
+                                                        <div class="field_description"></div>
+                                                        <div class="field_input field_input_email">
+                                                            <input type="textarea" required="required"
+                                                                name="Введите E-mail" placeholder="Введите описание"
+                                                                autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="gallery__field field">
+                                                        <div class="field_title  ">Город проживания</div>
+                                                        <div class="field_description"></div>
+                                                        <div class="field_input field_input_phone">
+                                                            <input type="text" required="required"
+                                                                name="Введите номер телефона"
+                                                                placeholder="Введите город" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="gallery__field field">
+                                                        <div class="field_input">
+                                                            <button class="submit_btn">Отправить</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <button onclick="window.dialog2.close();" aria-label="close"
+                                            class="x">❌</button>
+                                    </dialog>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="feedback" id="feedback">
+            <div class="custom_container">
+                <div class="feeback__body">
+                    <div class="feedback__titles">
+                        <div class="feedback__title">
+                            НАШИ КЛИЕНТЫ делятся впечатлениями
+                        </div>
+                    </div>
+                    <ul class="feedback__list">
+                        <li class="feedback__item">
+                            <img src="img/boris.png" alt="" class="feedback__img">
+                            <div class="feedback__subtitle">
+                                Большое спасибо! Все, что указано в договоре,
+                                было выполнено в срок, поэтому могу поставить вашей компании
+                                "отлично" и советовать другим
+                                обращаться только к вам.
+                            </div>
+                            <div class="feedback__text">Егор, г. Челябинск</div>
+                        </li>
+                        <li class="feedback__item">
+                            <img src="img/artem.png" alt="" class="feedback__img">
+                            <div class="feedback__subtitle">
+                                Все, что указано в договоре, было
+                                выполнено в срок, поэтому могу
+                                поставить вашей компании "отлично" и
+                                советовать другим обращаться только к
+                                вам. Большое спасибо!
+                            </div>
+                            <div class="feedback__text">Олег, г. Томск</div>
+                        </li>
+                        <li class="feedback__item">
+                            <img src="img/serega.png" alt="" class="feedback__img">
+                            <div class="feedback__subtitle">
+                                Большое спасибо! Все, что указано в договоре,
+                                было выполнено в срок, поэтому могу поставить вашей компании
+                                "отлично" и советовать другим
+                                обращаться только к вам.
+                            </div>
+                            <div class="feedback__text">Алексей, г. Екатеринбург</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="map">
+            <div class="custom_container">
+                <div class="map__body">
+                    <div class="map__titles">
+                        <div class="map__title">
+                            КАК НАС НАЙТИ
+                        </div>
+                    </div>
+                    <div class="map__blocks">
+                        <ul class="map__list">
+                            <li class="map__item">Каспийск, улица Ленина, 19.</li>
+                            <li class="map__item">E-mail: Grow_030201@mail.ru</li>
+                            <li class="map__item">Телефон: 8 800 300 06 00 отдела продаж</li>
+                            <li class="map__item">Контактное лицо: Халилов В.И.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <a href="#" class="back-to-top"></a>
+    <center class="center__map">
+        <script type="text/javascript" charset="utf-8" async
+            src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A35ac2fe759ea76d206b50a058a465ecaf49f7162429bb6de9a19014691518c07&amp;lang=ru_RU&amp;scroll=true"></script>
+    </center>
+    <footer class="footer" id="footer">
+        <div class="custom_container">
+            <div class="footer__body">
+                <div class="footer__text">
+                    <div class="footer__info">
+                        ООО «Трейд», 168300, г.Каспийск, ул. Ленина 19
+                        ИНН 1234567890 ОГРН 123456789012
+                        Политика конфиденциальности
+                    </div>
+                    <div class="footer__logo">ANNUAL</div>
+                    <div class="footer__phones">
+                        <div>
+                            <img src="img/telephone.png" alt="">
+                            8 800 333 22 33
+                        </div>
+                        <div>
+                            Звонок по России бесплатный
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="js/main.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

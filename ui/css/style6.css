@@ -1,0 +1,291 @@
+body{
+    font-family: 'Comfortaa', cursive;
+    /* font-family: 'Bruno Ace SC', cursive; */
+    /* font-family: 'Russo One', sans-serif; */
+}
+
+
+
+.auto{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("../img/image3.png")no-repeat;
+    background-size: cover;
+    padding: 0 0 10px 0;
+    background-position: center;
+}
+
+.auto__body{
+    border: 5px solid #b67052;
+    border-radius: 10px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 12.5% 0;
+    padding: 70px 70px;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.auto__title{
+    font-family: 'Russo One', sans-serif;
+    font-size: 40px;
+}
+
+.auto__subtitle{
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 30px;
+    margin: 25px 0px;
+}
+
+.auto__form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+}
+
+.auto__email{
+    
+}
+
+.auto__email input{
+    border: 3px solid #a0887e;
+    border-radius: 5px;
+    padding: 10px 60px 10px 10px;
+}
+
+.auto__email input:focus{
+   outline: transparent;
+   border: 3px solid black;
+    border-radius: 5px;
+    padding: 10px 60px 10px 10px;
+    transition: all 0.5s ease;
+}
+
+.auto__pass{
+    margin: 20px 0px;
+}
+
+.auto__pass input{
+    border: 3px solid #a0887e;
+    border-radius: 5px;
+    padding: 10px 60px 10px 10px;
+}
+
+.auto__pass input:focus{
+    outline: transparent;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 10px 60px 10px 10px;
+    transition: all 0.5s ease;
+}
+
+.auto__btn{
+    margin: 10px 0px;
+    font-size: 20px;
+    background-color: #a0887e;
+    color: #fff;
+    padding: 15px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.auto__link{
+    font-size: 18px;
+}
+
+
+
+
+@media (max-width: 768px){
+    .auto{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url("../img/image3.png")no-repeat;
+        background-size: cover;
+        padding: 0 0 50px 0;
+        background-position: center;
+    }
+    
+    .auto__body{
+        border: 5px solid #b67052;
+        border-radius: 10px;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 25% 0;
+        padding: 60px 60px;
+        background-color: rgba(255, 255, 255, 1);
+    }
+    
+    .auto__title{
+        font-family: 'Russo One', sans-serif;
+        font-size: 35px;
+    }
+    
+    .auto__subtitle{
+        font-family: 'Bruno Ace SC', cursive;
+        font-size: 25px;
+        margin: 25px 0px;
+    }
+    
+    .auto__form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 16px;
+    }
+    
+    .auto__email{
+        
+    }
+    
+    .auto__email input{
+        border: 3px solid #a0887e;
+        border-radius: 5px;
+        padding: 10px 60px 10px 10px;
+    }
+    
+    .auto__email input:focus{
+       outline: transparent;
+       border: 3px solid black;
+        border-radius: 5px;
+        padding: 10px 60px 10px 10px;
+        transition: all 0.5s ease;
+    }
+    
+    .auto__pass{
+        margin: 15px 0px;
+    }
+    
+    .auto__pass input{
+        border: 3px solid #a0887e;
+        border-radius: 5px;
+        padding: 10px 60px 10px 10px;
+    }
+    
+    .auto__pass input:focus{
+        outline: transparent;
+        border: 3px solid black;
+        border-radius: 5px;
+        padding: 10px 60px 10px 10px;
+        transition: all 0.5s ease;
+    }
+    
+    .auto__btn{
+        margin: 0px 0px 10px 0;
+        font-size: 18px;
+        background-color: #a0887e;
+        color: #fff;
+        padding: 15px 40px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    
+    .auto__link{
+        font-size: 16px;
+    }
+    
+    
+    
+}
+
+
+@media (max-width: 425px){
+    .auto{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url("../img/image3.png")no-repeat;
+        background-size: cover;
+        padding: 0 0 70px 0;
+        background-position: center;
+    }
+    
+    .auto__body{
+        border: 5px solid #b67052;
+        border-radius: 10px;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 40% 0;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 1);
+    }
+    
+    .auto__title{
+        font-family: 'Russo One', sans-serif;
+        font-size: 30px;
+    }
+    
+    .auto__subtitle{
+        font-family: 'Bruno Ace SC', cursive;
+        font-size: 25px;
+        margin: 25px 0px;
+    }
+    
+    .auto__form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 16px;
+    }
+    
+    .auto__email{
+        
+    }
+    
+    .auto__email input{
+        border: 3px solid #a0887e;
+        border-radius: 5px;
+        padding: 10px 40px 10px 10px;
+    }
+    
+    .auto__email input:focus{
+       outline: transparent;
+       border: 3px solid black;
+        border-radius: 5px;
+        padding: 10px 40px 10px 10px;
+        transition: all 0.5s ease;
+    }
+    
+    .auto__pass{
+        margin: 15px 0px;
+    }
+    
+    .auto__pass input{
+        border: 3px solid #a0887e;
+        border-radius: 5px;
+        padding: 10px 40px 10px 10px;
+    }
+    
+    .auto__pass input:focus{
+        outline: transparent;
+        border: 3px solid black;
+        border-radius: 5px;
+        padding: 10px 40px 10px 10px;
+        transition: all 0.5s ease;
+    }
+    
+    .auto__btn{
+        margin: 0px 0px 10px 0;
+        font-size: 18px;
+        background-color: #a0887e;
+        color: #fff;
+        padding: 15px 30px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    
+    .auto__link{
+        font-size: 14px;
+    }
+    
+    
+    
+}
