@@ -24,7 +24,7 @@ namespace CarDealership.DataAccess.Repositories
 
         // при необходимости можно сделать переопределение, пока virtual не ставлю
 
-        public async Task<List<M>> GetAllAsync()
+        public virtual async Task<List<M>> GetAllAsync()
         {
             var entities =  await _dbSet
                 .AsNoTracking()
@@ -34,7 +34,7 @@ namespace CarDealership.DataAccess.Repositories
             return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
 
-        public async Task<List<M>> GetFilteredAsync(F filter)
+        public virtual async Task<List<M>> GetFilteredAsync(F filter)
         {
             var entities = await _dbSet
                 .AsNoTracking()
@@ -44,28 +44,31 @@ namespace CarDealership.DataAccess.Repositories
             return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
 
-        public async Task<M> GetByIdAsync(Guid entityId)
+        public virtual async Task<M> GetByIdAsync(Guid entityId)
         {
             var entity =  await _dbSet.FindAsync(entityId);
 
             return _factory.CreateModel(entity);
         }
 
-        public async Task InsertAsync(M model)
+        public async Task<Guid> InsertAsync(M model)
         {
             var entity = _factory.CreateEntity(model);
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
+            return entity.Id;
         }
 
-        public async Task UpdateAsync(M model)
+        public async Task<Guid> UpdateAsync(M model)
         {
             var entity = _factory.CreateEntity(model);
-            _dbSet.Update(entity);
+            var existEntity = await _dbSet.FindAsync(entity.Id);
+            _context.Entry(existEntity).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
+            return entity.Id;
         }
 
-        public async Task DeleteAsync(Guid entityId)
+        public async Task<Guid> DeleteAsync(Guid entityId)
         {
             var entity = await _dbSet.FindAsync(entityId);
             if (entity != null)
@@ -73,11 +76,14 @@ namespace CarDealership.DataAccess.Repositories
                 _dbSet.Remove(entity);
             }
             await _context.SaveChangesAsync();
+            return entityId;
         }
 
         public async Task<bool> ExistsAsync(Guid entityId)
         {
-            return await _dbSet.AnyAsync(e => e.Id == entityId);
+            return await _dbSet
+                .AsNoTracking()
+                .AnyAsync(e => e.Id == entityId);
         }
     }
 }

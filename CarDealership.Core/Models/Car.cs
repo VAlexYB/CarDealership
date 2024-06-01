@@ -17,7 +17,7 @@ namespace CarDealership.Core.Models
             AutoConfiguration = autoConfiguration;
         }
 
-        public static Result<Car> Create(Guid id, string VIN, Guid autoConfigurationId, bool isDeleted, AutoConfiguration? autoConfiguration = null)
+        public static Result<Car> Create(Guid id, string VIN, Guid autoConfigurationId, bool isDeleted = false, AutoConfiguration? autoConfiguration = null)
         {
             var error = string.Empty;
 

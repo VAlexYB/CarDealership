@@ -31,7 +31,7 @@ namespace CarDealership.Core.Models
         }
 
         public static Result<Equipment> Create(Guid id, string name, decimal price, string releaseYear,
-            Guid autoModelId, bool isDeleted, AutoModel? autoModel = null)
+            Guid autoModelId, bool isDeleted = false, AutoModel? autoModel = null)
         {
             var errorBuilder = new StringBuilder();
 

@@ -5,9 +5,9 @@ using CarDealership.DataAccess.Factories;
 
 namespace CarDealership.DataAccess.Repositories
 {
-    public class EquipFeaturesRepository : BaseRepository<EquipmentFeature, EquipmentFeatureEntity, BaseFilter>, IEquipFeaturesRepository
+    public class EquipFeaturesRepository : BaseRepository<Core.Models.EquipmentFeature, Entities.EquipmentFeatureEntity, BaseFilter>, IEquipFeaturesRepository
     {
-        public EquipFeaturesRepository(CarDealershipDbContext context, EquipFeatureEMFactory factory) : base(context, factory)
+        public EquipFeaturesRepository(CarDealershipDbContext context, IEntityModelFactory<Core.Models.EquipmentFeature, Entities.EquipmentFeatureEntity> factory) : base(context, factory)
         {
         }
     }

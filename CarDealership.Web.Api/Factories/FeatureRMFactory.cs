@@ -1,16 +1,17 @@
 ﻿using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class FeatureRMFactory : IModelBuilder<FeatureRequest, Feature>, IResponseBuilder<FeatureResponse, Feature>
+    public class FeatureRMFactory : IFeatureRMFactory
     {
         public Feature CreateModel(FeatureRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
-            var featureCreateResult = Feature.Create(req.Id, req.Description, req.IsDeleted);
+            var featureCreateResult = Feature.Create(req.Id, req.Description);
 
             if(featureCreateResult.IsFailure)
             {

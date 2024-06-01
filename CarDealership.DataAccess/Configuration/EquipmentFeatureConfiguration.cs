@@ -17,6 +17,9 @@ namespace CarDealership.DataAccess.Configuration
             builder.HasOne(ef => ef.Feature)
                 .WithMany(f => f.featureEquipments)
                 .HasForeignKey(ef => ef.FeatureId);
+
+            builder.HasIndex(ef => new {ef.EquipmentId, ef.FeatureId})
+                .IsUnique();
         }
     }
 }

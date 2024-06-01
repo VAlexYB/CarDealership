@@ -1,26 +1,27 @@
-﻿using CarDealership.Application.Services;
+﻿using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class AutoConfigRMFactory : IModelBuilderAsync<AutoConfigurationRequest, AutoConfiguration>, IResponseBuilder<AutoConfigurationResponse, AutoConfiguration>
+    public class AutoConfigRMFactory : IAutoConfigRMFactory
     {
-        private readonly AutoModelsService _autoModelsService;
-        private readonly BodyTypesService _bodyTypesService;
-        private readonly DriveTypesService _driveTypesService;
-        private readonly EnginesService _enginesService;
-        private readonly ColorsService _colorsService;
+        private readonly IAutoModelsService _autoModelsService;
+        private readonly IBodyTypesService _bodyTypesService;
+        private readonly IDriveTypesService _driveTypesService;
+        private readonly IEnginesService _enginesService;
+        private readonly IColorsService _colorsService;
 
-        private readonly EngineRMFactory _engineRMFactory;
+        private readonly IEngineRMFactory _engineRMFactory;
         public AutoConfigRMFactory(
-            AutoModelsService autoModelsService,
-            BodyTypesService bodyTypesService,
-            DriveTypesService driveTypesService,
-            EnginesService enginesService,
-            ColorsService colorsService,
-            EngineRMFactory engineRMFactory) 
+            IAutoModelsService autoModelsService,
+            IBodyTypesService bodyTypesService,
+            IDriveTypesService driveTypesService,
+            IEnginesService enginesService,
+            IColorsService colorsService,
+            IEngineRMFactory engineRMFactory) 
         { 
             _autoModelsService = autoModelsService ?? throw new ArgumentNullException(nameof(autoModelsService));
             _bodyTypesService = bodyTypesService ?? throw new ArgumentNullException(nameof(bodyTypesService));
@@ -42,7 +43,7 @@ namespace CarDealership.Web.Api.Factories
 
             var configCreateResult = AutoConfiguration.Create(
                 req.Id, req.Price, req.AutoModelId, req.BodyTypeId, 
-                req.DriveTypeId, req.EngineId, req.ColorId, req.IsDeleted,
+                req.DriveTypeId, req.EngineId, req.ColorId, false,
                 autoModel, bodyType, driveType, engineType, color);
 
             if (configCreateResult.IsFailure)
@@ -81,7 +82,7 @@ namespace CarDealership.Web.Api.Factories
                 Engine = configEngineRes,
 
                 ColorId = model.ColorId,
-                Color = model.Color?.Value ?? "Неизвестный цвет"
+                Color = model.Color?.Value ?? "Неизвестный цвет"                
             };
 
             return response;

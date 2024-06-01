@@ -1,17 +1,23 @@
 ﻿using CarDealership.Application.Services;
+using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Factories;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class EquipmentRMFactory : IModelBuilderAsync<EquipmentRequest, Equipment>, IResponseBuilder<EquipmentResponse, Equipment>
+    public class EquipmentRMFactory : IEquipmentRMFactory
     {
-        private readonly AutoModelsService _autoModelsService;
-        private readonly FeaturesService _featuresService;
-        private readonly FeatureRMFactory _featureRMFactory;
-        public EquipmentRMFactory(AutoModelsService autoModelsService, FeaturesService featuresService, FeatureRMFactory featureRMFactory)
+        private readonly IAutoModelsService _autoModelsService;
+        private readonly IFeaturesService _featuresService;
+        private readonly IFeatureRMFactory _featureRMFactory;
+        public EquipmentRMFactory(
+            IAutoModelsService autoModelsService,
+            IFeaturesService featuresService, 
+            IFeatureRMFactory featureRMFactory
+        )
         {
             _autoModelsService = autoModelsService ?? throw new ArgumentNullException(nameof(autoModelsService));
             _featuresService = featuresService ?? throw new ArgumentNullException(nameof(featuresService));
@@ -31,7 +37,7 @@ namespace CarDealership.Web.Api.Factories
                 req.Price,
                 req.ReleaseYear,
                 req.AutoModelId,
-                req.IsDeleted,
+                false,
                 equipmentModel
             );
 
@@ -41,22 +47,6 @@ namespace CarDealership.Web.Api.Factories
             }
 
             var equipment = equipmentCreateResult.Value;
-
-            foreach (var featureId in req.FeatureIds)
-            {
-                var tempFeature = await _featuresService.GetByIdAsync(featureId);
-
-                if (tempFeature == null) throw new InvalidOperationException($"Feature с id={featureId} не найден");
-
-                var equipmentFeatureCreateResult = EquipmentFeature.Create(Guid.NewGuid(), req.Id, featureId, equipment, tempFeature);
-                if(equipmentFeatureCreateResult.IsFailure)
-                {
-                    throw new InvalidOperationException(equipmentFeatureCreateResult.Error);
-                }
-                var equipmentFeature = equipmentFeatureCreateResult.Value;
-                tempFeature.AddFeatureEquipment(equipmentFeature);
-                equipment.AddEquipmentFeature(equipmentFeature);
-            }
             equipmentModel.AddEquipment(equipment);
             return equipment;
         }

@@ -7,7 +7,7 @@ namespace CarDealership.DataAccess.Repositories
 {
     public class BrandsRepository : BaseRepository<Brand, BrandEntity, BaseFilter>, IBrandsRepository
     {
-        public BrandsRepository(CarDealershipDbContext context, BrandEMFactory factory) : base(context, factory)
+        public BrandsRepository(CarDealershipDbContext context, IEntityModelFactory<Brand, BrandEntity> factory) : base(context, factory)
         {
         }
     }

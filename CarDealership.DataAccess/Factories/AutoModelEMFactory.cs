@@ -5,13 +5,13 @@ namespace CarDealership.DataAccess.Factories
 {
     public class AutoModelEMFactory : IEntityModelFactory<AutoModel, AutoModelEntity>
     {
-        private readonly BrandEMFactory _brandEMFactory;
-        private readonly AutoConfigEMFactory _autoConfigEMFactory;
-        private readonly EquipmentEMFactory _equipmentEMFactory;
+        private readonly IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> _autoConfigEMFactory;
+        private readonly IEntityModelFactory<Equipment, EquipmentEntity> _equipmentEMFactory;
 
-        public AutoModelEMFactory(BrandEMFactory brandEMFactory, AutoConfigEMFactory autoConfigEMFactory, EquipmentEMFactory equipmentEMFactory)
+        public AutoModelEMFactory(
+            IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> autoConfigEMFactory,
+            IEntityModelFactory<Equipment, EquipmentEntity> equipmentEMFactory)
         {
-            _brandEMFactory = brandEMFactory ?? throw new ArgumentNullException(nameof(brandEMFactory));
             _autoConfigEMFactory = autoConfigEMFactory ?? throw new ArgumentNullException(nameof(autoConfigEMFactory));
             _equipmentEMFactory = equipmentEMFactory ?? throw new ArgumentNullException(nameof(equipmentEMFactory));
         }
@@ -20,13 +20,19 @@ namespace CarDealership.DataAccess.Factories
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var brand = entity.Brand != null ? _brandEMFactory.CreateModel(entity.Brand) : null;
+            var brand = entity.Brand != null ? Brand.Create(
+                entity.BrandId,
+                entity.Brand.Name,
+                entity.Brand.CountryId,
+                entity.Brand.IsDeleted
+            ).Value : null;
 
             var autoModelResult = AutoModel.Create(
                 entity.Id,
                 entity.Name,
                 entity.Price,
                 entity.BrandId,
+                entity.IsDeleted,
                 brand
             );
 
@@ -54,8 +60,6 @@ namespace CarDealership.DataAccess.Factories
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            var brandEntity = model.Brand != null ? _brandEMFactory.CreateEntity(model.Brand) : null;
-
             var configurations = model.Configurations.Select(config => _autoConfigEMFactory.CreateEntity(config)).ToList();
             var equipments = model.Equipments.Select(equipment => _equipmentEMFactory.CreateEntity(equipment)).ToList();
 
@@ -65,7 +69,6 @@ namespace CarDealership.DataAccess.Factories
                 Name = model.Name,
                 Price = model.Price,
                 BrandId = model.BrandId,
-                Brand = brandEntity,
                 Configurations = configurations,
                 Equipments = equipments
             };

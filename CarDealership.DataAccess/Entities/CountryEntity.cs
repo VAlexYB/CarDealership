@@ -4,6 +4,6 @@
     {
         public string Name { get; set; } = string.Empty;
 
-        public List<BrandEntity> Brands { get; set; } = [];
+        public virtual List<BrandEntity> Brands { get; set; } = [];
     }
 }

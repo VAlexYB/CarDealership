@@ -3,44 +3,42 @@ using CarDealership.DataAccess.Entities;
 
 namespace CarDealership.DataAccess.Factories
 {
-    public class EquipFeatureEMFactory : IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity>
+    public class EquipFeatureEMFactory : IEntityModelFactory<Core.Models.EquipmentFeature, Entities.EquipmentFeatureEntity>
     {
-        private readonly EquipmentEMFactory _equipmentEMFactory;
-        private readonly FeatureEMFactory _featureEMFactory;
-
-        public EquipFeatureEMFactory(EquipmentEMFactory equipmentEMFactory, FeatureEMFactory featureEMFactory)
-        {
-            _equipmentEMFactory = equipmentEMFactory ?? throw new ArgumentNullException(nameof(equipmentEMFactory));
-            _featureEMFactory = featureEMFactory ?? throw new ArgumentNullException(nameof(featureEMFactory));
-        }
-
-        public EquipmentFeatureEntity CreateEntity(EquipmentFeature model)
+        public Entities.EquipmentFeatureEntity CreateEntity(Core.Models.EquipmentFeature model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            var equipmentEntity = model.Equipment != null ? _equipmentEMFactory.CreateEntity(model.Equipment) : null;
-            var featureEntity = model.Feature != null ? _featureEMFactory.CreateEntity(model.Feature) : null;
-
-            var entity = new EquipmentFeatureEntity
+            var entity = new Entities.EquipmentFeatureEntity
             {
                 Id = model.Id,
                 EquipmentId = model.EquipmentId,
-                Equipment = equipmentEntity,
-                FeatureId = model.FeatureId,
-                Feature = featureEntity
+                FeatureId = model.FeatureId
             };
 
             return entity;
         }
 
-        public EquipmentFeature CreateModel(EquipmentFeatureEntity entity)
+        public Core.Models.EquipmentFeature CreateModel(Entities.EquipmentFeatureEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var equipmentModel = entity.Equipment != null ? _equipmentEMFactory.CreateModel(entity.Equipment) : null;
-            var featureModel = entity.Feature != null ? _featureEMFactory.CreateModel(entity.Feature) : null;
+            var equipmentModel = entity.Equipment != null ? Equipment.Create(
+                entity.EquipmentId,
+                entity.Equipment.Name,
+                entity.Equipment.Price,
+                entity.Equipment.ReleaseYear,
+                entity.Equipment.AutoModelId,
+                entity.Equipment.IsDeleted
+            ).Value : null;
 
-            var equipmentFeatureCreateResult = EquipmentFeature.Create(
+            var featureModel = entity.Feature != null ? Feature.Create(
+                entity.FeatureId,
+                entity.Feature.Description,
+                entity.Feature.IsDeleted
+            ).Value : null;
+
+            var equipmentFeatureCreateResult = Core.Models.EquipmentFeature.Create(
                 entity.Id,
                 entity.EquipmentId,
                 entity.FeatureId,

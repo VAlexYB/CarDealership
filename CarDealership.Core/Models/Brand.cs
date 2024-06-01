@@ -27,7 +27,7 @@ namespace CarDealership.Core.Models
             models.Add(model);
         }
 
-        public static Result<Brand> Create(Guid id, string name, Guid countryId, bool isDeleted, Country? country = null)
+        public static Result<Brand> Create(Guid id, string name, Guid countryId, bool isDeleted = false, Country? country = null)
         {
             var error = string.Empty;
 

@@ -1,16 +1,20 @@
-﻿using CarDealership.Application.Services;
+﻿using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class EngineRMFactory : IModelBuilderAsync<EngineRequest, Engine>, IResponseBuilder<EngineResponse, Engine>
+    public class EngineRMFactory : IEngineRMFactory
     {
-        private readonly EngineTypesService _engineTypesService;
-        private readonly TransmissionTypesService _transmissionTypesService;
+        private readonly IEngineTypesService _engineTypesService;
+        private readonly ITransmissionTypesService _transmissionTypesService;
 
-        public EngineRMFactory(EngineTypesService engineTypesService, TransmissionTypesService transmissionTypesService)
+        public EngineRMFactory(
+            IEngineTypesService engineTypesService,
+            ITransmissionTypesService transmissionTypesService
+        )
         {
             _engineTypesService = engineTypesService ?? throw new ArgumentNullException(nameof(engineTypesService));
             _transmissionTypesService = transmissionTypesService ?? throw new ArgumentNullException(nameof(transmissionTypesService));
@@ -29,7 +33,7 @@ namespace CarDealership.Web.Api.Factories
                 req.Price,
                 req.EngineTypeId,
                 req.TransmissionTypeId,
-                req.IsDeleted,
+                false,
                 engineType,
                 transmissionType
             );

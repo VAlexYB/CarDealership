@@ -1,17 +1,19 @@
-﻿using CarDealership.Application.Services;
+﻿using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models;
-using CarDealership.DataAccess.Factories;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 using CSharpFunctionalExtensions;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class AutoModelRMFactory : IModelBuilderAsync<AutoModelRequest, AutoModel>, IResponseBuilder<AutoModelResponse, AutoModel>
+    public class AutoModelRMFactory : IAutoModelRMFactory
     {
-        private readonly BrandsService _brandsService;
+        private readonly IBrandsService _brandsService;
 
-        public AutoModelRMFactory(BrandsService brandsService, BrandRMFactory brandRMFactory, AutoConfigRMFactory autoConfigRMFactory, EquipmentRMFactory equipmentRMFactory)
+        public AutoModelRMFactory(
+            IBrandsService brandsService
+        )
         {
             _brandsService = brandsService ?? throw new ArgumentNullException(nameof(brandsService));
         }
@@ -27,7 +29,7 @@ namespace CarDealership.Web.Api.Factories
                 req.Name,
                 req.Price,
                 req.BrandId,
-                req.IsDeleted,
+                false,
                 modelBrand
             );
 

@@ -1,17 +1,18 @@
-﻿using CarDealership.Application.Services;
+﻿using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
+using CarDealership.Web.Api.Factories.Abstract;
 
 namespace CarDealership.Web.Api.Factories
 {
-    public class CarRMFactory : IModelBuilderAsync<CarRequest, Car>, IResponseBuilder<CarResponse, Car>
+    public class CarRMFactory : ICarRMFactory
     {
-        private readonly AutoConfigsService _autoConfigsService;
+        private readonly IAutoConfigsService _autoConfigsService;
 
-        private readonly AutoConfigRMFactory _autoConfigRMFactory;
+        private readonly IAutoConfigRMFactory _autoConfigRMFactory;
 
-        public CarRMFactory(AutoConfigsService autoConfigsService, AutoConfigRMFactory autoConfigRMFactory)
+        public CarRMFactory(IAutoConfigsService autoConfigsService, IAutoConfigRMFactory autoConfigRMFactory)
         {
             _autoConfigsService = autoConfigsService;
             _autoConfigRMFactory = autoConfigRMFactory;
@@ -23,7 +24,7 @@ namespace CarDealership.Web.Api.Factories
 
             var autoConfig = await _autoConfigsService.GetByIdAsync(req.AutoConfigurationId);
 
-            var carCreateResult = Car.Create(req.Id, req.VIN, req.AutoConfigurationId, req.IsDeleted, autoConfig);
+            var carCreateResult = Car.Create(req.Id, req.VIN, req.AutoConfigurationId, false, autoConfig);
 
             if(carCreateResult.IsFailure)
             {

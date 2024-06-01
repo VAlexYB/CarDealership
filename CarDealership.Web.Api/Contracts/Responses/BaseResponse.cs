@@ -2,7 +2,7 @@
 {
     public abstract class BaseResponse
     {
-        public Guid Id;
+        public Guid Id { get; set; }
         public BaseResponse(Guid id)
         {
             Id = id;

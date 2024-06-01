@@ -22,7 +22,7 @@ namespace CarDealership.Core.Models
             featureEquipments.Add(equipment);
         }
 
-        public static Result<Feature> Create(Guid id, string description, bool isDeleted)
+        public static Result<Feature> Create(Guid id, string description, bool isDeleted = false)
         {
             var error = string.Empty;
 

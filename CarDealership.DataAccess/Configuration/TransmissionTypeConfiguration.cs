@@ -13,6 +13,9 @@ namespace CarDealership.DataAccess.Configuration
             builder.HasMany(tt => tt.Engines)
                 .WithOne(e => e.TransmissionType)
                 .HasForeignKey(e => e.TransmissionTypeId);
+
+            builder.HasIndex(tt => tt.Value)
+                .IsUnique();
         }
     }
 }

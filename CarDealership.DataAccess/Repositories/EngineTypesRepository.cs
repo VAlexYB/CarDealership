@@ -7,7 +7,7 @@ namespace CarDealership.DataAccess.Repositories
 {
     public class EngineTypesRepository : BaseRepository<EngineType, EngineTypeEntity, BaseFilter>, IEngineTypesRepository
     {
-        public EngineTypesRepository(CarDealershipDbContext context, EngineTypeEMFactory factory) : base(context, factory)
+        public EngineTypesRepository(CarDealershipDbContext context, IEntityModelFactory<EngineType, EngineTypeEntity> factory) : base(context, factory)
         {
         }
     }
