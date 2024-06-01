@@ -13,6 +13,9 @@ namespace CarDealership.DataAccess.Configuration
             builder.HasMany(dt => dt.Configurations)
                 .WithOne(c => c.DriveType)
                 .HasForeignKey(c => c.DriveTypeId);
+
+            builder.HasIndex(dt => dt.Value)
+                .IsUnique();
         }
     }
 }

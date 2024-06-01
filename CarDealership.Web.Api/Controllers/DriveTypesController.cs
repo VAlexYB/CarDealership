@@ -9,7 +9,6 @@ using DriveType = CarDealership.Core.Models.DriveType;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/drivetype")]
     public class DriveTypesController : BaseController<DriveType, BaseFilter, DriveTypeRequest, DriveTypeResponse>
     {
         public DriveTypesController(IDriveTypesService service, IDriveTypeRMFactory factory) : base(service, factory)

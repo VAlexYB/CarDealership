@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarDealership.DataAccess.Migrations
 {
     [DbContext(typeof(CarDealershipDbContext))]
-    [Migration("20240526093152__initial")]
+    [Migration("20240526132000__initial")]
     partial class _initial
     {
         /// <inheritdoc />
@@ -92,7 +92,8 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId");
+                    b.HasIndex("BrandId", "Name")
+                        .IsUnique();
 
                     b.ToTable("AutoModels");
                 });
@@ -114,6 +115,9 @@ namespace CarDealership.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Value")
+                        .IsUnique();
 
                     b.ToTable("BodyTypes");
                 });
@@ -137,6 +141,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Brands");
                 });
@@ -182,6 +189,9 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Value")
+                        .IsUnique();
+
                     b.ToTable("Colors");
                 });
 
@@ -199,6 +209,9 @@ namespace CarDealership.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Countries");
                 });
@@ -220,6 +233,9 @@ namespace CarDealership.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Value")
+                        .IsUnique();
 
                     b.ToTable("DriveTypes");
                 });
@@ -272,6 +288,9 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Value")
+                        .IsUnique();
+
                     b.ToTable("EngineTypes");
                 });
 
@@ -322,9 +341,10 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EquipmentId");
-
                     b.HasIndex("FeatureId");
+
+                    b.HasIndex("EquipmentId", "FeatureId")
+                        .IsUnique();
 
                     b.ToTable("EquipmentFeatures");
                 });
@@ -361,6 +381,9 @@ namespace CarDealership.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Value")
+                        .IsUnique();
 
                     b.ToTable("TransmissionTypes");
                 });

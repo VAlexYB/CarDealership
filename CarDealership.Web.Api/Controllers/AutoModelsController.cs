@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/automodel")]
     public class AutoModelsController : BaseController<AutoModel, BaseFilter, AutoModelRequest, AutoModelResponse>
     {
         public AutoModelsController(IAutoModelsService service, IAutoModelRMFactory factory) : base(service, factory)

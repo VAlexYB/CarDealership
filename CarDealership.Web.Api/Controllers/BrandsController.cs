@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/brand")]
     public class BrandsController : BaseController<Brand, BaseFilter, BrandRequest, BrandResponse>
     {
         public BrandsController(IBrandsService service, IBrandRMFactory factory) : base(service, factory)

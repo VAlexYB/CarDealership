@@ -5,10 +5,10 @@ namespace CarDealership.DataAccess.Factories
 {
     public class EquipmentEMFactory : IEntityModelFactory<Equipment, EquipmentEntity>
     {
-        private readonly IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> _equipmentFeatureEMFactory;
+        private readonly IEntityModelFactory<Core.Models.EquipmentFeature, Entities.EquipmentFeatureEntity> _equipmentFeatureEMFactory;
 
         public EquipmentEMFactory(
-            IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> equipmentFeatureEMFactory
+            IEntityModelFactory<Core.Models.EquipmentFeature, Entities.EquipmentFeatureEntity> equipmentFeatureEMFactory
         )
         {
             _equipmentFeatureEMFactory = equipmentFeatureEMFactory ?? throw new ArgumentNullException(nameof(equipmentFeatureEMFactory));

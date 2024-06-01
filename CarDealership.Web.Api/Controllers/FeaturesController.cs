@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/feature")]
     public class FeaturesController : BaseController<Feature, BaseFilter, FeatureRequest, FeatureResponse>
     {
         public FeaturesController(IFeaturesService service, IFeatureRMFactory factory) : base(service, factory)

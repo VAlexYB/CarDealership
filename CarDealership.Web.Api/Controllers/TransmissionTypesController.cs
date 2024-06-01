@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/transtype")]
     public class TransmissionTypesController : BaseController<TransmissionType, BaseFilter, TransmissionTypeRequest, TransmissionTypeResponse>
     {
         public TransmissionTypesController(ITransmissionTypesService service, ITransmissionTypeRMFactory factory) : base(service, factory)

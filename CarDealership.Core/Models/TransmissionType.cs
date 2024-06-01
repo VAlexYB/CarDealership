@@ -23,7 +23,7 @@ namespace CarDealership.Core.Models
             engines.Add(engine);
         }
 
-        public static Result<TransmissionType> Create(Guid id, string value, bool isDeleted)
+        public static Result<TransmissionType> Create(Guid id, string value, bool isDeleted = false)
         {
             var error = string.Empty;
 

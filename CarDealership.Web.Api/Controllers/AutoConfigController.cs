@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/autoconfig")]
     public class AutoConfigController : BaseController<AutoConfiguration, BaseFilter, AutoConfigurationRequest, AutoConfigurationResponse>
     {
         public AutoConfigController(IAutoConfigsService service, IAutoConfigRMFactory factory) : base(service, factory)

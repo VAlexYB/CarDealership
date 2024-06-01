@@ -37,7 +37,7 @@ namespace CarDealership.Web.Api.Factories
                 req.Price,
                 req.ReleaseYear,
                 req.AutoModelId,
-                req.IsDeleted,
+                false,
                 equipmentModel
             );
 
@@ -47,22 +47,6 @@ namespace CarDealership.Web.Api.Factories
             }
 
             var equipment = equipmentCreateResult.Value;
-
-            foreach (var featureId in req.FeatureIds)
-            {
-                var tempFeature = await _featuresService.GetByIdAsync(featureId);
-
-                if (tempFeature == null) throw new InvalidOperationException($"Feature с id={featureId} не найден");
-
-                var equipmentFeatureCreateResult = EquipmentFeature.Create(Guid.NewGuid(), req.Id, featureId, equipment, tempFeature);
-                if(equipmentFeatureCreateResult.IsFailure)
-                {
-                    throw new InvalidOperationException(equipmentFeatureCreateResult.Error);
-                }
-                var equipmentFeature = equipmentFeatureCreateResult.Value;
-                tempFeature.AddFeatureEquipment(equipmentFeature);
-                equipment.AddEquipmentFeature(equipmentFeature);
-            }
             equipmentModel.AddEquipment(equipment);
             return equipment;
         }

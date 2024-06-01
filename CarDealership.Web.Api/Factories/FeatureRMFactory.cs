@@ -11,7 +11,7 @@ namespace CarDealership.Web.Api.Factories
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
-            var featureCreateResult = Feature.Create(req.Id, req.Description, req.IsDeleted);
+            var featureCreateResult = Feature.Create(req.Id, req.Description);
 
             if(featureCreateResult.IsFailure)
             {

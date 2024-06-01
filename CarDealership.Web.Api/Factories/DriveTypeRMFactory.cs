@@ -12,7 +12,7 @@ namespace CarDealership.Web.Api.Factories
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
-            var driveTypeCreateResult = DriveType.Create(req.Id, req.Value, req.Price, req.IsDeleted);
+            var driveTypeCreateResult = DriveType.Create(req.Id, req.Value, req.Price);
 
             if(driveTypeCreateResult.IsFailure)
             {

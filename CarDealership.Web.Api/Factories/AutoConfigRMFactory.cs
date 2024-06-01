@@ -43,7 +43,7 @@ namespace CarDealership.Web.Api.Factories
 
             var configCreateResult = AutoConfiguration.Create(
                 req.Id, req.Price, req.AutoModelId, req.BodyTypeId, 
-                req.DriveTypeId, req.EngineId, req.ColorId, req.IsDeleted,
+                req.DriveTypeId, req.EngineId, req.ColorId, false,
                 autoModel, bodyType, driveType, engineType, color);
 
             if (configCreateResult.IsFailure)

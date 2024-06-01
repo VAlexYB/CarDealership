@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/engine")]
     public class EnginesController : BaseController<Engine, BaseFilter, EngineRequest, EngineResponse>
     {
         public EnginesController(IEnginesService service, IEngineRMFactory factory) : base(service, factory)

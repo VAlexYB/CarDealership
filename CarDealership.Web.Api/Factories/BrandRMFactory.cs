@@ -19,7 +19,7 @@ namespace CarDealership.Web.Api.Factories
             if (req == null) throw new ArgumentNullException(nameof (req));
 
             var brandCountry = await _countriesService.GetByIdAsync(req.CountryId);
-            var brandCreateResult = Brand.Create(req.Id, req.Name, req.CountryId, req.IsDeleted, brandCountry);
+            var brandCreateResult = Brand.Create(req.Id, req.Name, req.CountryId, false, brandCountry);
 
             if(brandCreateResult.IsFailure)
             {

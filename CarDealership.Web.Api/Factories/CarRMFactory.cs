@@ -24,7 +24,7 @@ namespace CarDealership.Web.Api.Factories
 
             var autoConfig = await _autoConfigsService.GetByIdAsync(req.AutoConfigurationId);
 
-            var carCreateResult = Car.Create(req.Id, req.VIN, req.AutoConfigurationId, req.IsDeleted, autoConfig);
+            var carCreateResult = Car.Create(req.Id, req.VIN, req.AutoConfigurationId, false, autoConfig);
 
             if(carCreateResult.IsFailure)
             {

@@ -29,7 +29,7 @@ namespace CarDealership.Web.Api.Factories
                 req.Name,
                 req.Price,
                 req.BrandId,
-                req.IsDeleted,
+                false,
                 modelBrand
             );
 

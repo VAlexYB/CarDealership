@@ -22,7 +22,7 @@ namespace CarDealership.Core.Models
             configurations.Add(configuration);
         }
 
-        public static Result<Color> Create(Guid id, string value, decimal price, bool isDeleted)
+        public static Result<Color> Create(Guid id, string value, decimal price, bool isDeleted = false)
         {
             var error = string.Empty;
 

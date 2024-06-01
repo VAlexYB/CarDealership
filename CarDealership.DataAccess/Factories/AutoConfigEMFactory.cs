@@ -42,6 +42,7 @@ namespace CarDealership.DataAccess.Factories
                
             ).Value : null;
 
+
             var engine = entity.Engine != null ? Engine.Create(
                 entity.EngineId,
                 entity.Engine.Power,

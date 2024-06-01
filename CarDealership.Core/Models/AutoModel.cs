@@ -38,7 +38,7 @@ namespace CarDealership.Core.Models
             equipments.Add(equip);
         }
 
-        public static Result<AutoModel> Create(Guid id, string name, decimal price, Guid brandId, bool isDeleted, Brand? brand = null)
+        public static Result<AutoModel> Create(Guid id, string name, decimal price, Guid brandId, bool isDeleted = false, Brand? brand = null)
         {
             var errorBuilder = new StringBuilder();
 

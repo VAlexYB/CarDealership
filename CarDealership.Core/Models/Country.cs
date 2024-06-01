@@ -20,7 +20,7 @@ namespace CarDealership.Core.Models
             brands.Add(brand);
         }
 
-        public static Result<Country> Create(Guid id, string name, bool isDeleted)
+        public static Result<Country> Create(Guid id, string name, bool isDeleted = false)
         {
             var error = string.Empty;
 

@@ -11,7 +11,7 @@ namespace CarDealership.Web.Api.Factories
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
-            var colorCreateResult = Color.Create(req.Id, req.Value, req.Price, req.IsDeleted);
+            var colorCreateResult = Color.Create(req.Id, req.Value, req.Price);
 
             if(colorCreateResult.IsFailure)
             {

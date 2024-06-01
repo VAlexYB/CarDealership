@@ -11,7 +11,7 @@ namespace CarDealership.Web.Api.Factories
         {
             if(req == null) throw new ArgumentNullException(nameof(req));
 
-            var bodyTypeCreateResult = BodyType.Create(req.Id, req.Value, req.Price, req.IsDeleted);
+            var bodyTypeCreateResult = BodyType.Create(req.Id, req.Value, req.Price);
 
             if(bodyTypeCreateResult.IsFailure)
             {

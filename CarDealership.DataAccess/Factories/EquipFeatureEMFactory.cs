@@ -3,13 +3,13 @@ using CarDealership.DataAccess.Entities;
 
 namespace CarDealership.DataAccess.Factories
 {
-    public class EquipFeatureEMFactory : IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity>
+    public class EquipFeatureEMFactory : IEntityModelFactory<Core.Models.EquipmentFeature, Entities.EquipmentFeatureEntity>
     {
-        public EquipmentFeatureEntity CreateEntity(EquipmentFeature model)
+        public Entities.EquipmentFeatureEntity CreateEntity(Core.Models.EquipmentFeature model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            var entity = new EquipmentFeatureEntity
+            var entity = new Entities.EquipmentFeatureEntity
             {
                 Id = model.Id,
                 EquipmentId = model.EquipmentId,
@@ -19,7 +19,7 @@ namespace CarDealership.DataAccess.Factories
             return entity;
         }
 
-        public EquipmentFeature CreateModel(EquipmentFeatureEntity entity)
+        public Core.Models.EquipmentFeature CreateModel(Entities.EquipmentFeatureEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -38,7 +38,7 @@ namespace CarDealership.DataAccess.Factories
                 entity.Feature.IsDeleted
             ).Value : null;
 
-            var equipmentFeatureCreateResult = EquipmentFeature.Create(
+            var equipmentFeatureCreateResult = Core.Models.EquipmentFeature.Create(
                 entity.Id,
                 entity.EquipmentId,
                 entity.FeatureId,

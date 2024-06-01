@@ -50,7 +50,7 @@ namespace CarDealership.Core.Models
         }
 
         public static Result<AutoConfiguration> Create(Guid id, decimal price, Guid autoModelId, Guid bodyTypeId, Guid driveTypeId, Guid engineId, Guid colorId,
-            bool isDeleted, AutoModel? autoModel = null, BodyType? bodyType = null, DriveType? driveType = null, Engine? engine = null, Color? color = null)
+            bool isDeleted = false, AutoModel? autoModel = null, BodyType? bodyType = null, DriveType? driveType = null, Engine? engine = null, Color? color = null)
         {
             var errorBuilder = new StringBuilder();
 

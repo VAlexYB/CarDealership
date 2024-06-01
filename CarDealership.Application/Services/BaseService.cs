@@ -29,22 +29,24 @@ namespace CarDealership.Application.Services
             return await _repository.GetByIdAsync(entityId);
         }
 
-        public async Task CreateOrEditAsync(M model)
+        public virtual async Task<Guid> CreateOrEditAsync(M model)
         {
             bool _exist = await _repository.ExistsAsync(model.Id);
+            Guid id = Guid.Empty;
             if (_exist)
             {
-                await _repository.UpdateAsync(model);
+                id = await _repository.UpdateAsync(model);
             }
             else
             {
-                await _repository.InsertAsync(model);
+                id = await _repository.InsertAsync(model);
             }
+            return id;
         }
 
-        public async Task DeleteAsync(Guid entityId)
+        public async Task<Guid> DeleteAsync(Guid entityId)
         {
-            await _repository.DeleteAsync(entityId);
+            return await _repository.DeleteAsync(entityId);
         }
     }
 }

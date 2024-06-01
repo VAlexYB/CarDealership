@@ -49,10 +49,10 @@ namespace CarDealership.Web.Api.Controllers
                 var response = models.Select(model => _factory.CreateResponse(model)).ToList();
                 return Ok(response);
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                return StatusCode(500, "Ошибки случаются");
+                return StatusCode(500, e.Message);
             }
            
         }
@@ -67,9 +67,10 @@ namespace CarDealership.Web.Api.Controllers
                 var response = models.Select(model => _factory.CreateResponse(model)).ToList();
                 return Ok(response);
             }
-            catch(Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, "Ошибки случаются");
+
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -87,15 +88,16 @@ namespace CarDealership.Web.Api.Controllers
                 var response = _factory.CreateResponse(model);
                 return Ok(response);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, "Ошибки случаются");
+
+                return StatusCode(500, e.Message);
             }
         }
 
         [Route("add")]
         [HttpPost]
-        public async Task<IActionResult> CreateOrEdit(Req req)
+        public virtual async Task<IActionResult> CreateOrEdit(Req req)
         {
             try
             {
@@ -111,9 +113,10 @@ namespace CarDealership.Web.Api.Controllers
                 await _service.CreateOrEditAsync(model);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, "Ошибки случаются");
+
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -127,9 +130,10 @@ namespace CarDealership.Web.Api.Controllers
                 await _service.DeleteAsync(itemId);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, "Ошибки случаются");
+
+                return StatusCode(500, e.Message);
             }
         }
     }
