@@ -1,0 +1,1492 @@
+body{
+    font-family: 'Comfortaa', cursive;
+    /* font-family: 'Bruno Ace SC', cursive; */
+    /* font-family: 'Russo One', sans-serif; */
+}
+
+/* Begin Section Header */
+
+.header__top{
+    padding: 30px 0px;
+}
+
+.header__list{
+    display: flex;
+    align-items: center;
+}
+
+.header__item:not(:last-child){
+   margin: 0 170px 0 0;
+}
+
+.header__item:first-child{
+    font-size: 16px;
+    line-height: 25px;
+}
+
+.header__item:nth-child(2){
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 25px;
+    margin: 0 340px 0 0;
+}
+
+.header__item:last-child{
+    font-size: 22px;
+}
+
+.header__bottom{
+    background-color: #212121;
+    padding: 13px 0px;
+}
+
+.nav__list{
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.nav__item a:hover{
+    color: grey;
+    transition: all 0.5s ease;
+}
+
+.nav__item:not(:last-child){
+    margin: 0 40px 0 0;
+}
+
+
+.btn__reset{
+    background-color: transparent;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.nav__iconLog{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+}
+
+.nav__iconLog a svg{
+    width: 36px;
+    height: 36px;
+}
+
+svg:hover{
+    opacity: 0.7;
+    transition: all 0.5s ease;
+}
+
+.header__burger{
+    display: none;
+}
+
+/* End Section Header */
+
+/* Begin Section HERO */
+
+.hero{
+    background: url("../assets/carImg/image3.png") no-repeat;
+    background-size: cover;
+    padding: 90px 0 65px 0;
+}
+
+.hero__body{
+    color: white;
+}
+
+.hero__title{
+    font-family: 'Russo One', sans-serif;
+    font-size: 50px;
+    line-height: 100px;
+    letter-spacing: 5px;
+}
+
+.hero__title span{
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 60px;
+}
+
+.hero__line{
+    width: 100px;
+    border: 2px solid #fff;
+    margin: 65px 0 40px 0;
+}
+
+.hero__text{
+    font-size: 25px;
+    width: 1100px;
+    line-height: 40px;
+}
+
+.list__list{
+    margin: 40px 0 0 30px;
+    font-size: 22px;
+    line-height: 50px;
+}
+
+.hero__btn{
+    min-width: 315px;
+    font-size: 24px;
+    color: #fff;
+    background-color: #a0887e;
+    padding: 30px 100px 30px 100px;
+    margin: 90px 0 0 0;
+    cursor: pointer;
+}
+
+/* END Section HERO */
+
+/* Begin Section Catalog */
+
+.catalog{
+    margin: 60px 0 0px 0;
+}
+
+.catalog__bottom{
+    margin: 60px 0 0 10px;
+}
+
+.catalog__titles{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 70px 0;
+}
+
+.catalog__title{
+    font-family: 'Russo One', sans-serif;
+    font-size: 50px;
+    width: 550px;
+    text-align: center;
+    line-height: 70px;
+}
+
+.catalog__title span{
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 40px;
+}
+
+.catalog__subtitle{
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.catalog__btn{
+    font-weight: bold;
+    font-size: 20px;
+    margin: 20px 0 0 0;
+    display: none;
+}
+
+.btn{
+    cursor: pointer;
+}
+
+.catalog__row{
+    display: flex;
+    justify-content: space-between;
+}
+
+.catalog__links{
+    background-color: #f8f8f8;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 30px 20px 30px 10px;
+    line-height: 50px;
+   /* display: none; */
+}
+
+.catalog__item{
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.catalog__item:nth-child(3){
+    width: 260px;
+    line-height: 40px;
+}
+
+.car__links{
+    display: flex;
+    justify-content: flex-end;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.car__links a:first-child{
+   text-decoration: underline;
+   margin: 0 20px 0 0;
+}
+
+.catalog__car{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.car__item{
+    border: 5px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0px 40px 0;
+}
+
+.car__item:nth-child(4){
+    margin: 20px 0px 0px 0;
+    display: none;
+}
+
+.car__item:nth-child(5){
+    margin: 20px 0px 0px 0;
+    display: none;
+}
+
+.car__item:nth-child(6) {
+    margin: 20px 0px 0px 0;
+    display: none;
+}
+
+.catalog__row .car__item:nth-child(1){
+   
+    margin: 0 63px 0 0;
+}
+
+.catalog__row .car__item:nth-child(2){
+   
+    margin: 0 0px 0 0;
+}
+
+.car__LINES {
+    position: absolute;
+    top: 2133px;
+    display: flex;
+    margin: 0 0 0 15px;
+}
+
+.car__LINE{
+    border-top: 6px solid #000;
+    width: 50px;
+    margin: 0 35px 0 0;
+   opacity: 0.5;
+    height: 190px;
+    position: relative;
+    z-index: 1;
+}
+
+.car__LINE:last-child{
+   margin: 0;
+}
+
+/* .car__item:first-child */
+
+/* Toyota Camry 2017*/
+
+.catalog__top .car__LINES {
+    position: absolute;
+    top: 1469px;
+    margin: 0 0 0 15px;
+}
+
+.catalog__top .car__item:first-child .car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/T1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+.catalog__top .car__item:first-child .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/T2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.catalog__top .car__item:first-child .car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/T3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.catalog__top .car__item:first-child .car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 206px;
+    background: url("../img/T4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* Toyota Camry 2017 */
+
+/* Audi A5 2011*/
+
+.catalog__top .car__LINES {
+    position: absolute;
+    top: 1469px;
+    margin: 0 0 0 15px;
+}
+
+.catalog__top .car__item:nth-child(2) .car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/A1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+.catalog__top .car__item:nth-child(2) .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/A2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.catalog__top .car__item:nth-child(2) .car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/A3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.catalog__top .car__item:nth-child(2) .car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 206px;
+    background: url("../img/A4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* Audi A5 2011 */
+
+/* Mercedes-Benz S... */
+
+.car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/car1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+ .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/car2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/car3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 205px;
+    background: url("../img/car4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* Mercedes-Benz S... */
+
+/* BMW 3 серии 320i... */
+
+.catalog__bottom .car__item:nth-child(2) .car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/B1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+.catalog__bottom .car__item:nth-child(2) .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/B2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.catalog__bottom .car__item:nth-child(2) .car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/B3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.catalog__bottom .car__item:nth-child(2) .car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 205px;
+    background: url("../img/B4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* BMW 3 серии 320i... */
+
+/* Hyundai Sonata 2022 */
+
+.catalog__bottom .car__item:nth-child(3) .car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/H1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+.catalog__bottom .car__item:nth-child(3) .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/H2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.catalog__bottom .car__item:nth-child(3) .car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/H3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.catalog__bottom .car__item:nth-child(3) .car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 205px;
+    background: url("../img/H4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* Hyundai Sonata 2022 */
+
+.car__item .car__LINE:hover{
+    opacity: 1;
+    transition: all 0.5s ease;
+}
+
+
+.car__info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.car__name{
+    font-family: 'Russo One', sans-serif;
+    font-size: 20px;
+    width: 220px;
+}
+
+.car__icons a:first-child{
+    margin: 0 10px 0 0;
+}
+.car__text{
+    margin: 18px 0 0 0;
+    font-size: 16.5px;
+}
+
+.car__price{
+    font-family: 'Russo One', sans-serif;
+    font-size: 20px;
+    margin: 20px 0;
+}
+
+.car__valute{
+    width: 14px;
+    height: 16px;
+}
+
+.car__btn{
+    background-color: #a0887e;
+    color: #fff;
+    display: flex;
+    padding: 25px 65px;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+/* End Section Catalog */
+
+/* Begin Section Vehicle */
+
+.vehicle{
+    margin: 60px 0 0px 0;
+    
+}
+
+.vehicle__titles{
+    display: flex;
+    justify-content: center;
+}
+
+.vehicle__title{
+    font-family: 'Russo One', sans-serif;
+    font-size: 50px;
+    width: 780px;
+    text-align: center;
+    line-height: 70px;
+}
+
+.vehicle__title span{
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 40px;
+}
+
+.vehicle__links{
+    display: flex;
+    justify-content: flex-end;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.vehicle__links a:first-child{
+    text-decoration: underline;
+    margin: 0 20px 0 0;
+}
+
+.vehicle__car{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* BMW X5 30d 2016*/
+
+.vehicle__car .car__LINES {
+    position: absolute;
+    top: 2987.5px;
+    margin: 0 0 0 15px;
+}
+
+.vehicle__car .veh__item:first-child .car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/BB1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:first-child .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/BB2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:first-child .car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/BB3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.vehicle__car .veh__item:first-child .car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 206px;
+    background: url("../img/BB4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* BMW X5 30d 2016 */
+
+/* Audi Q7 2007*/
+
+.vehicle__car .car__LINES {
+    position: absolute;
+    top: 2987.5px;
+    margin: 0 0 0 15px;
+}
+
+.vehicle__car .veh__item:nth-child(2) .car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/AA1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:nth-child(2) .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/AA2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:nth-child(2) .car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/AA3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.vehicle__car .veh__item:nth-child(2) .car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 206px;
+    background: url("../img/AA4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* Audi Q7 2007 */
+
+/* Ford Explorer, 2017*/
+
+.vehicle__car .car__LINES {
+    position: absolute;
+    top: 2987.5px;
+    margin: 0 0 0 15px;
+}
+
+.vehicle__car .veh__item:nth-child(3) .car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/F1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:nth-child(3) .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/F2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:nth-child(3) .car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/F3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.vehicle__car .veh__item:nth-child(3) .car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 206px;
+    background: url("../img/F4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* Ford Explorer, 2017 */
+
+/* Hyundai Tucson 2023*/
+
+.vehicle__car .veh__item:nth-child(4) .car__LINES{
+    position: absolute;
+    top: 3620px;
+    margin: 0 0 0 15px;
+}
+
+.vehicle__car .veh__item:nth-child(4) .car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/HH1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:nth-child(4) .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/HH2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:nth-child(4) .car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/HH3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.vehicle__car .veh__item:nth-child(4) .car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 206px;
+    background: url("../img/HH4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* Hyundai Tucson 2023 */
+
+/* Kia Sportage 2011*/
+
+.vehicle__car .veh__item:nth-child(5) .car__LINES{
+    position: absolute;
+    top: 3620px;
+    margin: 0 0 0 15px;
+}
+
+.vehicle__car .veh__item:nth-child(5) .car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/K1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:nth-child(5) .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/K2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:nth-child(5) .car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/K3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.vehicle__car .veh__item:nth-child(5) .car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 206px;
+    background: url("../img/K4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* Kia Sportage 2011 */
+
+/* Mercedes-Benz GL... */
+
+.vehicle__car .veh__item:nth-child(6) .car__LINES{
+    position: absolute;
+    top: 3620px;
+    margin: 0 0 0 15px;
+}
+
+.vehicle__car .veh__item:nth-child(6) .car__LINE:hover:first-child::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/M1.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:nth-child(6) .car__LINE:hover:nth-child(2)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/M2.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    left: -100px;
+    transition: all 0.5s ease;
+}
+
+.vehicle__car .veh__item:nth-child(6) .car__LINE:hover:nth-child(3)::before{
+    content: '';
+    width: 325px;
+    height: 205px;
+    background: url("../img/M3.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+    left: -185px;
+    top: 0;
+    transition: all 0.5s ease;
+} 
+
+.vehicle__car .veh__item:nth-child(6) .car__LINE:hover:last-child::before{
+    content: '';
+    width: 330px;
+    height: 206px;
+    background: url("../img/M4.png") no-repeat;
+    display: inline-block;
+    position: absolute;
+   left: -270px;
+    top: 0;
+    transition: all 0.5s ease;
+}
+
+/* Mercedes-Benz GL... */
+
+.veh__item .car__LINE:hover{
+    opacity: 1;
+    transition: all 0.5s ease;
+}
+
+.veh__item{
+    border: 5px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 20px 0px 40px 0;
+}
+
+.veh__item:nth-child(4){
+    margin: 20px 0px 0px 0;
+}
+
+.veh__item:nth-child(5){
+    margin: 20px 0px 0px 0;
+}
+
+.veh__item:nth-child(6){
+    margin: 20px 0px 0px 0;
+}
+
+/* End Section Vehicle */
+
+/* Begin Section GALLERY */
+
+.gallery{
+    margin: 200px 0 0 0;
+}
+
+.gallery__list li:nth-child(2) .gal__titles{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+}
+
+.gallery__list li:nth-child(2) .gal__titles .gal__subtitle{
+    margin: 70px 0;
+}
+
+.gallery__list li:nth-child(2) .gal__titles .gal__btn{
+    padding: 30px 90px;
+}
+
+.gallery__list li:nth-child(3) .gal__titles{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.gallery__list li:nth-child(3) .gal__title{
+    margin: 50px 0 0 0;
+    line-height: 60px;
+}
+ 
+.gallery__list li:nth-child(3) .gal__titles .gal__subtitle{
+    margin: 60px 0;
+}
+ 
+.gallery__list li:nth-child(3) .gal__titles .gal__btn{
+    padding: 30px 100px;
+}
+
+
+.gallery__item{
+    margin: 0 0 30px 0;
+}
+
+.gallery__item:last-child{
+    margin: 0 0 0px 0;
+}
+
+.gal__blocks{
+    display: flex;
+    justify-content: space-between;
+}
+
+.gal__title{
+    font-family: 'Russo One', sans-serif;
+    font-size: 45px;
+    width: 520px;
+    line-height: 70px;
+}
+
+.gal__subtitle{
+    font-size: 18px;
+    font-weight: bold;
+    width: 450px;
+    line-height: 40px;
+    margin: 6px 0px 40px 0;
+}
+
+.gal__btn{
+    font-size: 24px;
+    color: #fff;
+    background-color: #a0887e;
+    padding: 30px 50px;
+    cursor: pointer;
+}
+
+/* Modal window */
+
+/*Dialog Styles*/
+#dialog {
+	padding: 35px 40px;
+	background: white;
+	max-width: 400px;
+	padding-top: 2rem;
+	border-radius: 20px;
+	border: 0;
+    border: 5px solid #a0887e;
+	animation: fadeIn 1s ease both;
+    margin: 15% 40%;
+	&::backdrop {
+		animation: fadeIn 1s ease both;
+		z-index: 2;
+		backdrop-filter: blur(20px);
+	}
+	.x {
+		filter: grayscale(1);
+		border: none;
+		background: none;
+		position: absolute;
+		top: 15px;
+		right: 10px;
+		transition: ease filter, transform 0.3s;
+		cursor: pointer;
+		transform-origin: center;
+        font-size: 18px;
+	}
+}
+
+
+
+button.gal__btn {
+	display: inline-block;
+    font-size: 24px;
+    color: #fff;
+    background-color: #a0887e;
+    padding: 30px 50px;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.gallery__modal-title{
+    font-family: 'Russo One', sans-serif;
+    font-size: 25px;
+    text-align: center;
+}
+
+.field_title{
+    font-family: 'Russo One', sans-serif;
+    font-size: 20px;
+    margin: 15px 0 0 0;
+}
+
+.field_input input{
+    font-size: 18px;
+}
+
+.field_input input{
+    border: 3px solid #a0887e;
+    border-radius: 5px;
+    padding: 10px 60px 10px 10px;
+}
+
+.field_input input:focus{
+    outline: transparent;
+    border: 3px solid black;
+     border-radius: 5px;
+     padding: 10px 60px 10px 10px;
+     transition: all 0.5s ease;
+}
+
+.field_input button{
+    border: transparent;
+}
+
+.submit_btn{
+    font-size: 20px;
+    background-color: #a0887e;
+    color: #fff;
+    padding: 15px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 20px 13% 0 13%;
+}
+/* Modal window */
+
+/* Modal window */
+
+/*Dialog Styles*/
+#dialog2 {
+	padding: 35px 40px;
+	background: white;
+	max-width: 400px;
+	padding-top: 2rem;
+	border-radius: 20px;
+	border: 0;
+    border: 5px solid #a0887e;
+	animation: fadeIn 1s ease both;
+    margin: 15% 40%;
+	&::backdrop {
+		animation: fadeIn 1s ease both;
+		z-index: 2;
+		backdrop-filter: blur(20px);
+	}
+	.x {
+		filter: grayscale(1);
+		border: none;
+		background: none;
+		position: absolute;
+		top: 15px;
+		right: 10px;
+		transition: ease filter, transform 0.3s;
+		cursor: pointer;
+		transform-origin: center;
+        font-size: 18px;
+	}
+}
+
+button.gal__btn {
+	display: inline-block;
+    font-size: 24px;
+    color: #fff;
+    background-color: #a0887e;
+    padding: 30px 50px;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.field_title{
+    font-family: 'Russo One', sans-serif;
+    font-size: 20px;
+    margin: 15px 0 0 0;
+    width: 330px;
+}
+
+.field_input input{
+    font-size: 18px;
+}
+
+.field_input input{
+    border: 3px solid #a0887e;
+    border-radius: 5px;
+    padding: 10px 60px 10px 10px;
+}
+
+.field_input input:focus{
+    outline: transparent;
+    border: 3px solid black;
+     border-radius: 5px;
+     padding: 10px 60px 10px 10px;
+     transition: all 0.5s ease;
+}
+
+.field_input button{
+    border: transparent;
+}
+
+.submit_btn{
+    font-size: 20px;
+    background-color: #a0887e;
+    color: #fff;
+    padding: 15px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 20px 13% 0 13%;
+}
+/* Modal window */
+
+/* End Section GALLERY */
+
+/* Begin Section FEEDBACK */
+
+.feedback{
+    margin: 200px 0 0 0;
+}
+
+.feedback__titles{
+    display: flex;
+    justify-content: center;
+}
+
+.feedback__title{
+    text-align: center;
+    width: 590px;
+    font-size: 45px;
+    font-family: 'Russo One', sans-serif;
+    line-height: 70px;
+}
+
+.feedback__list{
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0 0 0;
+}
+
+.feedback__item{
+    border: 3px solid #bbbbbb;
+    padding: 10px;
+}
+.feedback__subtitle{
+    font-size: 16px;
+    font-weight: 700;
+    width: 345px;
+    text-align: center;
+    line-height: 40px;
+    margin: 10px 0 25px 0;
+    opacity: 0.9;
+}
+
+.feedback__text{
+    font-family: 'Russo One', sans-serif;
+    font-size: 16px;
+}
+
+/* End Section FEEDBACK */
+
+
+/* Begin Section MAP */
+
+.map{
+    margin: 200px 0 0 0;
+}
+
+.map__titles{
+    display: flex;
+    justify-content: center;
+}
+
+.map__title{
+     font-size: 45px;
+    font-family: 'Russo One', sans-serif;
+}
+
+.map__blocks{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 0 0;
+}
+
+.map__list{
+    display: inline-flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: #e0e0e0;
+    padding: 20px;
+}
+
+.map__item{
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 20px 0;
+}
+
+.map__item:last-child{
+    margin: 0 0 0px 0;
+}
+
+.center__map{
+    margin: 0 auto;
+    width: 830px;
+    height: 580px;
+    border: 2px solid #000;
+}
+
+/* End Section MAP */
+
+/* Begin Section FOOTER */
+
+.footer{
+    background-color: #212121;
+    padding: 30px 0;
+    margin: 0 0 0 0;
+}
+
+.footer__text{
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__info{
+    width: 470px;
+    font-size: 18px;
+    line-height: 40px;
+    letter-spacing: 1px;
+}
+
+.footer__logo{
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 30px;
+    letter-spacing: 2px;
+}
+
+.footer__phones{
+    width: 330px;
+    text-align: right;
+    line-height: 40px;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.footer__phones div img:nth-child(1){
+    width: 15px;
+    height: 20px;
+}
+
+/* End Section FOOTER */
+
+.back-to-top{
+    position: fixed;
+    right: 130px;
+    bottom: 100px;
+    width: 70px;
+    height: 70px;
+    border-color: transparent;
+    border-radius: 50%;
+    background-color: #a0887e;
+    display: none;
+}
+
+.back-to-top--show{
+   display: block;
+}
+
+.back-to-top:hover,
+.back-to-top:focus{
+    filter: brightness(1.2);
+    outline: none;
+}
+
+.back-to-top::before,
+.back-to-top::after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-45%);
+}
+
+.back-to-top::before{
+    width: 5px;
+    height: 30px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: #f5f0f6;
+}
+
+.back-to-top::after{
+    width: 20px;
+    height: 20px;
+    transform: translate(-50%, -70%) rotate(45deg);
+    border-top: 5px solid #f5f0f6;
+    border-left: 5px solid #f5f0f6;
+}

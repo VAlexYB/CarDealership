@@ -1,0 +1,331 @@
+body{
+    font-family: 'Comfortaa', cursive !important;
+    /* font-family: 'Bruno Ace SC', cursive; */
+    /* font-family: 'Russo One', sans-serif; */
+}
+
+/* Begin Section Header */
+
+.header__top{
+    padding: 30px 0px;
+}
+
+.header__list{
+    display: flex;
+    align-items: center;
+}
+
+.header__item:not(:last-child){
+   margin: 0 170px 0 0;
+}
+
+.header__item:first-child{
+    font-size: 16px;
+    line-height: 25px;
+}
+
+.header__item:nth-child(2){
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 25px;
+    margin: 0 340px 0 0;
+}
+
+.header__item:last-child{
+    font-size: 22px;
+    
+}
+
+.header__bottom{
+    background-color: #212121;
+    padding: 13px 0px;
+}
+
+.nav__list{
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.nav__item a:hover{
+    color: grey;
+    transition: all 0.5s ease;
+}
+
+.nav__item:not(:last-child){
+    margin: 0 40px 0 0;
+}
+
+.btn__reset{
+    background-color: transparent;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.nav__iconLog{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+}
+
+.nav__iconLog a svg{
+    width: 36px;
+    height: 36px;
+}
+
+svg:hover{
+    opacity: 0.7;
+    transition: all 0.5s ease;
+}
+
+.header__burger{
+    display: none;
+}
+
+/* End Section Header */
+
+/* Begin Section CARINFO */
+
+.carInfo__top{
+    margin: 80px 0 100px 0;
+    display: flex;
+    font-family: 'Russo One', sans-serif;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.carInfo__title{
+    font-size: 40px;
+}
+
+.carInfo__subtitle{
+    display: flex;
+    align-items: center;
+    font-size: 27px;
+}
+
+.carInfo__bot{
+    display: flex;
+    justify-content: space-between;
+}
+
+.carInfo__texts{
+    margin: 0 0 0 0;
+}
+
+.carInfo__text{
+    font-size: 22px;
+    margin: 0 0 15px 0;
+}
+
+.carInfo__texts .carInfo__text:first-child{
+    font-family: 'Russo One', sans-serif;
+    font-size: 25px;
+}
+
+.carInfo__link{
+    background-color: #a0887e;
+    font-size: 20px;
+    padding: 25px 70px;
+    border-radius: 10px;
+    color: #fff;
+    margin: 20px 0 0 70px;
+    display: inline-block;
+}
+
+.carInfo__images{
+    width: 600px;
+}
+
+.carInfo__imgB{
+    cursor: pointer;
+}
+
+.carInfo__list{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.carInfo__item{
+    margin: 2px 6.5px 0 0;
+    cursor: pointer;
+}
+
+.carInfo__list .carInfo__item:nth-child(3){
+    margin: 2px 0 0 0;
+}
+
+.carInfo__list .carInfo__item:last-child{
+    font-family: 'Russo One', sans-serif;
+    background-color: #b7b7b7;
+    text-align: center;
+    width: 195px;
+    height: 124px;
+    margin: 2px 0 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carInfo__item img{
+    width: 195px;
+}
+
+/* End Section CARINFO */
+
+/* Begin Section FOOTER */
+
+.footer{
+    background-color: #212121;
+    padding: 30px 0;
+    margin: 100px 0 0 0;
+}
+
+.footer__text{
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__info{
+    width: 470px;
+    font-size: 18px;
+    line-height: 40px;
+    letter-spacing: 1px;
+}
+
+.footer__logo{
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 30px;
+    letter-spacing: 2px;
+}
+
+.footer__phones{
+    width: 330px;
+    text-align: right;
+    line-height: 40px;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.footer__phones div img:nth-child(1){
+    width: 15px;
+    height: 20px;
+}
+
+/* End Section FOOTER */
+
+.custom-div-table {
+    width: 1230px;
+}
+
+th {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    height: 35px;
+    text-align: center;
+}
+.col1 {
+    width: 40px;
+}
+.col2 {
+    width: 1060px ;
+}
+.col3 {
+    width: 130px;
+}
+
+.dialog-title{
+    font-family: 'Russo One', sans-serif;
+    font-size: 25px;
+}
+
+.game-dialog {
+	padding: 35px 40px;
+	background: white;
+	padding-top: 2rem;
+	border-radius: 20px;
+    max-width: 400px;
+	border: 0;
+    border: 5px solid #a0887e;
+	animation: fadeIn 1s ease both;
+    margin: 15% 40%;
+	&::backdrop {
+		animation: fadeIn 1s ease both;
+		z-index: 2;
+		backdrop-filter: blur(20px);
+	}
+	.x {
+		filter: grayscale(1);
+		border: none;
+		background: none;
+		position: absolute;
+		top: 15px;
+		right: 10px;
+		transition: ease filter, transform 0.3s;
+		cursor: pointer;
+		transform-origin: center;
+        font-size: 18px;
+	}
+}
+
+.dialog {
+    margin: auto;
+    background-color: white;
+    color: black;
+    border: 5px solid #a0887e;
+    border-radius: 20px;
+    border-radius: 10px;
+    width: 400px;
+    padding: 20px;
+    .x {
+		filter: grayscale(1);
+		border: none;
+		background: none;
+		position: absolute;
+		top: 15px;
+		right: 10px;
+		transition: ease filter, transform 0.3s;
+		cursor: pointer;
+		transform-origin: center;
+        font-size: 18px;
+	}
+    textarea {
+        border: 1px solid #a0887e;
+        border-radius: 5px;
+        width: 97%;
+        height: 80px;
+        resize: none;
+        font-size: 16px;
+        padding: 5px;
+        margin: 10px 0 20px 0;
+    }
+    textarea:focus {
+        outline: none;
+    }
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.btn{
+    font-size: 18px;
+    color: #fff;
+    background-color: #a0887e;
+    padding: 10px 10px;
+}
