@@ -15,6 +15,7 @@ namespace CarDealership.DataAccess.Repositories
             _equipFeaturesSet = _context.Set<EquipmentFeatureEntity>();
         }
 
+
         public async Task RemoveFeatureFromEquipment(Guid equipmentId, Guid featureId)
         {
             var equipFeature = await _equipFeaturesSet.FirstOrDefaultAsync(ef => ef.EquipmentId == equipmentId && ef.FeatureId == featureId);

@@ -1,13 +1,21 @@
 using CarDealership.Application;
+using CarDealership.Application.Auth;
 using CarDealership.DataAccess;
 using CarDealership.Web.Api;
+using CarDealership.Web.Api.Exstensions;
 using CarDealership.Web.Api.Factories;
 using CarDealership.Web.Api.Factories.Abstract;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
+var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
+builder.Services.AddApiAuthentication(Options.Create(jwtOptions));
 
 builder.Services.AddControllers();
 
@@ -46,6 +54,14 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+    HttpOnly = HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.Always
+});
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

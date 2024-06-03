@@ -26,6 +26,11 @@ namespace CarDealership.DataAccess
             services.AddTransient<IEquipmentsRepository, EquipmentsRepository>();
             services.AddTransient<IFeaturesRepository, FeaturesRepository>();
             services.AddTransient<ITransmissionTypesRepository, TransmissionTypesRepository>();
+            services.AddTransient<IUsersRepository, UsersRepository>();
+            services.AddTransient<IRolesRepository, RolesRepository>();
+            services.AddTransient<IOrdersRepository, OrdersRepository>();
+            services.AddTransient<IDealsRepository, DealsRepository>();
+
 
             //services.AddScoped<IEntityModelFactory<>();
             services.AddTransient<IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity>, AutoConfigEMFactory>();
@@ -42,6 +47,8 @@ namespace CarDealership.DataAccess
             services.AddTransient<IEntityModelFactory<Equipment, EquipmentEntity>, EquipmentEMFactory>();
             services.AddTransient<IEntityModelFactory<Feature, FeatureEntity>, FeatureEMFactory>();
             services.AddTransient<IEntityModelFactory<TransmissionType, TransmissionTypeEntity>, TransmissionTypeEMFactory>();
+            services.AddTransient<IEntityModelFactory<Order, OrderEntity>, OrderEMFactory>();
+            services.AddTransient<IEntityModelFactory<Deal, DealEntity>, DealEMFactory>();
             return services;
         }
     }

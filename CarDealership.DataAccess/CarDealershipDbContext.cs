@@ -1,5 +1,6 @@
 ﻿using CarDealership.DataAccess.Configuration;
 using CarDealership.DataAccess.Entities;
+using CarDealership.DataAccess.Entities.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.DataAccess
@@ -24,6 +25,11 @@ namespace CarDealership.DataAccess
         public DbSet<EquipmentFeatureEntity> EquipmentFeatures { get; set; }
         public DbSet<FeatureEntity> Features { get; set; }
         public DbSet<TransmissionTypeEntity> TransmissionTypes { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<RoleEntity> Roles { get; set; }
+        public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<DealEntity> Deals { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -41,7 +47,12 @@ namespace CarDealership.DataAccess
                 .ApplyConfiguration(new EquipmentConfiguration())
                 .ApplyConfiguration(new EquipmentFeatureConfiguration())
                 .ApplyConfiguration(new FeatureConfiguration())
-                .ApplyConfiguration(new TransmissionTypeConfiguration());
+                .ApplyConfiguration(new TransmissionTypeConfiguration())
+                .ApplyConfiguration(new UserConfiguration())
+                .ApplyConfiguration(new OrderConfiguration())
+                .ApplyConfiguration(new DealConfiguration())
+                .ApplyConfiguration(new RoleConfiguration());
+            
 
             base.OnModelCreating(modelBuilder);
         }

@@ -1,8 +1,10 @@
-﻿using CarDealership.Core.Abstractions.Repositories;
+﻿using CarDealership.Application.Auth;
+using CarDealership.Core.Abstractions.Repositories;
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Factories;
 using CarDealership.DataAccess.Repositories;
+using CarDealership.Web.Api.Auth;
 using CarDealership.Web.Api.Factories;
 using CarDealership.Web.Api.Factories.Abstract;
 
@@ -25,6 +27,11 @@ namespace CarDealership.Web.Api
             services.AddTransient<IEquipmentRMFactory,EquipmentRMFactory>();
             services.AddTransient<IFeatureRMFactory, FeatureRMFactory>();
             services.AddTransient<ITransmissionTypeRMFactory, TransmissionTypeRMFactory>();
+            services.AddTransient<IOrderRMFactory, OrderRMFactory>();
+            services.AddTransient<IDealRMFactory, DealRMFactory>();
+
+            services.AddScoped<IJwtProvider, JwtProvider>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
 
             return services;
         }

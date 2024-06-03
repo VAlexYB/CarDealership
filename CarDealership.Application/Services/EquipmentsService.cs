@@ -8,7 +8,11 @@ namespace CarDealership.Application.Services
     {
         private readonly IEquipFeaturesRepository _equipFeaturesRepository;
         private readonly IEquipmentsRepository _equipmentsRepository;
-        public EquipmentsService(IEquipmentsRepository equipmentsRepository, IEquipFeaturesRepository equipFeaturesRepository) : base(equipmentsRepository)
+        public EquipmentsService
+        (
+            IEquipmentsRepository equipmentsRepository,
+            IEquipFeaturesRepository equipFeaturesRepository
+        ) : base(equipmentsRepository)
         {
             _equipFeaturesRepository = equipFeaturesRepository ?? throw new ArgumentNullException(nameof(equipFeaturesRepository));
             _equipmentsRepository = equipmentsRepository ?? throw new ArgumentNullException(nameof(equipmentsRepository));
@@ -44,11 +48,17 @@ namespace CarDealership.Application.Services
         {
             await _equipmentsRepository.RemoveFeatureFromEquipment(equipmentId, featureId);
         }
-        //public void RemoveFeature(Guid featureId)
-        //{
 
-        //    await _equipFeaturesRepository.DeleteAsync() надо прописать логику удаления фичи у комплектации
-        //}
+        public async Task AddFeatureToEquipment(Guid equipmentId, Guid featureId)
+        {
+            var equipmentFeatureCreateResult = EquipmentFeature.Create(Guid.NewGuid(), equipmentId, featureId);
+            if (equipmentFeatureCreateResult.IsFailure)
+            {
+                throw new InvalidOperationException(equipmentFeatureCreateResult.Error);
+            }
+            var equipmentFeature = equipmentFeatureCreateResult.Value;
+            await _equipFeaturesRepository.InsertAsync(equipmentFeature);
+        }
 
     }
 }

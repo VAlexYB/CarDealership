@@ -4,6 +4,7 @@ using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 using CarDealership.Web.Api.Factories.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarDealership.Web.Api.Controllers
@@ -36,9 +37,8 @@ namespace CarDealership.Web.Api.Controllers
             _modelBuilderAsync = factory as IModelBuilderAsync<Req, M>;
 
             _useAsyncBuilder = _modelBuilderAsync != null;
-        }   
-        
-        
+        }
+
         [Route("getAll")]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
@@ -97,7 +97,7 @@ namespace CarDealership.Web.Api.Controllers
 
         [Route("add")]
         [HttpPost]
-        public virtual async Task<IActionResult> CreateOrEdit(Req req)
+        public virtual async Task<IActionResult> CreateOrEdit([FromBody] Req req)
         {
             try
             {

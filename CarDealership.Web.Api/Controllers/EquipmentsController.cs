@@ -35,11 +35,26 @@ namespace CarDealership.Web.Api.Controllers
 
         [Route("removeFeature")]
         [HttpPost]
-        public async Task<IActionResult> RemoveFeature(EquipFeatureRemoveRequest request)
+        public async Task<IActionResult> RemoveFeature(EquipFeatureChangeRequest request)
         {
             try
             {
                 await equipService.RemoveFeatureFromEquipment(request.EquipmentId, request.FeatureId);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Ошибки случаются");
+            }
+        }
+
+        [Route("addFeature")]
+        [HttpPost]
+        public async Task<IActionResult> AddFeature(EquipFeatureChangeRequest request)
+        {
+            try
+            {
+                await equipService.AddFeatureToEquipment(request.EquipmentId, request.FeatureId);
                 return Ok();
             }
             catch (Exception)
