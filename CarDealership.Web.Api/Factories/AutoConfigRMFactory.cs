@@ -66,23 +66,28 @@ namespace CarDealership.Web.Api.Factories
 
             var configEngineRes = _engineRMFactory.CreateResponse(model.Engine);
 
+            decimal autoModelPrice = model.AutoModel?.Price ?? 0;
+            decimal bodyTypePrice = model.BodyType?.Price ?? 0;
+            decimal driveTypePrice = model.DriveType?.Price ?? 0;
+            decimal colorPrice = model.Color?.Price ?? 0;
+
             var response = new AutoConfigurationResponse(model.Id)
             {
-                Price = model.Price,
+                Price = model.Price + autoModelPrice + bodyTypePrice + driveTypePrice + configEngineRes.Price + colorPrice,
                 AutoModelId = model.AutoModelId,
-                AutoModelName = model.AutoModel?.Name ?? "Неизвестная модель",
-                BrandName = model.AutoModel?.Brand?.Name ?? "Неизвестный бренд", 
+                AutoModelName = model.AutoModel?.Name ?? string.Empty,
+                BrandName = model.AutoModel?.Brand?.Name ?? string.Empty, 
 
                 BodyTypeId = model.BodyTypeId,
-                BodyType = model.BodyType?.Value ?? "Неизвестный тип кузова",
+                BodyType = model.BodyType?.Value ?? string.Empty,
 
                 DriveTypeId = model.DriveTypeId,
-                DriveType = model.DriveType?.Value ?? "Неизвестный тип привода",
+                DriveType = model.DriveType?.Value ?? string.Empty,
 
                 Engine = configEngineRes,
 
                 ColorId = model.ColorId,
-                Color = model.Color?.Value ?? "Неизвестный цвет"                
+                Color = model.Color?.Value ?? string.Empty
             };
 
             return response;

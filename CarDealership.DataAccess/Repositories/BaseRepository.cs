@@ -29,6 +29,7 @@ namespace CarDealership.DataAccess.Repositories
             var entities =  await _dbSet
                 .AsNoTracking()
                 .Where(x => !x.IsDeleted)
+                .OrderBy(x => x.Id)
                 .ToListAsync();
 
             return entities.Select(entity => _factory.CreateModel(entity)).ToList();
@@ -39,6 +40,7 @@ namespace CarDealership.DataAccess.Repositories
             var entities = await _dbSet
                 .AsNoTracking()
                 .Where(x => !x.IsDeleted)
+                .OrderBy(x => x.Id)
                 .ToListAsync();
 
             return entities.Select(entity => _factory.CreateModel(entity)).ToList();
@@ -73,7 +75,8 @@ namespace CarDealership.DataAccess.Repositories
             var entity = await _dbSet.FindAsync(entityId);
             if (entity != null)
             {
-                _dbSet.Remove(entity);
+                entity.IsDeleted = true;
+                //_dbSet.Remove(entity);
             }
             await _context.SaveChangesAsync();
             return entityId;

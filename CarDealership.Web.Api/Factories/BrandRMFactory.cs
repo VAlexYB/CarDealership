@@ -35,7 +35,9 @@ namespace CarDealership.Web.Api.Factories
         {
             var response = new BrandResponse(model.Id)
             {
-                Name = model.Name
+                Name = model.Name,
+                CountryId = model.CountryId,
+                Country = model.Country?.Name ?? string.Empty
             };
             return response;
         }

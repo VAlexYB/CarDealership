@@ -19,12 +19,24 @@ namespace CarDealership.DataAccess.Factories
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+            var carBrandEntity = entity.AutoModel?.Brand;
+            var carEngineTypeEntity = entity.Engine?.EngineType;
+            var carTransmissionTypeEntity = entity.Engine?.TransmissionType;
+
+            var carBrand = carBrandEntity != null ? Brand.Create(
+               carBrandEntity.Id,
+               carBrandEntity.Name,
+               carBrandEntity.CountryId,
+               carBrandEntity.IsDeleted
+           ).Value : null;
+
             var autoModel = entity.AutoModel != null ? AutoModel.Create(
                     entity.AutoModelId,
                     entity.AutoModel.Name,
                     entity.AutoModel.Price,
                     entity.AutoModel.BrandId,
-                    entity.AutoModel.IsDeleted
+                    entity.AutoModel.IsDeleted,
+                    carBrand
             ).Value: null;
 
             var bodyType = entity.BodyType != null ? BodyType.Create(
@@ -43,6 +55,18 @@ namespace CarDealership.DataAccess.Factories
             ).Value : null;
 
 
+            var carEngineType = carEngineTypeEntity != null ? EngineType.Create(
+               carEngineTypeEntity.Id,
+               carEngineTypeEntity.Value,
+               carEngineTypeEntity.IsDeleted
+           ).Value : null;
+
+            var carTransmissionType = carTransmissionTypeEntity != null ? TransmissionType.Create(
+                carTransmissionTypeEntity.Id,
+                carTransmissionTypeEntity.Value,
+                carTransmissionTypeEntity.IsDeleted
+            ).Value : null;
+
             var engine = entity.Engine != null ? Engine.Create(
                 entity.EngineId,
                 entity.Engine.Power,
@@ -50,7 +74,9 @@ namespace CarDealership.DataAccess.Factories
                 entity.Engine.Price,
                 entity.Engine.EngineTypeId,
                 entity.Engine.TransmissionTypeId,
-                entity.Engine.IsDeleted
+                entity.Engine.IsDeleted,
+                carEngineType,
+                carTransmissionType
             ).Value : null;
 
             var color = entity.Color != null ? Color.Create(
