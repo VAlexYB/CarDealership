@@ -243,15 +243,18 @@ th, td {
     width: 40px;
 }
 .col2 {
-    width: 430px;
+    width: 200px;
 }
 .col3 {
-    width: 430px;
+    width: 100px;
 }
 .col4 {
     width: 200px;
 }
 .col5 {
+    width: 560px;
+}
+.col6 {
     width: 130px;
 }
 
@@ -267,7 +270,7 @@ th, td {
     border: 5px solid #a0887e;
     border-radius: 20px;
     border-radius: 10px;
-    width: 400px;
+    width: 430px;
     padding: 20px;
     .x {
 		filter: grayscale(1);
@@ -297,6 +300,15 @@ th, td {
         border-radius: 5px;
         padding: 5px;
         margin: 10px 0 20px 0;
+    }
+    .multiple-select {
+        width: 420px;
+        height: 70px;
+        overflow-y: auto;
+        transition: all 0.3s ease;
+    }
+    .multiple-select:focus {
+        height: 140px;
     }
 }
 

@@ -1,7 +1,44 @@
 document.addEventListener("DOMContentLoaded", async function() {
     await import('../scripts/navbarManager.js');
+    await getBrandModels();
     await getEntities();
 });
+
+const getBrandModels = async () => {
+    const response = await fetch("https://localhost:7243/api/AutoModels/getAll", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    });
+    const entities = await response.json();
+    const brandModelSelect = document.getElementById('brandModel');
+    entities.forEach(entity => {
+        const option = document.createElement('option');
+        option.value = entity.id;
+        option.textContent = entity.brandName + " " + entity.name;
+        brandModelSelect.appendChild(option);
+    })
+}
+
+const getBodyTypes = async () => {
+    const response = await fetch("https://localhost:7243/api/BodyTypes/getAll", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    });
+    const bodyTypes = await response.json();
+    const bodyTypeSelect = document.getElementById('bodyType');
+    bodyTypes.forEach(bodyType => {
+        const option = document.createElement('option');
+        option.value = bodyType.id;
+        option.textContent = bodyType.description;
+        bodyTypeSelect.appendChild(option);
+    })
+}
 
 const getEntities = async () => {
     const response = await fetch("https://localhost:7243/api/AutoConfig/getAll", {

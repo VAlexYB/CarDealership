@@ -54,7 +54,7 @@ const getEntities = async () => {
         const entityCard = entitiesCardTemplate.content.cloneNode(true);
         entityCard.querySelector('#id').textContent = entitiesCount;
         entityCard.querySelector('#nameTable').textContent = entity.name;
-        entityCard.querySelector('#brandTable').textContent = entity.brand;
+        entityCard.querySelector('#brandTable').textContent = entity.brandName;
         entityCard.querySelector('#priceTable').textContent = entity.price + "₽";
         entityCard.querySelector('#actionsTable').innerHTML = `
             <img src="../assets/img/update-icon.png" alt="" class="update-icon-img cursor-pointer">

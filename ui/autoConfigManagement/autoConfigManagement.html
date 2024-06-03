@@ -41,12 +41,20 @@
                                 <div id="dialogTitle" class="dialog-title text-center"></div><br>
                                 <form id="entityForm">
                                     <div>
-                                        <label class="d-block" for="name">????</label>
-                                        <input class="d-block" type="text" name="name" id="name"></input>
-                                        <label class="d-block" for="brand">Бренд</label>
-                                        <select class="d-block" name="brand" id="brand"></select>
+                                        <label class="d-block" for="brandModel">Бренд и модель</label>
+                                        <select class="d-block" name="brandModel" id="brandModel"></select>
+                                        <label class="d-block" for="bodyType">Тип кузова</label>
+                                        <select class="d-block" name="bodyType" id="bodyType"></select>
+                                        <label class="d-block" for="driveType">Тип привода</label>
+                                        <select class="d-block" name="driveType" id="driveType"></select>
+                                        <label class="d-block" for="engine">Двигатель</label>
+                                        <select class="d-block" name="engine" id="engine"></select>
+                                        <label class="d-block" for="color">Цвет</label>
+                                        <select class="d-block" name="color" id="color"></select>
                                         <label class="d-block" for="price">Цена</label>
                                         <input class="d-block" type="number" name="price" id="price" min="0"></input>
+                                        <label class="d-block" for="price">Цена</label>
+                                        <input class="d-block" type="price" name="price" id="price"></input>
                                         <button id="dialogSubmitBtn" class="btn cursor-pointer" type="submit"></button>
                                     </div>
                                 </form>
@@ -58,25 +66,33 @@
                         <thead>
                             <tr>
                                 <th class="col1 text-center">#</th>
-                                <th class="col2">????</th>
-                                <th class="col3">Бренд</th>
-                                <th class="col4">Цена</th>
-                                <th class="col5">Действие</th>
+                                <th class="col2">Бренд</th>
+                                <th class="col3">Модель</th>
+                                <th class="col4">Тип кузова</th>
+                                <th class="col5">Тип привода</th>
+                                <th class="col6">Двигатель</th>
+                                <th class="col7">Цвет</th>
+                                <th class="col8">Цена</th>
+                                <th class="col9">Действие</th>
                             </tr>
                         </thead>
                         <tbody id="entitiesTableBody">
                             <template id="entitiesCardTemplate">
                                 <tr>
                                     <td class="col1" id="id"></td>
-                                    <td class="col2" id="nameTable"></td>
-                                    <td class="col3" id="brandTable"></td>
-                                    <td class="col4" id="priceTable"></td>
-                                    <td class="col5" id="actionsTable"></td>
+                                    <td class="col2" id="brandTable"></td>
+                                    <td class="col3" id="modelTable"></td>
+                                    <td class="col4" id="bodyTypeTable"></td>
+                                    <td class="col5" id="driveTypeTable"></td>
+                                    <td class="col6" id="engineTable"></td>
+                                    <td class="col7" id="colorTable"></td>
+                                    <td class="col8" id="priceTable"></td>
+                                    <td class="col9" id="actionsTable"></td>
                                 </tr>
                             </template>
                             <template id="noEntitiesCardTemplate">
                                 <tr id="entitiesMessage">
-                                    <td colspan="8"></td>
+                                    <td colspan="9"></td>
                                 </tr>
                             </template>
                         </tbody>

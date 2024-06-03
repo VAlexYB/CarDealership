@@ -243,15 +243,27 @@ th, td {
     width: 40px;
 }
 .col2 {
-    width: 430px;
+    width: 130px;
 }
 .col3 {
-    width: 430px;
+    width: 130px;
 }
 .col4 {
-    width: 200px;
+    width: 130px;
 }
 .col5 {
+    width: 130px;
+}
+.col6 {
+    width: 250px;
+}
+.col7 {
+    width: 130px;
+}
+.col8 {
+    width: 130px;
+}
+.col9 {
     width: 130px;
 }
 
