@@ -8,7 +8,7 @@ namespace CarDealership.Web.Api.Contracts.Responses
         public Guid AutoModelId { get; set; }
         public string AutoModelName { get; set; }
         public string BrandName { get; set; }
-
+        public string CountryName { get; set; }
 
         public Guid BodyTypeId { get; set; }
         public string BodyType { get; set; }

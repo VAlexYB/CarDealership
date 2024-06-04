@@ -1,8 +1,9 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Filters;
+using CarDealership.Core.Models;
 
 namespace CarDealership.Core.Abstractions.Repositories
 {
-    public interface IOrdersRepository : IGenericRepository<Order, BaseFilter>
+    public interface IOrdersRepository : IGenericRepository<Order, OrdersFilter>
     {
     }
 }

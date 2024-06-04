@@ -2,6 +2,7 @@
 using CarDealership.Core.Models.Auth;
 using CarDealership.Web.Api.Auth;
 using CarDealership.Web.Api.Contracts.Requests;
+using CarDealership.Web.Api.Contracts.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -58,9 +59,14 @@ namespace CarDealership.Web.Api.Controllers
 
                 await _usersService.AddAsync(user);
                 return Ok();
-            } catch (InvalidOperationException e) 
+            } 
+            catch (InvalidOperationException e) 
             {
                 return StatusCode(404, e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Внутренняя ошибка сервера");
             }
            
         }
@@ -171,7 +177,17 @@ namespace CarDealership.Web.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllMgrs()
         {
-            var response = await _usersService.GetUsersAsync((int)Roles.Manager);
+            var users = await _usersService.GetUsersAsync((int)Roles.Manager);
+            var response = users.Select(u => new UserResponse(u.Id)
+            {
+                UserName = u.UserName,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                MiddleName = u.MiddleName,
+                LastName = u.LastName,
+                PhoneNumber = u.PhoneNumber,
+                CardDigits = $"{u.FirstCardDigits}########{u.LastCardDigits}"
+            }).ToList();
             return Ok(response);
         }
 
@@ -180,7 +196,17 @@ namespace CarDealership.Web.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOnlyUsers()
         {
-            var response = await _usersService.GetUsersAsync((int)Roles.User);
+            var users = await _usersService.GetUsersAsync((int)Roles.User);
+            var response = users.Select(u => new UserResponse(u.Id)
+            {
+                UserName = u.UserName,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                MiddleName = u.MiddleName,
+                LastName = u.LastName,
+                PhoneNumber = u.PhoneNumber,
+                CardDigits = $"{u.FirstCardDigits}########{u.LastCardDigits}"
+            }).ToList();
             return Ok(response);
         }
 
@@ -189,8 +215,28 @@ namespace CarDealership.Web.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var response = await _usersService.GetUsersAsync();
+            var users = await _usersService.GetUsersAsync();
+            var response = users.Select(u => new UserResponse(u.Id)
+            {
+                UserName = u.UserName,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                MiddleName = u.MiddleName,
+                LastName = u.LastName,
+                PhoneNumber = u.PhoneNumber,
+                CardDigits = $"{u.FirstCardDigits}########{u.LastCardDigits}"
+            }).ToList();
             return Ok(response);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [Route("delete/{userId}")]
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid userId)
+        {
+            await _usersService.DeleteAsync(userId);
+            return Ok();
         }
     }
 }

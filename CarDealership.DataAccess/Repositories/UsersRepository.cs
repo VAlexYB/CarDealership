@@ -18,13 +18,22 @@ namespace CarDealership.DataAccess.Repositories
 
         public async Task AddAsync(User user)
         {
-            var existUserEmail = await GetByEmailAsync(user.Email);
+            var existUserEmail = await _context.Users
+                .AsNoTracking()
+                .Include(u => u.Roles)
+                .Where(u => !u.IsDeleted)
+                .FirstOrDefaultAsync(u => u.Email == user.Email);
+
             if (existUserEmail != null)
             {
                 throw new InvalidOperationException("В системе уже используется такая почта");
             }
 
-            var existUserName = await GetByUsernameAsync(user.UserName);
+            var existUserName = await _context.Users
+                .AsNoTracking()
+                .Include(u => u.Roles)
+                .Where(u => !u.IsDeleted)
+                .FirstOrDefaultAsync(u => u.UserName == user.UserName);
 
             if (existUserName != null)
             {
@@ -184,6 +193,13 @@ namespace CarDealership.DataAccess.Repositories
                 }
             }
 
+            var rolesToRemove = existUser.Roles.Where(ur => !user.Roles.Any(r => r.Id == ur.Id)).ToList();
+            foreach (var role in rolesToRemove)
+            {
+                existUser.Roles.Remove(role);
+                role.Users.Remove(existUser);
+            }
+
             await _context.SaveChangesAsync();
             return user.Id;
         }
@@ -233,6 +249,14 @@ namespace CarDealership.DataAccess.Repositories
             }
             await _context.SaveChangesAsync(); 
             return userId;
+        }
+
+        public async Task<bool> ExistsAsync(Guid userId)
+        {
+            return await _context
+                .Users
+                .AsNoTracking()
+                .AnyAsync(u => u.Id == userId);
         }
     }
 }

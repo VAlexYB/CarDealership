@@ -87,7 +87,9 @@ namespace CarDealership.Web.Api.Factories
                 Price = model.Price + autoModelPrice + bodyTypePrice + driveTypePrice + configEngineRes.Price + colorPrice + equipmentPrice,
                 AutoModelId = model.AutoModelId,
                 AutoModelName = model.AutoModel?.Name ?? string.Empty,
-                BrandName = model.AutoModel?.Brand?.Name ?? string.Empty, 
+               
+                BrandName = model.AutoModel?.Brand?.Name ?? string.Empty,
+                CountryName = model.AutoModel?.Brand?.Country?.Name ?? string.Empty,
 
                 BodyTypeId = model.BodyTypeId,
                 BodyType = model.BodyType?.Value ?? string.Empty,

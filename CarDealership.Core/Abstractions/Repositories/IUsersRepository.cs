@@ -11,5 +11,6 @@ namespace CarDealership.Core.Abstractions.Repositories
         Task<Guid> UpdateAsync(User user);
         Task<List<User>> GetUsersAsync(int? roleId = null);
         Task<Guid> DeleteAsync(Guid userId);
+        Task<bool> ExistsAsync(Guid entityId);
     }
 }

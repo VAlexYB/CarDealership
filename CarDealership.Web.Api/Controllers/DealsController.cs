@@ -1,6 +1,7 @@
 ﻿using CarDealership.Application.Services;
 using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Enums;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    public class DealsController : BaseController<Deal, BaseFilter, DealRequest, DealResponse>
+    public class DealsController : BaseController<Deal, DealsFilter, DealRequest, DealResponse>
     {
         private readonly IDealsService _dealsService;
         public DealsController(IDealsService service, IDealRMFactory factory) : base(service, factory)

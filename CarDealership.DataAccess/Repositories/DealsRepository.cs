@@ -1,11 +1,14 @@
 ﻿using CarDealership.Core.Abstractions.Repositories;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
+using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.DataAccess.Repositories
 {
-    public class DealsRepository : BaseRepository<Deal, DealEntity, BaseFilter>, IDealsRepository
+    public class DealsRepository : BaseRepository<Deal, DealEntity, DealsFilter>, IDealsRepository
     {
         public DealsRepository(CarDealershipDbContext context, IEntityModelFactory<Deal, DealEntity> factory) : base(context, factory)
         {
@@ -34,6 +37,20 @@ namespace CarDealership.DataAccess.Repositories
             }
             await _context.SaveChangesAsync();
             return existEntity.Id;
+        }
+
+        public override async Task<List<Deal>> GetFilteredAsync(DealsFilter filter)
+        {
+            var entities = await _dbSet
+                .AsNoTracking()
+                .Where(d => !d.IsDeleted)
+                .WhereIf(filter.CustomerId.HasValue, d => d.CustomerId == filter.CustomerId)
+                .WhereIf(filter.ManagerId.HasValue, d => d.ManagerId == filter.ManagerId)
+                .WhereIf(filter.DealStatus.HasValue, d => d.Status == filter.DealStatus)
+                .OrderBy(x => x.Id)
+                .ToListAsync();
+
+            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
     }
 }

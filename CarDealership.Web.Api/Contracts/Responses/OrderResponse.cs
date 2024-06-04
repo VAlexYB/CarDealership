@@ -1,5 +1,4 @@
-﻿
-using CarDealership.Core.Enums;
+﻿using CarDealership.Core.Enums;
 using CarDealership.DataAccess.Entities.Auth;
 using CarDealership.DataAccess.Entities;
 
