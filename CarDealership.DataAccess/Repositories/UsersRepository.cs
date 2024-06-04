@@ -1,6 +1,7 @@
 ﻿using CarDealership.Core.Abstractions.Repositories;
 using CarDealership.Core.Models.Auth;
 using CarDealership.DataAccess.Entities.Auth;
+using CarDealership.DataAccess.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.DataAccess.Repositories
@@ -17,6 +18,19 @@ namespace CarDealership.DataAccess.Repositories
 
         public async Task AddAsync(User user)
         {
+            var existUserEmail = await GetByEmailAsync(user.Email);
+            if (existUserEmail != null)
+            {
+                throw new InvalidOperationException("В системе уже используется такая почта");
+            }
+
+            var existUserName = await GetByUsernameAsync(user.UserName);
+
+            if (existUserName != null)
+            {
+                throw new InvalidOperationException("В системе уже используется такой логин");
+            }
+
             var userEntity = new UserEntity
             {
                 Id = user.Id,
@@ -53,6 +67,8 @@ namespace CarDealership.DataAccess.Repositories
                 .Include(u => u.Roles)
                 .Where(u => !u.IsDeleted)
                 .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (userEntity == null) throw new InvalidOperationException("Не найден пользователь с таким Email");
 
             var user = userEntity != null ? User.Create(
                 userEntity.Id,
@@ -113,6 +129,8 @@ namespace CarDealership.DataAccess.Repositories
                 .Where(u => !u.IsDeleted)
                 .FirstOrDefaultAsync(u => u.UserName == username);
 
+            if (userEntity == null) throw new InvalidOperationException("Не найден пользователь с таким Username");
+                
             var user = userEntity != null ? User.Create(
                 userEntity.Id,
                 userEntity.UserName,
@@ -168,6 +186,53 @@ namespace CarDealership.DataAccess.Repositories
 
             await _context.SaveChangesAsync();
             return user.Id;
+        }
+
+
+        public async Task<List<User>> GetUsersAsync(int? roleId = null)
+        {
+            var entities = await _context.Users
+                .AsNoTracking()
+                .Where(u => !u.IsDeleted)
+                .WhereIf(roleId.HasValue, u => u.Roles.Any(r => r.Id == roleId))
+                .OrderBy(u => u.Id)
+                .ToListAsync();
+
+            var users = new List<User>();
+
+            foreach (var userEntity in entities)
+            {
+                var tempUser = userEntity != null ? User.Create(
+                    userEntity.Id,
+                    userEntity.UserName,
+                    userEntity.Email,
+                    userEntity.PasswordHash,
+                    userEntity.FirstName,
+                    userEntity.MiddleName,
+                    userEntity.LastName,
+                    userEntity.PhoneNumber,
+                    userEntity.FirstCardDigits,
+                    userEntity.LastCardDigits
+                ).Value : null;
+
+                if(tempUser != null)
+                {
+                    users.Add(tempUser);
+                }
+            }
+
+            return users;
+        }
+
+        public async Task<Guid> DeleteAsync(Guid userId)
+        {
+            var userEntity = await _context.Users.FindAsync(userId);
+            if (userEntity != null)
+            {
+                userEntity.IsDeleted = true;
+            }
+            await _context.SaveChangesAsync(); 
+            return userId;
         }
     }
 }

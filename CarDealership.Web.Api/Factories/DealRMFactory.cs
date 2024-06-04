@@ -26,11 +26,13 @@ namespace CarDealership.Web.Api.Factories
             var manager = req.ManagerId != null ? await _usersService.GetByIdAsync((Guid)req.ManagerId) ?? throw new ArgumentException($"Менеджер с Id = {req.ManagerId} не найден") : null;
             var customer = await _usersService.GetByIdAsync(req.CustomerId) ?? throw new ArgumentNullException($"Покупатель с Id = {req.CustomerId} не найден");
             var car = await _carsService.GetByIdAsync(req.CarId) ?? throw new ArgumentNullException($"Автомобиль с Id = {req.CarId} не найден");
+            var dealPrice = car.AutoConfiguration.Price;
 
             var dealCreateResult = Deal.Create(
                 req.Id,
                 req.DealDate,
                 req.Status,
+                dealPrice,
                 req.CarId,
                 req.ManagerId,
                 req.CustomerId,
@@ -64,6 +66,7 @@ namespace CarDealership.Web.Api.Factories
             {
                 DealDate = model.DealDate,
                 Status = model.Status.ToString(),
+                Price = model.Price,
                 CarId = model.CarId,
                 Car = _carRMFactory.CreateResponse(model.Car),
                 ManagerId = model.ManagerId,

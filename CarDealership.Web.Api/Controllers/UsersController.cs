@@ -4,6 +4,7 @@ using CarDealership.Web.Api.Auth;
 using CarDealership.Web.Api.Contracts.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace CarDealership.Web.Api.Controllers
 {
@@ -26,35 +27,42 @@ namespace CarDealership.Web.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
         {
-            var hashedPassword = _passwordHasher.Generate(request.Password);
-
-            var userCreateResult = CarDealership.Core.Models.Auth.User.Create(
-                request.Id,
-                request.UserName,
-                request.Email,
-                hashedPassword,
-                request.FirstName,
-                request.MiddleName,
-                request.LastName,
-                request.PhoneNumber,
-                request.FirstCardDigits,
-                request.LastCardDigits
-            );
-
-
-            if (userCreateResult.IsFailure)
+            try
             {
-                return BadRequest(userCreateResult.Error);
+                var hashedPassword = _passwordHasher.Generate(request.Password);
+
+                var userCreateResult = CarDealership.Core.Models.Auth.User.Create(
+                    request.Id,
+                    request.UserName,
+                    request.Email,
+                    hashedPassword,
+                    request.FirstName,
+                    request.MiddleName,
+                    request.LastName,
+                    request.PhoneNumber,
+                    request.FirstCardDigits,
+                    request.LastCardDigits
+                );
+
+
+                if (userCreateResult.IsFailure)
+                {
+                    return BadRequest(userCreateResult.Error);
+                }
+
+                var user = userCreateResult.Value;
+
+                var role = await _rolesService.GetByIdAsync((int)Roles.Admin);
+                user.AddRole(role);
+
+
+                await _usersService.AddAsync(user);
+                return Ok();
+            } catch (InvalidOperationException e) 
+            {
+                return StatusCode(404, e.Message);
             }
-
-            var user = userCreateResult.Value;
-            
-            var role = await _rolesService.GetByIdAsync((int)Roles.Admin);
-            user.AddRole(role);
-            
-
-            await _usersService.AddAsync(user);
-            return Ok();
+           
         }
 
 
@@ -63,35 +71,42 @@ namespace CarDealership.Web.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> AddManager([FromBody] RegistrationRequest request)
         {
-            var hashedPassword = _passwordHasher.Generate(request.Password);
-
-            var userCreateResult = CarDealership.Core.Models.Auth.User.Create(
-                request.Id,
-                request.UserName,
-                request.Email,
-                hashedPassword,
-                request.FirstName,
-                request.MiddleName,
-                request.LastName,
-                request.PhoneNumber,
-                request.FirstCardDigits,
-                request.LastCardDigits
-            );
-
-
-            if (userCreateResult.IsFailure)
+            try
             {
-                return BadRequest(userCreateResult.Error);
+                var hashedPassword = _passwordHasher.Generate(request.Password);
+
+                var userCreateResult = CarDealership.Core.Models.Auth.User.Create(
+                    request.Id,
+                    request.UserName,
+                    request.Email,
+                    hashedPassword,
+                    request.FirstName,
+                    request.MiddleName,
+                    request.LastName,
+                    request.PhoneNumber,
+                    request.FirstCardDigits,
+                    request.LastCardDigits
+                );
+
+
+                if (userCreateResult.IsFailure)
+                {
+                    return BadRequest(userCreateResult.Error);
+                }
+
+                var user = userCreateResult.Value;
+
+                var role = await _rolesService.GetByIdAsync((int)Roles.Manager);
+                user.AddRole(role);
+
+
+                await _usersService.AddAsync(user);
+                return Ok();
+            } catch (InvalidOperationException e)
+            {
+                return StatusCode(404, e.Message);
             }
-
-            var user = userCreateResult.Value;
-
-            var role = await _rolesService.GetByIdAsync((int)Roles.Manager);
-            user.AddRole(role);
-
-
-            await _usersService.AddAsync(user);
-            return Ok();
+            
         }
 
         [Authorize(Roles = "Admin")]
@@ -99,7 +114,27 @@ namespace CarDealership.Web.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> AssignSenior(Guid mgrId)
         {
-            await _usersService.AssignSenior(mgrId);
+            try
+            {
+                await _usersService.AssignSenior(mgrId);
+                return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(404, e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, "Внутренняя ошибка сервера");
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("suspendSenior/{mgrId}")]
+        [HttpGet]
+        public async Task<IActionResult> SuspendSenior(Guid mgrId)
+        {
+            await _usersService.SuspendSenior(mgrId);
             return Ok();
         }
 
@@ -107,9 +142,20 @@ namespace CarDealership.Web.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var token = await _usersService.Login(request.Identifier, request.Password);
-            HttpContext.Response.Cookies.Append("altertroublesuckykey", token);
-            return Ok();
+            try
+            {
+                var token = await _usersService.Login(request.Identifier, request.Password);
+                HttpContext.Response.Cookies.Append("altertroublesuckykey", token);
+                return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(404, e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, "Внутренняя ошибка сервера");
+            }
         }
 
         [Route("logout")]
@@ -118,6 +164,33 @@ namespace CarDealership.Web.Api.Controllers
         {
             HttpContext.Response.Cookies.Delete("altertroublesuckykey");
             return Ok();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("getMgrs")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllMgrs()
+        {
+            var response = await _usersService.GetUsersAsync((int)Roles.Manager);
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("getUsers")]
+        [HttpGet]
+        public async Task<IActionResult> GetOnlyUsers()
+        {
+            var response = await _usersService.GetUsersAsync((int)Roles.User);
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("getAll")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var response = await _usersService.GetUsersAsync();
+            return Ok(response);
         }
     }
 }

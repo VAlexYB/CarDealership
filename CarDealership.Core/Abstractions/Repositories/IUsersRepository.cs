@@ -9,5 +9,7 @@ namespace CarDealership.Core.Abstractions.Repositories
         Task<User> GetByUsernameAsync(string username);
         Task<User> GetByIdAsync(Guid id);
         Task<Guid> UpdateAsync(User user);
+        Task<List<User>> GetUsersAsync(int? roleId = null);
+        Task<Guid> DeleteAsync(Guid userId);
     }
 }

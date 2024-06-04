@@ -8,5 +8,6 @@
         public Guid DriveTypeId { get; set; }
         public Guid EngineId { get; set; }
         public Guid ColorId { get; set; }
+        public Guid EquipmentId { get; set; }
     }
 }

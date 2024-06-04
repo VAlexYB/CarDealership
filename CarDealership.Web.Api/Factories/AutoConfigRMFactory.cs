@@ -13,22 +13,29 @@ namespace CarDealership.Web.Api.Factories
         private readonly IDriveTypesService _driveTypesService;
         private readonly IEnginesService _enginesService;
         private readonly IColorsService _colorsService;
+        private readonly IEquipmentsService _equipmentsService;
 
         private readonly IEngineRMFactory _engineRMFactory;
+        private readonly IEquipmentRMFactory _equipmentRMFactory;
         public AutoConfigRMFactory(
             IAutoModelsService autoModelsService,
             IBodyTypesService bodyTypesService,
             IDriveTypesService driveTypesService,
             IEnginesService enginesService,
             IColorsService colorsService,
-            IEngineRMFactory engineRMFactory) 
+            IEquipmentsService equipmentsService,
+            IEngineRMFactory engineRMFactory,
+            IEquipmentRMFactory equipmentRMFactory) 
         { 
             _autoModelsService = autoModelsService ?? throw new ArgumentNullException(nameof(autoModelsService));
             _bodyTypesService = bodyTypesService ?? throw new ArgumentNullException(nameof(bodyTypesService));
             _driveTypesService = driveTypesService ?? throw new ArgumentNullException(nameof(driveTypesService));
             _enginesService = enginesService ?? throw new ArgumentNullException(nameof(enginesService));
             _colorsService = colorsService ?? throw new ArgumentNullException(nameof(colorsService));
+            _equipmentsService = equipmentsService ?? throw new ArgumentNullException(nameof(equipmentsService));
+
             _engineRMFactory = engineRMFactory ?? throw new ArgumentNullException(nameof(engineRMFactory));
+            _equipmentRMFactory = equipmentRMFactory ?? throw new ArgumentNullException(nameof(equipmentRMFactory));
         }
 
         public async Task<AutoConfiguration> CreateModelAsync(AutoConfigurationRequest req)
@@ -40,11 +47,12 @@ namespace CarDealership.Web.Api.Factories
             var driveType = await _driveTypesService.GetByIdAsync(req.DriveTypeId) ?? throw new ArgumentException($"Привод с Id = {req.DriveTypeId} не найден");
             var engineType = await _enginesService.GetByIdAsync(req.EngineId) ?? throw new ArgumentException($"Двигатель с Id = {req.EngineId} не найден");
             var color = await _colorsService.GetByIdAsync(req.ColorId) ?? throw new ArgumentException($"Цвет покраски авто с Id = {req.ColorId} не найден");
+            var equipment = await _equipmentsService.GetByIdAsync(req.EquipmentId) ?? throw new ArgumentException($"Комплектация с Id = {req.EquipmentId} не найден");
 
             var configCreateResult = AutoConfiguration.Create(
                 req.Id, req.Price, req.AutoModelId, req.BodyTypeId, 
-                req.DriveTypeId, req.EngineId, req.ColorId, false,
-                autoModel, bodyType, driveType, engineType, color);
+                req.DriveTypeId, req.EngineId, req.ColorId, req.EquipmentId, false,
+                autoModel, bodyType, driveType, engineType, color, equipment);
 
             if (configCreateResult.IsFailure)
             {
@@ -57,6 +65,7 @@ namespace CarDealership.Web.Api.Factories
             driveType.AddConfiguration(autoConfig);
             engineType.AddConfiguration(autoConfig);
             color.AddConfiguration(autoConfig);
+            equipment.AddConfiguration(autoConfig);
             return autoConfig;
         }
 
@@ -65,15 +74,17 @@ namespace CarDealership.Web.Api.Factories
             if(model == null) throw new ArgumentNullException(nameof(model));
 
             var configEngineRes = _engineRMFactory.CreateResponse(model.Engine);
+            var configEquipRes = _equipmentRMFactory.CreateResponse(model.Equipment);
 
             decimal autoModelPrice = model.AutoModel?.Price ?? 0;
             decimal bodyTypePrice = model.BodyType?.Price ?? 0;
             decimal driveTypePrice = model.DriveType?.Price ?? 0;
             decimal colorPrice = model.Color?.Price ?? 0;
+            decimal equipmentPrice = model.Equipment?.Price ?? 0;
 
             var response = new AutoConfigurationResponse(model.Id)
             {
-                Price = model.Price + autoModelPrice + bodyTypePrice + driveTypePrice + configEngineRes.Price + colorPrice,
+                Price = model.Price + autoModelPrice + bodyTypePrice + driveTypePrice + configEngineRes.Price + colorPrice + equipmentPrice,
                 AutoModelId = model.AutoModelId,
                 AutoModelName = model.AutoModel?.Name ?? string.Empty,
                 BrandName = model.AutoModel?.Brand?.Name ?? string.Empty, 
@@ -87,7 +98,10 @@ namespace CarDealership.Web.Api.Factories
                 Engine = configEngineRes,
 
                 ColorId = model.ColorId,
-                Color = model.Color?.Value ?? string.Empty
+                Color = model.Color?.Value ?? string.Empty,
+
+                EquipmentId = model.EquipmentId,
+                Equipment = configEquipRes
             };
 
             return response;

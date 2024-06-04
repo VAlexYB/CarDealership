@@ -6,6 +6,13 @@ namespace CarDealership.DataAccess.Factories
 {
     public class CarEMFactory : IEntityModelFactory<Car, CarEntity>
     {
+        private readonly IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> _equipmentFeatureEMFactory;
+
+        public CarEMFactory(IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> equipmentFeatureEMFactory)
+        {
+            _equipmentFeatureEMFactory = equipmentFeatureEMFactory;
+        }
+
         public CarEntity CreateEntity(Car model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
@@ -33,6 +40,7 @@ namespace CarDealership.DataAccess.Factories
             var carTransmissionTypeEntity = entity.AutoConfiguration?.Engine?.TransmissionType;
             var carEngineEntity = entity.AutoConfiguration?.Engine;
             var carColorEntity = entity.AutoConfiguration?.Color;
+            var carEquipmentEntity = entity.AutoConfiguration?.Equipment;
 
             var carBrand = carBrandEntity != null ? Brand.Create(
                 carBrandEntity.Id,
@@ -96,6 +104,25 @@ namespace CarDealership.DataAccess.Factories
                 carColorEntity.IsDeleted
             ).Value : null;
 
+            var carEquipment = carEquipmentEntity != null ? Equipment.Create(
+               carEquipmentEntity.Id,
+               carEquipmentEntity.Name,
+               carEquipmentEntity.Price,
+               carEquipmentEntity.ReleaseYear,
+               carEquipmentEntity.AutoModelId,
+               carEquipmentEntity.IsDeleted,
+               carModel
+           ).Value : null;
+
+            if (carEquipment != null)
+            {
+                foreach (var featureEntity in carEquipmentEntity.equipmentFeatures)
+                {
+                    var featureModel = _equipmentFeatureEMFactory.CreateModel(featureEntity);
+                    carEquipment.AddEquipmentFeature(featureModel);
+                }
+            }
+
             var autoConfigModel = entity.AutoConfiguration != null ? AutoConfiguration.Create(
                 entity.AutoConfigurationId,
                 entity.AutoConfiguration.Price,
@@ -104,12 +131,14 @@ namespace CarDealership.DataAccess.Factories
                 entity.AutoConfiguration.DriveTypeId,
                 entity.AutoConfiguration.EngineId,
                 entity.AutoConfiguration.ColorId,
+                entity.AutoConfiguration.EquipmentId,
                 entity.AutoConfiguration.IsDeleted,
                 carModel,
                 carBodyType,
                 carDriveType,
                 carEngine,
-                carColor
+                carColor,
+                carEquipment
             ).Value : null;
 
             var carCreateResult = Car.Create(

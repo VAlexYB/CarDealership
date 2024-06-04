@@ -17,7 +17,10 @@
         public virtual EngineEntity? Engine { get; set; }
 
         public Guid ColorId { get; set; }
-        public virtual ColorEntity? Color { get; set;}
+        public virtual ColorEntity? Color { get; set; }
+
+        public Guid EquipmentId { get; set; }
+        public virtual EquipmentEntity? Equipment { get; set; }
 
         public virtual List<CarEntity> Cars { get; set; } = [];
     }

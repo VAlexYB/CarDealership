@@ -7,6 +7,7 @@ namespace CarDealership.DataAccess.Entities
     {
         public DateTime DealDate { get; set; }
         public DealStatus Status { get; set; }
+        public decimal Price { get; set; }
         public Guid CarId { get; set; }
         public virtual CarEntity Car { get; set; }
 

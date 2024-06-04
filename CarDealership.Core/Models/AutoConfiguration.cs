@@ -23,11 +23,14 @@ namespace CarDealership.Core.Models
         public Guid ColorId { get; }
         public Color? Color { get; }
 
+        public Guid EquipmentId { get; set; }
+        public  Equipment? Equipment { get; set; }
+
         private readonly List<Car> cars = new List<Car>();
         public IReadOnlyCollection<Car> Cars => cars.AsReadOnly();
 
-        private AutoConfiguration(Guid id, decimal price, Guid autoModelId,  Guid bodyTypeId,  Guid driveTypeId, Guid engineId, Guid colorId,
-            bool isDeleted, AutoModel? autoModel, BodyType? bodyType, DriveType? driveType, Engine? engine, Color? color) : base(id)
+        private AutoConfiguration(Guid id, decimal price, Guid autoModelId,  Guid bodyTypeId,  Guid driveTypeId, Guid engineId, Guid colorId, Guid equipmentId,
+            bool isDeleted, AutoModel? autoModel, BodyType? bodyType, DriveType? driveType, Engine? engine, Color? color, Equipment? equipment) : base(id)
         {
             Price = price;
             AutoModelId = autoModelId;
@@ -35,12 +38,14 @@ namespace CarDealership.Core.Models
             DriveTypeId = driveTypeId;
             EngineId = engineId;
             ColorId = colorId;
+            EquipmentId = equipmentId;
             IsDeleted = isDeleted;
             AutoModel = autoModel;
             BodyType = bodyType;
             DriveType = driveType;
             Engine = engine;
             Color = color;
+            Equipment = equipment;
         }
 
         public void AddCar(Car car)
@@ -49,8 +54,9 @@ namespace CarDealership.Core.Models
             cars.Add(car);
         }
 
-        public static Result<AutoConfiguration> Create(Guid id, decimal price, Guid autoModelId, Guid bodyTypeId, Guid driveTypeId, Guid engineId, Guid colorId,
-            bool isDeleted = false, AutoModel? autoModel = null, BodyType? bodyType = null, DriveType? driveType = null, Engine? engine = null, Color? color = null)
+        public static Result<AutoConfiguration> Create(Guid id, decimal price, Guid autoModelId, Guid bodyTypeId, Guid driveTypeId,
+            Guid engineId, Guid colorId, Guid equipmentId,  bool isDeleted = false, AutoModel? autoModel = null, BodyType? bodyType = null, 
+            DriveType? driveType = null, Engine? engine = null, Color? color = null, Equipment? equipment = null)
         {
             var errorBuilder = new StringBuilder();
 
@@ -84,13 +90,18 @@ namespace CarDealership.Core.Models
                 errorBuilder.Append("ColorId не должен быть пустым. ");
             }
 
+            if(equipmentId == Guid.Empty)
+            {
+                errorBuilder.Append("EquipmentId не должен быть пустым. ");
+            }
+
             if (errorBuilder.Length > 0)
             {
                 return Result.Failure<AutoConfiguration>(errorBuilder.ToString().Trim());
             }
 
-            var autoConfiguration = new AutoConfiguration(id, price, autoModelId, bodyTypeId, driveTypeId, engineId, colorId,
-             isDeleted, autoModel, bodyType, driveType, engine, color);
+            var autoConfiguration = new AutoConfiguration(id, price, autoModelId, bodyTypeId, driveTypeId, engineId, colorId, equipmentId,
+             isDeleted, autoModel, bodyType, driveType, engine, color, equipment);
 
             return Result.Success(autoConfiguration);
         }

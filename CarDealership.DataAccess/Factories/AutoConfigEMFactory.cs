@@ -7,11 +7,14 @@ namespace CarDealership.DataAccess.Factories
     public class AutoConfigEMFactory : IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity>
     {
         private readonly IEntityModelFactory<Car, CarEntity> _carEMFactory;
+        private readonly IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> _equipmentFeatureEMFactory;
         public AutoConfigEMFactory(
-            IEntityModelFactory<Car, CarEntity> carEMFactory
+            IEntityModelFactory<Car, CarEntity> carEMFactory,
+            IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> equipmentFeatureEMFactory
         )
         {
             _carEMFactory = carEMFactory ?? throw new ArgumentNullException(nameof(carEMFactory));
+            _equipmentFeatureEMFactory = equipmentFeatureEMFactory ?? throw new ArgumentNullException(nameof(equipmentFeatureEMFactory));
 
         }
 
@@ -86,6 +89,25 @@ namespace CarDealership.DataAccess.Factories
                 entity.Color.IsDeleted
             ).Value : null;
 
+            var equipment = entity.Equipment != null ? Equipment.Create(
+                entity.EquipmentId,
+                entity.Equipment.Name,
+                entity.Equipment.Price,
+                entity.Equipment.ReleaseYear,
+                entity.Equipment.AutoModelId,
+                entity.Equipment.IsDeleted,
+                autoModel
+            ).Value : null;
+
+            if(equipment != null)
+            {
+                foreach ( var featureEntity in entity.Equipment.equipmentFeatures) 
+                {
+                    var featureModel = _equipmentFeatureEMFactory.CreateModel(featureEntity);
+                    equipment.AddEquipmentFeature(featureModel);
+                }
+            }
+
             var autoConfigurationResult = AutoConfiguration.Create(
                 entity.Id,
                 entity.Price,
@@ -94,12 +116,14 @@ namespace CarDealership.DataAccess.Factories
                 entity.DriveTypeId,
                 entity.EngineId,
                 entity.ColorId,
+                entity.EquipmentId,
                 entity.IsDeleted,
                 autoModel,
                 bodyType,
                 driveType,
                 engine,
-                color
+                color,
+                equipment
             );
 
             if (autoConfigurationResult.IsFailure)
@@ -132,6 +156,7 @@ namespace CarDealership.DataAccess.Factories
                 DriveTypeId = model.DriveTypeId,
                 EngineId = model.EngineId,
                 ColorId = model.ColorId,
+                EquipmentId = model.EquipmentId,
                 IsDeleted = model.IsDeleted,
                 Cars = carEntities
             };

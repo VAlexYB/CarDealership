@@ -28,5 +28,21 @@ namespace CarDealership.DataAccess.Repositories
             _equipFeaturesSet.Remove(equipFeature);
             await _context.SaveChangesAsync();
         }
+
+        public override async Task<Guid> UpdateAsync(Equipment model)
+        {
+            var entity = _factory.CreateEntity(model);
+            var existEntity = await _dbSet.FindAsync(entity.Id);
+
+            if (existEntity == null) throw new InvalidOperationException();
+            _context.Entry(existEntity).CurrentValues.SetValues(entity);
+            if (existEntity.AutoModelId != entity.AutoModelId)
+            {
+                existEntity.AutoModelId = entity.AutoModelId;
+            }
+
+            await _context.SaveChangesAsync();
+            return existEntity.Id;
+        }
     }
 }

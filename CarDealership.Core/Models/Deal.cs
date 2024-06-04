@@ -9,6 +9,8 @@ namespace CarDealership.Core.Models
     {
         public DateTime DealDate { get; }
         public DealStatus Status { get; }
+
+        public decimal Price { get; }
         public Guid CarId { get; }
         public virtual Car Car { get; }
 
@@ -18,11 +20,12 @@ namespace CarDealership.Core.Models
         public Guid CustomerId { get; set; }
         public virtual User Customer { get; set; }
 
-        private Deal(Guid id, DateTime dealDate, DealStatus status, Guid carId, Guid? managerId, Guid customerId,
+        private Deal(Guid id, DateTime dealDate, DealStatus status, decimal price,  Guid carId, Guid? managerId, Guid customerId,
             bool isDeleted, Car car, User manager, User customer) : base(id)
         {
             DealDate = dealDate;
             Status = status;
+            Price = price;
             CarId = carId;
             ManagerId = managerId;
             CustomerId = customerId;
@@ -32,7 +35,7 @@ namespace CarDealership.Core.Models
             Customer = customer;
         }
 
-        public static Result<Deal> Create(Guid id, DateTime dealDate, DealStatus status, Guid carId, Guid? managerId, Guid customerId,
+        public static Result<Deal> Create(Guid id, DateTime dealDate, DealStatus status, decimal price, Guid carId, Guid? managerId, Guid customerId,
             bool isDeleted = false, Car car = null, User manager = null, User customer = null)
         {
             var errorBuilder = new StringBuilder();
@@ -42,12 +45,17 @@ namespace CarDealership.Core.Models
                 errorBuilder.Append("CarId не должен быть пустым. ");
             }
 
+            if(price <= 0)
+            {
+                errorBuilder.Append("Стоимость сделки не может быть меньше или равно 0. ");
+            }
+
             if (errorBuilder.Length > 0)
             {
                 return Result.Failure<Deal>(errorBuilder.ToString().Trim());
             }
 
-            var deal = new Deal(id, dealDate, status, carId, managerId, customerId,
+            var deal = new Deal(id, dealDate, status, price, carId, managerId, customerId,
                 isDeleted, car, manager, customer);
 
             return Result.Success<Deal>(deal);
