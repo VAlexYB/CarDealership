@@ -2,9 +2,17 @@ const navbar = document.getElementById('navbar')
 
 navbar.innerHTML = `
     <ul class="nav__list">
-        <li class="nav__item"><a href="../catalog/catalog.html">Автомобили в наличии</a></li>
-        <li class="nav__item"><a href="../configurator/configurator.html">Конфигатор</a></li>
-        <li class="nav__item" style="position: absolute; margin-left: 1400px">
+        <li class="nav__item"><a href="../brandsManagement/brandsManagement.html">Бренды</a></li>
+        <li class="nav__item"><a href="../modelsManagement/modelsManagement.html">Модели</a></li>
+        <li class="nav__item"><a href="../equipmentsManagement/equipmentsManagement.html">Комплектации</a></li>
+        <li class="nav__item"><a href="../featuresManagement/featuresManagement.html">Особенности<br>комплектаций</a></li>
+        <li class="nav__item"><a href="../enginesManagement/enginesManagement.html">Двигатели</a></li>
+        <li class="nav__item"><a href="../colorsManagement/colorsManagement.html">Цвета</a></li>
+        <li class="nav__item"><a href="../autoConfigManagement/autoConfigManagement.html">Конфигурации</a></li>
+        <li class="nav__item"><a href="../carsManagement/carsManagement.html">Машины</a></li>
+        <li class="nav__item"><a href="../ordersManagement/ordersManagement.html">Заказы</a></li>
+        <li class="nav__item"><a href="../dealsManagement/dealsManagement.html">Сделки</a></li>
+        <li class="nav__item">
             <button class="btn__reset nav__iconLog">
                 <a href="../login/login.html">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36" viewBox="0 0 36 36">

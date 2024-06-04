@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&family=Russo+One&display=swap"
         rel="stylesheet">
-    <title>CarDealership</title>
+    <title>Каталог</title>
     <link rel="stylesheet" href="catalog.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -31,456 +31,156 @@
             </div>
         </header>
         <main class="main">
-            <section class="catalog" id="catalog">
-                <div class="custom_container">
-                    <div class="catalog__body">
-                        <div class="catalog__top">
-                            <div class="catalog__titles">
-                                <div class="catalog__title">Автомобили в наличии <span>CarDealership</span></div>
-                                <div class="catalog__subtitle">
-                                    В нашем интернет-магазине вы найдете различные модели машин
+            <div style="margin-bottom: 40px;">
+                <div class="catalog-titles">
+                    <div class="catalog-title">Автомобили в наличии</div>
+                </div>
+                <div class="d-flex justify-content-center" style="margin: 0 250px; width: 1500px;">
+                    <div style="width: 270px; border: 5px solid #e0e0e0; border-radius: 10px; height: 500px;">
+                        Некая фильтрация?
+                    </div>
+                    <div id="catalog" class="d-flex catalog custom-width" style="width: 100%; overflow-y: auto; flex-wrap: wrap;">
+                        <template id="carCardTemplate">
+                            <a class="car-card cursor-pointer">
+                                <div>
+                                    <div class="car-name"><span id="carCatalogBrand"><b></b></span> <span id="carCatalogModel"></span> <span id="carCatalogBodyType"></span></div>
+                                    <div class="car-equipment"><span id="carCatalogEquipmentName"></span> <span id="carCatalogReleaseYear"></span></div>
                                 </div>
-                                <div class="catalog__btn">
-                                    <button class="btn__reset btn">Показать / скрыть меню</button>
+                                <img alt="">
+                                <div class="car-price" id="carCatalogPrice"><img src="../assets/img/valute.png" alt="" class="car__valute"></div>
+                                <hr>
+                                <div class="d-flex justify-content-between car-techs">
+                                    <div class="car-tech"></div>
+                                    <div class="car-tech"></div>
                                 </div>
+                                <hr>
+                                <button class="car-btn text-center d-none" >Выбрать</button>
+                            </a>
+                        </template>
+                        <a class="car-card cursor-pointer" href="../carPage/carPage.html">
+                            <div>
+                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
+                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
                             </div>
-                            <div class="catalog__row">
-                                <div class="catalog__block">
-                                    <ul class="catalog__links">
-                                        <li class="catalog__item"><a href="#hero">О компании</a></li>
-                                        <li class="catalog__item"><a href="#catalog">Ассортимент машин</a></li>
-                                        <li class="catalog__item"><a href="#vehicle">Ассортимент внедорожников</a></li>
-                                    </ul>
-                                </div>
-                                <div class="catalog__cars">
-                                    <ul class="catalog__car car">
-                                        <li>
-                                            
-                                        </li>
-                                        <li class="car__item">
-                                            <a href="../carPage/carPage.html">
-                                                <div class="car__LINES">
-                                                    <div class="car__LINE"></div>
-                                                    <div class="car__LINE"></div>
-                                                    <div class="car__LINE"></div>
-                                                    <div class="car__LINE"></div>
-                                                </div>
-                                            </a>
-                                            <img src="../assets/carImg/682915.png" alt="" class="car__img">
-                                            <div class="car__info">
-                                                <div class="car__name" title="Toyota Camry 2017">Toyota Camry 2017</div>
-                                                <div class="car__icons">
-                                                    <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                                    <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                                </div>
-                                            </div>
-                                            <div class="car__charact">
-                                                <p class="car__text">Тип кузова
-                                                    .............................................. седан</p>
-                                                <p class="car__text">Объём двигателя ................................... 2.0
-                                                </p>
-                                                <p class="car__text">Мощность .......................................... 150
-                                                    л.с.</p>
-                                                <p class="car__text">Коробка ........................................
-                                                    Автомат</p>
-                                            </div>
-                                            <div class="car__price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt=""
-                                                    class="car__valute"></div>
-                                            <a href="index9.html"><button class="car__btn">Оставить заявку</button></a>
-                                        </li>
-                                        <li class="car__item">
-                                            <a href="index10.html">
-                                                <div class="car__LINES">
-                                                    <div class="car__LINE"></div>
-                                                    <div class="car__LINE"></div>
-                                                    <div class="car__LINE"></div>
-                                                    <div class="car__LINE"></div>
-                                                </div>
-                                            </a>
-                                            <img src="../assets/carImg/2023-04-30_15-29-02.png" alt="" class="car__img">
-                                            <div class="car__info">
-                                                <div class="car__name" title="Audi A5 2011">Audi A5 2011</div>
-                                                <div class="car__icons">
-                                                    <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                                    <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                                </div>
-                                            </div>
-                                            <div class="car__charact">
-                                                <p class="car__text">Тип кузова
-                                                    ................................................. купе</p>
-                                                <p class="car__text">Объём двигателя .................................. 2.0
-                                                </p>
-                                                <p class="car__text">Мощность .......................................... 211
-                                                    л.с.</p>
-                                                <p class="car__text">Коробка
-                                                    ................................................ Робот</p>
-                                            </div>
-                                            <div class="car__price">Цена: 1 200 000 <img src="../assets/img/valute.png" alt=""
-                                                    class="car__valute"></div>
-                                            <a href="index10.html"><button class="car__btn">Оставить заявку</button></a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <img src="../assets/carImg/682915.png" alt="">
+                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
+                            <hr>
+                            <div class="d-flex justify-content-between car-techs">
+                                <div class="car-tech">Двигатель</div>
+                                <div class="car-tech">Трансмиссия</div>
                             </div>
-                        </div>
-                        <div class="catalog__bottom">
-                            <div class="car__links">
-                                <a href="index.html">Сначала дешёвые</a>
-                                <a href="index8.html">Сначала дорогие</a>
+                            <hr>
+                            <button class="car-btn text-center d-none" onclick="handleEvent(event)">Выбрать</button>
+                        </a>
+                        <a class="car-card cursor-pointer">
+                            <div>
+                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
+                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
                             </div>
-                            <div class="catalog__cars">
-                                <ul class="catalog__car car">
-                                    <li class="car__item">
-                                        <a href="index5.html">
-                                            <div class="car__LINES">
-                                                <div class="car__LINE"></div>
-                                                <div class="car__LINE"></div>
-                                                <div class="car__LINE"></div>
-                                                <div class="car__LINE"></div>
-                                            </div>
-                                        </a>
-                                        <img src="../assets/carImg/car8.png" alt="" class="car__img">
-                                        <div class="car__info">
-                                            <div class="car__name" title="Mercedes-Benz S-Класс 500 2012">Mercedes-Benz
-                                                S...</div>
-                                            <div class="car__icons">
-                                                <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                                <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="car__charact">
-                                            <p class="car__text">Тип кузова ..............................................
-                                                седан</p>
-                                            <p class="car__text">Объём двигателя .................................. 4.7</p>
-                                            <p class="car__text">Мощность ......................................... 435 л.с.
-                                            </p>
-                                            <p class="car__text">Коробка ........................................ Автомат
-                                            </p>
-                                        </div>
-                                        <div class="car__price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt=""
-                                                class="car__valute"></div>
-                                        <a href="index5.html"><button class="car__btn">Оставить заявку</button></a>
-                                    </li>
-                                    <li class="car__item">
-                                        <a href="index11.html">
-                                            <div class="car__LINES">
-                                                <div class="car__LINE"></div>
-                                                <div class="car__LINE"></div>
-                                                <div class="car__LINE"></div>
-                                                <div class="car__LINE"></div>
-                                            </div>
-                                        </a>
-                                        <img src="../assets/carImg/2023-04-30_15-40-01.png" alt="" class="car__img">
-                                        <div class="car__info">
-                                            <div class="car__name" title="BMW 3 серии 320i 2012">BMW 3 серии 320i...</div>
-                                            <div class="car__icons">
-                                                <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                                <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="car__charact">
-                                            <p class="car__text">Тип кузова ..............................................
-                                                седан</p>
-                                            <p class="car__text">Объём двигателя .................................. 2.0</p>
-                                            <p class="car__text">Мощность ......................................... 184 л.с.
-                                            </p>
-                                            <p class="car__text">Коробка ........................................ Автомат
-                                            </p>
-                                        </div>
-                                        <div class="car__price">Цена: 1 200 000 <img src="../assets/img/valute.png" alt=""
-                                                class="car__valute"></div>
-                                        <a href="index11.html"><button class="car__btn">Оставить заявку</button></a>
-                                    </li>
-                                    <li class="car__item">
-                                        <a href="index12.html">
-                                            <div class="car__LINES">
-                                                <div class="car__LINE"></div>
-                                                <div class="car__LINE"></div>
-                                                <div class="car__LINE"></div>
-                                                <div class="car__LINE"></div>
-                                            </div>
-                                        </a>
-                                        <img src="../assets/carImg/2023-04-30_15-45-40.png" alt="" class="car__img">
-                                        <div class="car__info">
-                                            <div class="car__name" title="Hyundai Sonata 2022">Hyundai Sonata 2022</div>
-                                            <div class="car__icons">
-                                                <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                                <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="car__charact">
-                                            <p class="car__text">Тип кузова ..............................................
-                                                седан</p>
-                                            <p class="car__text">Объём двигателя ................................... 2.5</p>
-                                            <p class="car__text">Мощность ......................................... 180 л.с.
-                                            </p>
-                                            <p class="car__text">Коробка ........................................ Автомат
-                                            </p>
-                                        </div>
-                                        <div class="car__price">Цена: 1 200 000 <img src="../assets/img/valute.png" alt=""
-                                                class="car__valute"></div>
-                                        <a href="index12.html"><button class="car__btn">Оставить заявку</button></a>
-                                    </li>
-                                    <li class="car__item">
-                                        <img src="../assets/carImg/Снимок экрана 2023-05-28 142130.png" alt="" class="car__img">
-                                        <div class="car__info">
-                                            <div class="car__name" title="Honda Accord, 2020">Honda Accord, 2020</div>
-                                            <div class="car__icons">
-                                                <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                                <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="car__charact">
-                                            <p class="car__text">Тип кузова ..............................................
-                                                седан</p>
-                                            <p class="car__text">Объём двигателя ................................... 1.5</p>
-                                            <p class="car__text">Мощность ......................................... 192 л.с.
-                                            </p>
-                                            <p class="car__text">Коробка ...................................... Вариатор</p>
-                                        </div>
-                                        <div class="car__price">Цена: 2 180 000 <img src="../assets/img/valute.png" alt=""
-                                                class="car__valute"></div>
-                                        <button class="car__btn">Оставить заявку</button>
-                                    </li>
-                                    <li class="car__item">
-                                        <img src="../assets/carImg/Снимок экрана 2023-05-28 143325.png" alt="" class="car__img">
-                                        <div class="car__info">
-                                            <div class="car__name" title="Volkswagen Jetta GLI, 2019">Volkswagen Jetta...
-                                            </div>
-                                            <div class="car__icons">
-                                                <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                                <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="car__charact">
-                                            <p class="car__text">Тип кузова ..............................................
-                                                седан</p>
-                                            <p class="car__text">Объём двигателя ................................... 2.0</p>
-                                            <p class="car__text">Мощность ......................................... 230 л.с.
-                                            </p>
-                                            <p class="car__text">Коробка ................................................
-                                                Робот</p>
-                                        </div>
-                                        <div class="car__price">Цена: 2 300 000 <img src="../assets/img/valute.png" alt=""
-                                                class="car__valute"></div>
-                                        <button class="car__btn">Оставить заявку</button>
-                                    </li>
-                                    <li class="car__item">
-                                        <img src="../assets/carImg/Снимок экрана 2023-05-28 144032.png" alt="" class="car__img">
-                                        <div class="car__info">
-                                            <div class="car__name" title="Kia Optima, 2017">Kia Optima, 2017</div>
-                                            <div class="car__icons">
-                                                <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                                <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="car__charact">
-                                            <p class="car__text">Тип кузова ..............................................
-                                                седан</p>
-                                            <p class="car__text">Объём двигателя ................................... 2.4</p>
-                                            <p class="car__text">Мощность ......................................... 188 л.с.
-                                            </p>
-                                            <p class="car__text">Коробка ........................................ Автомат
-                                            </p>
-                                        </div>
-                                        <div class="car__price">Цена: 2 220 000 <img src="../assets/img/valute.png" alt=""
-                                                class="car__valute"></div>
-                                        <button class="car__btn">Оставить заявку</button>
-                                    </li>
-                                </ul>
+                            <img src="../assets/carImg/682915.png" alt="">
+                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
+                            <hr>
+                            <div class="d-flex justify-content-between car-techs">
+                                <div class="car-tech">Двигатель</div>
+                                <div class="car-tech">Трансмиссия</div>
                             </div>
-                        </div>
+                            <hr>
+                            <button class="car-btn text-center d-none">Сделка?</button>
+                        </a>
+                        <a class="car-card cursor-pointer">
+                            <div>
+                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
+                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
+                            </div>
+                            <img src="../assets/carImg/682915.png" alt="">
+                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
+                            <hr>
+                            <div class="d-flex justify-content-between car-techs">
+                                <div class="car-tech">Двигатель</div>
+                                <div class="car-tech">Трансмиссия</div>
+                            </div>
+                            <hr>
+                            <button class="car-btn text-center d-none">Сделка?</button>
+                        </a>
+                        <a class="car-card cursor-pointer">
+                            <div>
+                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
+                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
+                            </div>
+                            <img src="../assets/carImg/682915.png" alt="">
+                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
+                            <hr>
+                            <div class="d-flex justify-content-between car-techs">
+                                <div class="car-tech">Двигатель</div>
+                                <div class="car-tech">Трансмиссия</div>
+                            </div>
+                            <hr>
+                            <button class="car-btn text-center d-none">Сделка?</button>
+                        </a>
+                        <a class="car-card cursor-pointer">
+                            <div>
+                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
+                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
+                            </div>
+                            <img src="../assets/carImg/682915.png" alt="">
+                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
+                            <hr>
+                            <div class="d-flex justify-content-between car-techs">
+                                <div class="car-tech">Двигатель</div>
+                                <div class="car-tech">Трансмиссия</div>
+                            </div>
+                            <hr>
+                            <button class="car-btn text-center d-none">Сделка?</button>
+                        </a>
+                        <a class="car-card cursor-pointer">
+                            <div>
+                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
+                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
+                            </div>
+                            <img src="../assets/carImg/682915.png" alt="">
+                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
+                            <hr>
+                            <div class="d-flex justify-content-between car-techs">
+                                <div class="car-tech">Двигатель</div>
+                                <div class="car-tech">Трансмиссия</div>
+                            </div>
+                            <hr>
+                            <button class="car-btn text-center d-none">Сделка?</button>
+                        </a>
+                        <a class="car-card cursor-pointer">
+                            <div>
+                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
+                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
+                            </div>
+                            <img src="../assets/carImg/682915.png" alt="">
+                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
+                            <hr>
+                            <div class="d-flex justify-content-between car-techs">
+                                <div class="car-tech">Двигатель</div>
+                                <div class="car-tech">Трансмиссия</div>
+                            </div>
+                            <hr>
+                            <button class="car-btn text-center d-none">Сделка?</button>
+                        </a>
+                        <a class="car-card cursor-pointer">
+                            <div>
+                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
+                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
+                            </div>
+                            <img src="../assets/carImg/682915.png" alt="">
+                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
+                            <hr>
+                            <div class="d-flex justify-content-between car-techs">
+                                <div class="car-tech">Двигатель</div>
+                                <div class="car-tech">Трансмиссия</div>
+                            </div>
+                            <hr>
+                            <button class="car-btn text-center d-none">Сделка?</button>
+                        </a>
                     </div>
                 </div>
-            </section>
-            <section class="vehicle" id="vehicle">
-                <div class="custom_container">
-                    <div class="vehicle__body">
-                        <div class="vehicle__titles">
-                            <div class="vehicle__title">
-                                Ассортимент внедорожников <br><span>ANNUAL</span>
-                            </div>
-                        </div>
-                        <div class="vehicle__links">
-                            <a href="index.html">Сначала дешёвые</a>
-                            <a href="index8.html">Сначала дорогие</a>
-                        </div>
-                        <div class="vehicle__cars">
-                            <ul class="vehicle__car veh">
-                                <li class="veh__item">
-                                    <a href="index13.html">
-                                        <div class="car__LINES">
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                        </div>
-                                    </a>
-                                    <img src="../assets/carImg/2023-04-30_19-30-15.png" alt="" class="car__img">
-                                    <div class="car__info">
-                                        <div class="car__name" title="BMW X5 30d 2016">BMW X5 30d 2016</div>
-                                        <div class="car__icons">
-                                            <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                            <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                        </div>
-                                    </div>
-                                    <div class="car__charact">
-                                        <p class="car__text">Тип кузова .............................................. кросо
-                                        </p>
-                                        <p class="car__text">Объём двигателя .................................. 3.0</p>
-                                        <p class="car__text">Мощность ......................................... 249 л.с.</p>
-                                        <p class="car__text">Коробка ........................................ Автомат</p>
-                                    </div>
-                                    <div class="car__price">Цена: 3 250 000 <img src="../assets/img/valute.png" alt=""
-                                            class="car__valute"></div>
-                                    <a href="index13.html"><button class="car__btn">Оставить заявку</button></a>
-                                </li>
-                                <li class="veh__item">
-                                    <a href="index14.html">
-                                        <div class="car__LINES">
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                        </div>
-                                    </a>
-                                    <img src="../assets/carImg/2023-04-30_19-36-20.png" alt="" class="car__img">
-                                    <div class="car__info">
-                                        <div class="car__name" title="Audi Q7 2007">Audi Q7 2007</div>
-                                        <div class="car__icons">
-                                            <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                            <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                        </div>
-                                    </div>
-                                    <div class="car__charact">
-                                        <p class="car__text">Тип кузова .............................................. кросо
-                                        </p>
-                                        <p class="car__text">Объём двигателя .................................. 4.2</p>
-                                        <p class="car__text">Мощность ......................................... 350 л.с.</p>
-                                        <p class="car__text">Коробка ........................................ Автомат</p>
-                                    </div>
-                                    <div class="car__price">Цена: 1 100 000 <img src="../assets/img/valute.png" alt=""
-                                            class="car__valute"></div>
-                                    <a href="index14.html"><button class="car__btn">Оставить заявку</button></a>
-                                </li>
-                                <li class="veh__item">
-                                    <a href="index15.html">
-                                        <div class="car__LINES">
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                        </div>
-                                    </a>
-                                    <img src="../assets/carImg/F1.png" alt="" class="car__img">
-                                    <div class="car__info">
-                                        <div class="car__name" title="Ford Explorer, 2017">Ford Explorer, 2017</div>
-                                        <div class="car__icons">
-                                            <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                            <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                        </div>
-                                    </div>
-                                    <div class="car__charact">
-                                        <p class="car__text">Тип кузова ........................................... внедор
-                                        </p>
-                                        <p class="car__text">Объём двигателя ................................... 3.5</p>
-                                        <p class="car__text">Мощность ......................................... 249 л.с.</p>
-                                        <p class="car__text">Коробка ........................................ Автомат</p>
-                                    </div>
-                                    <div class="car__price">Цена: 2 550 000 <img src="../assets/img/valute.png" alt=""
-                                            class="car__valute"></div>
-                                    <a href="index15.html"><button class="car__btn">Оставить заявку</button></a>
-                                </li>
-                                <li class="veh__item">
-                                    <a href="index16.html">
-                                        <div class="car__LINES">
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                        </div>
-                                    </a>
-                                    <img src="../assets/carImg/2023-04-30_19-44-59.png" alt="" class="car__img">
-                                    <div class="car__info">
-                                        <div class="car__name" title="Hyundai Tucson 2023">Hyundai Tucson 2023</div>
-                                        <div class="car__icons">
-                                            <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                            <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                        </div>
-                                    </div>
-                                    <div class="car__charact">
-                                        <p class="car__text">Тип кузова .............................................. кросо
-                                        </p>
-                                        <p class="car__text">Объём двигателя ................................... 2.5</p>
-                                        <p class="car__text">Мощность ......................................... 190 л.с.</p>
-                                        <p class="car__text">Коробка ........................................ Автомат</p>
-                                    </div>
-                                    <div class="car__price">Цена: 3 200 000 <img src="../assets/img/valute.png" alt=""
-                                            class="car__valute"></div>
-                                    <a href="index16.html"><button class="car__btn">Оставить заявку</button></a>
-                                </li>
-                                <li class="veh__item">
-                                    <a href="index17.html">
-                                        <div class="car__LINES">
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                        </div>
-                                    </a>
-                                    <img src="../assets/carImg/2023-04-30_19-47-03.png" alt="" class="car__img">
-                                    <div class="car__info">
-                                        <div class="car__name" title="Kia Sportage 2011">Kia Sportage 2011</div>
-                                        <div class="car__icons">
-                                            <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                            <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                        </div>
-                                    </div>
-                                    <div class="car__charact">
-                                        <p class="car__text">Тип кузова .............................................. кросо
-                                        </p>
-                                        <p class="car__text">Объём двигателя ................................... 2.0</p>
-                                        <p class="car__text">Мощность ......................................... 150 л.с.</p>
-                                        <p class="car__text">Коробка ........................................ Механика</p>
-                                    </div>
-                                    <div class="car__price">Цена: 1 175 000 <img src="../assets/img/valute.png" alt=""
-                                            class="car__valute"></div>
-                                    <a href="index17.html"><button class="car__btn">Оставить заявку</button></a>
-                                </li>
-                                <li class="veh__item">
-                                    <a href="index18.html">
-                                        <div class="car__LINES">
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                            <div class="car__LINE"></div>
-                                        </div>
-                                    </a>
-                                    <img src="../assets/carImg/2023-04-30_19-50-46.png" alt="" class="car__img">
-                                    <div class="car__info">
-                                        <div class="car__name" title="Mercedes-Benz GL 350 CDI  2014">Mercedes-Benz GL...
-                                        </div>
-                                        <div class="car__icons">
-                                            <a href="#"><img src="../assets/img/corzina.png" alt=""></a>
-                                            <a href="#"><img src="../assets/img/heart.png" alt=""></a>
-                                        </div>
-                                    </div>
-                                    <div class="car__charact">
-                                        <p class="car__text">Тип кузова .............................................. кросо
-                                        </p>
-                                        <p class="car__text">Объём двигателя ................................... 3.0</p>
-                                        <p class="car__text">Мощность ......................................... 249 л.с.</p>
-                                        <p class="car__text">Коробка ........................................ Автомат</p>
-                                    </div>
-                                    <div class="car__price">Цена: 1 200 000 <img src="../assets/img/valute.png" alt=""
-                                            class="car__valute"></div>
-                                    <a href="index18.html"><button class="car__btn">Оставить заявку</button></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
+        </main>
         <footer class="footer d-flex justify-content-center">
             <div class="custom_container">
                 <div class="footer__body">

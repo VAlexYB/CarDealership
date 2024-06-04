@@ -147,29 +147,29 @@ svg:hover{
 /* Begin Section Catalog */
 
 .catalog{
-    margin: 60px 0 0px 0;
+    margin: 0 0 0px 0;
 }
 
 .catalog__bottom{
     margin: 60px 0 0 10px;
 }
 
-.catalog__titles{
+.catalog-titles{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 0 70px 0;
+    margin: 60px 0 50px 0;
 }
 
-.catalog__title{
+.catalog-title{
     font-family: 'Russo One', sans-serif;
     font-size: 50px;
-    width: 550px;
+    width: 750px;
     text-align: center;
     line-height: 70px;
 }
 
-.catalog__title span{
+.catalog-title span{
     font-family: 'Bruno Ace SC', cursive;
     font-size: 40px;
 }
@@ -231,27 +231,30 @@ svg:hover{
     flex-wrap: wrap;
 }
 
-.car__item{
+.car-card{
     border: 5px solid #e0e0e0;
     border-radius: 10px;
     padding: 10px;
-    margin: 10px 0px 40px 0;
+    width: 250px;
+    margin: 0 10px 20px 10px;
 }
 
-.car__item:nth-child(4){
-    margin: 20px 0px 0px 0;
-    display: none;
+.car-price{
+    font-family: 'Russo One', sans-serif;
+    font-size: 20px;
+    margin: 40px 0 40px 0;
 }
 
-.car__item:nth-child(5){
-    margin: 20px 0px 0px 0;
-    display: none;
+.car-card:hover {
+    button {
+        display: inline-block;
+    }
+    .car-price {
+        margin: 20px 0 17px 0;
+    }
 }
 
-.car__item:nth-child(6) {
-    margin: 20px 0px 0px 0;
-    display: none;
-}
+
 
 .catalog__row .car__item:nth-child(1){
    
@@ -569,10 +572,7 @@ svg:hover{
 }
 
 
-.car__info{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.car-info{
     margin: 10px 0;
 }
 
@@ -590,25 +590,28 @@ svg:hover{
     font-size: 16.5px;
 }
 
-.car__price{
-    font-family: 'Russo One', sans-serif;
-    font-size: 20px;
-    margin: 20px 0;
-}
+
 
 .car__valute{
     width: 14px;
     height: 16px;
 }
 
-.car__btn{
+.car-btn{
     background-color: #a0887e;
     color: #fff;
-    display: flex;
-    padding: 25px 65px;
+    padding: 10px 0;
     border-radius: 10px;
     font-size: 20px;
     cursor: pointer;
+    width: 100%;
+    border: #a0887e 1px solid;
+}
+
+.car-btn:hover{
+    
+    background-color: #fff;
+    color: #a0887e;
 }
 
 
@@ -1490,3 +1493,32 @@ button.gal__btn {
     border-top: 5px solid #f5f0f6;
     border-left: 5px solid #f5f0f6;
 }
+
+.car-name {
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+.car-equipment {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.car-techs {
+    margin-bottom: 20px;
+}
+
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    color: #a0887e;
+    background-color: currentcolor;
+    height: 1px;
+    border: none;
+}
+

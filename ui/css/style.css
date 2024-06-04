@@ -70,13 +70,6 @@ select { /* 1 */
     text-transform: none;
 }
   
-button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
-    -webkit-appearance: button;
-}
-  
 button::-moz-focus-inner,
 [type="button"]::-moz-focus-inner,
 [type="reset"]::-moz-focus-inner,
@@ -103,12 +96,6 @@ button:-moz-focusring,
     height: auto;
 }
   
-[type="search"] {
-    -webkit-appearance: textfield; /* 1 */
-    outline-offset: -2px; /* 2 */
-}
-  
-  
 [type="search"]::-webkit-search-decoration {
     -webkit-appearance: none;
 }
@@ -124,6 +111,10 @@ ul li{
 
 .custom_container{
     margin: 0px auto;
+}
+
+.d-none {
+    display: none;
 }
 
 .d-flex {

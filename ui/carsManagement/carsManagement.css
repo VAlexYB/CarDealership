@@ -1,5 +1,5 @@
 body{
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Comfortaa', cursive !important;
     /* font-family: 'Bruno Ace SC', cursive; */
     /* font-family: 'Russo One', sans-serif; */
 }
@@ -116,10 +116,6 @@ svg:hover{
 }
 
 .carInfo__texts{
-    width: 600px;
-    border: 5px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 10px;
     margin: 0 0 0 0;
 }
 
@@ -133,20 +129,14 @@ svg:hover{
     font-size: 25px;
 }
 
-.car-buy-btn{
+.carInfo__link{
     background-color: #a0887e;
     font-size: 20px;
     padding: 25px 70px;
     border-radius: 10px;
-    border: #a0887e 1px solid;
     color: #fff;
-    margin: 20px 0 0 0;
+    margin: 20px 0 0 70px;
     display: inline-block;
-}
-
-.car-buy-btn:hover{
-    background-color: #fff;
-    color: #a0887e;
 }
 
 .carInfo__images{
@@ -232,7 +222,88 @@ svg:hover{
 
 /* End Section FOOTER */
 
-.car-page {
-    margin: 40px 260px 0 260px;
-    width: 1400px;
+.custom-div-table {
+    width: 1230px;
+}
+
+th {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    height: 35px;
+    text-align: center;
+}
+.col1 {
+    width: 40px;
+}
+.col2 {
+    width: 330px ;
+}
+.col3 {
+    width: 730px;
+}
+.col4 {
+    width: 130px;
+}
+
+.dialog-title{
+    font-family: 'Russo One', sans-serif;
+    font-size: 25px;
+}
+
+.dialog {
+    margin: auto;
+    background-color: white;
+    color: black;
+    border: 5px solid #a0887e;
+    border-radius: 20px;
+    border-radius: 10px;
+    width: 400px;
+    padding: 20px;
+    .x {
+		filter: grayscale(1);
+		border: none;
+		background: none;
+		position: absolute;
+		top: 15px;
+		right: 10px;
+		transition: ease filter, transform 0.3s;
+		cursor: pointer;
+		transform-origin: center;
+        font-size: 18px;
+	}
+    input {
+        width: 200px;
+        border: 1px solid #a0887e;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 10px 0 20px 0;
+    }
+    input:focus {
+        outline: none;
+    }
+    select {
+        width: 200px;
+        border: 1px solid #a0887e;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 10px 0 20px 0;
+    }
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.btn{
+    font-size: 18px;
+    color: #fff;
+    background-color: #a0887e;
+    padding: 10px 10px;
 }

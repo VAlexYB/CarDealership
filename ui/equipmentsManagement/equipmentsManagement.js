@@ -50,6 +50,7 @@ const getEntities = async () => {
         }
     });
     const entities = (await response.json());
+    console.log(entities);
     const entitiesTableBody = document.getElementById('entitiesTableBody');
     let child = entitiesTableBody.firstChild;
     while (child) {
@@ -161,30 +162,62 @@ const addOrEditEntity = async (entity = null) => {
     }
     let newEntity = {};
     if (entity) {
+        const oldFeatureIds = entity.features.map(e => e.id);
+        oldFeatureIds.forEach(async id => {
+            if (!featuresIds.includes(id)) {
+                await fetch(`https://localhost:7243/api/Equipments/removeFeature`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ "featureId": id, "equipmentId": entity.id })
+                });
+            }
+        });
+        featuresIds.forEach(async id => {
+            if (!oldFeatureIds.includes(id)) {
+                await fetch(`https://localhost:7243/api/Equipments/addFeature`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ "featureId": id, "equipmentId": entity.id })
+                });
+            }
+        });
         newEntity = {
             "id": entity.id,
             "name": name,
-            "autoModelId": modelId,
             "price": price,
-            "releaseYear": releaseYear,
-            "featuresIds": featuresIds
+            "releaseYear": releaseYear
         }
+        await fetch("https://localhost:7243/api/Equipments/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(newEntity)
+        });
     } else {
         newEntity = {
             "name": name,
             "price": price,
+            "modelId": modelId,
             "releaseYear": releaseYear,
             "featuresIds": featuresIds  
         }
-    }
-    await fetch("https://localhost:7243/api/Equipments/add", {
+        await fetch("https://localhost:7243/api/Equipments/add", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
         body: JSON.stringify(newEntity)
-    });
+        });
+    }
     closeEntityDialog();
     await getEntities();
 }

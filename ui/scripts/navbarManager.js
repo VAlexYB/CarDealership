@@ -10,6 +10,7 @@ navbar.innerHTML = `
         <li class="nav__item"><a href="../colorsManagement/colorsManagement.html">Цвета</a></li>
         <li class="nav__item"><a href="../autoConfigManagement/autoConfigManagement.html">Конфигурации</a></li>
         <li class="nav__item"><a href="../carsManagement/carsManagement.html">Машины</a></li>
+        <li class="nav__item"><a href="../ordersManagement/ordersManagement.html">Заказы</a></li>
         <li class="nav__item">
             <button class="btn__reset nav__iconLog">
                 <a href="../login/login.html">

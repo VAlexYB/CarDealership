@@ -7,9 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&family=Russo+One&display=swap" rel="stylesheet">
-    <title>Модели</title>
+    <title>Машины</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="equipmentsManagement.css">
+    <link rel="stylesheet" href="carsManagement.css">
 </head>
 <body>
     <div class="wrapper">
@@ -41,16 +41,10 @@
                                 <div id="dialogTitle" class="dialog-title text-center"></div><br>
                                 <form id="entityForm">
                                     <div>
-                                        <label class="d-block" for="name">Название комплектации</label>
-                                        <input class="d-block" type="text" name="name" id="name"></input>
-                                        <label class="d-block" for="model">Модель</label>
-                                        <select class="d-block" name="model" id="model"></select>
-                                        <label class="d-block" for="releaseYear">Год выпуска</label>
-                                        <input class="d-block" type="text" name="releaseYear" id="releaseYear"></input>
-                                        <label class="d-block" for="price">Цена</label>
-                                        <input class="d-block" type="number" name="price" id="price" min="0"></input>
-                                        <label class="d-block" for="features">Особенности</label>
-                                        <select class="d-block multiple-select" name="features" id="features" multiple></select>
+                                        <label class="d-block" for="vin">VIN номер</label>
+                                        <input class="d-block" type="text" name="vin" id="vin"></input>
+                                        <label class="d-block" for="config">Конфигурация</label>
+                                        <select class="d-block" type="text" name="config" id="config"></select>
                                         <button id="dialogSubmitBtn" class="btn cursor-pointer" type="submit"></button>
                                     </div>
                                 </form>
@@ -62,22 +56,18 @@
                         <thead>
                             <tr>
                                 <th class="col1 text-center">#</th>
-                                <th class="col2">Название </th>
-                                <th class="col3">Цена</th>
-                                <th class="col4">Год выпуска</th>
-                                <th class="col5">Особенности</th>
-                                <th class="col6">Действие</th>
+                                <th class="col2">VIN номер</th>
+                                <th class="col3">Конфигурация</th>
+                                <th class="col4">Действие</th>
                             </tr>
                         </thead>
                         <tbody id="entitiesTableBody">
                             <template id="entitiesCardTemplate">
                                 <tr>
                                     <td class="col1" id="id"></td>
-                                    <td class="col2" id="nameTable"></td>
-                                    <td class="col3" id="priceTable"></td>
-                                    <td class="col4" id="releaseYearTable"></td>
-                                    <td class="col5" id="featuresTable"></td>
-                                    <td class="col6" id="actionsTable"></td>
+                                    <td class="col2" id="vinTable"></td>
+                                    <td class="col3" id="configTable"></td>
+                                    <td class="col4" id="actionsTable"></td>
                                 </tr>
                             </template>
                             <template id="noEntitiesCardTemplate">
@@ -100,6 +90,7 @@
             </div>
         </footer>
     </div>
-    <script src="equipmentsManagement.js"></script>
+
+    <script src="carsManagement.js"></script>
 </body>
 </html>

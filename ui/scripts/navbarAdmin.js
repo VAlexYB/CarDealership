@@ -2,9 +2,8 @@ const navbar = document.getElementById('navbar')
 
 navbar.innerHTML = `
     <ul class="nav__list">
-        <li class="nav__item"><a href="../catalog/catalog.html">Автомобили в наличии</a></li>
-        <li class="nav__item"><a href="../configurator/configurator.html">Конфигатор</a></li>
-        <li class="nav__item" style="position: absolute; margin-left: 1400px">
+        <li class="nav__item"><a href="../admin/admin.html">Менеджеры</a></li>
+        <li class="nav__item" style="position: absolute; margin-left: 1187px">
             <button class="btn__reset nav__iconLog">
                 <a href="../login/login.html">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36" viewBox="0 0 36 36">

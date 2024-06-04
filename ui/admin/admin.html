@@ -7,9 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&family=Russo+One&display=swap" rel="stylesheet">
-    <title>Модели</title>
+    <title>Менеджеры</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="equipmentsManagement.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
     <div class="wrapper">
@@ -41,16 +41,24 @@
                                 <div id="dialogTitle" class="dialog-title text-center"></div><br>
                                 <form id="entityForm">
                                     <div>
-                                        <label class="d-block" for="name">Название комплектации</label>
-                                        <input class="d-block" type="text" name="name" id="name"></input>
-                                        <label class="d-block" for="model">Модель</label>
-                                        <select class="d-block" name="model" id="model"></select>
-                                        <label class="d-block" for="releaseYear">Год выпуска</label>
-                                        <input class="d-block" type="text" name="releaseYear" id="releaseYear"></input>
-                                        <label class="d-block" for="price">Цена</label>
-                                        <input class="d-block" type="number" name="price" id="price" min="0"></input>
-                                        <label class="d-block" for="features">Особенности</label>
-                                        <select class="d-block multiple-select" name="features" id="features" multiple></select>
+                                        <label class="d-block" for="userName">Логин</label>
+                                        <input class="d-block" type="text" name="userName" id="userName"></input>
+                                        <label class="d-block" for="email">Email</label>
+                                        <input class="d-block" type="email" name="email" id="email"></input>
+                                        <label class="d-block" for="firstName">Имя</label>
+                                        <input class="d-block" type="text" name="firstName" id="firstName"></input>
+                                        <label class="d-block" for="lastName">Фамилия</label>
+                                        <input class="d-block" type="text" name="lastName" id="lastName"></input>
+                                        <label class="d-block" for="middleName">Отчество</label>
+                                        <input class="d-block" type="text" name="middleName" id="middleName"></input>
+                                        <label class="d-block" for="phoneNumber">Телефон</label>
+                                        <input class="d-block" type="text" name="phoneNumber" id="phoneNumber"></input>
+                                        <label class="d-block" for="cardDigits">Номер карты</label>
+                                        <input class="d-block" type="text" name="cardDigits" id="cardDigits"></input>
+                                        <label class="d-block" for="password">Пароль</label>
+                                        <input class="d-block" type="password" name="password" id="password"></input>
+                                        <label class="d-block" for="repeatPassword">Повторите пароль"></label>
+                                        <input class="d-block" type="password" name="repeatPassword" id="repeatPassword"></input>
                                         <button id="dialogSubmitBtn" class="btn cursor-pointer" type="submit"></button>
                                     </div>
                                 </form>
@@ -62,22 +70,28 @@
                         <thead>
                             <tr>
                                 <th class="col1 text-center">#</th>
-                                <th class="col2">Название </th>
-                                <th class="col3">Цена</th>
-                                <th class="col4">Год выпуска</th>
-                                <th class="col5">Особенности</th>
-                                <th class="col6">Действие</th>
+                                <th class="col2">Логин</th>
+                                <th class="col6">Email</th>
+                                <th class="col3">Имя</th>
+                                <th class="col4">Фамилия</th>
+                                <th class="col5">Отчество</th>
+                                <th class="col7">Телефон</th>
+                                <!-- <th class="col8">Номер карты</th> -->
+                                <th class="col8">Действия</th>
                             </tr>
                         </thead>
                         <tbody id="entitiesTableBody">
                             <template id="entitiesCardTemplate">
                                 <tr>
                                     <td class="col1" id="id"></td>
-                                    <td class="col2" id="nameTable"></td>
-                                    <td class="col3" id="priceTable"></td>
-                                    <td class="col4" id="releaseYearTable"></td>
-                                    <td class="col5" id="featuresTable"></td>
-                                    <td class="col6" id="actionsTable"></td>
+                                    <td class="col2" id="userNameTable"></td>
+                                    <td class="col3" id="emailTable"></td>
+                                    <td class="col4" id="nameTable"></td>
+                                    <td class="col5" id="surnameTable"></td>
+                                    <td class="col6" id="middleNameTable"></td>
+                                    <td class="col7" id="phoneNumberTable"></td>
+                                    <!-- <td class="col8" id="cardDigitsTable"></td> -->
+                                    <td class="col8" id="actionsTable"></td>
                                 </tr>
                             </template>
                             <template id="noEntitiesCardTemplate">
@@ -100,6 +114,7 @@
             </div>
         </footer>
     </div>
-    <script src="equipmentsManagement.js"></script>
+
+    <script src="admin.js"></script>
 </body>
 </html>
