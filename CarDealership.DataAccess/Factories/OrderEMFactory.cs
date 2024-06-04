@@ -23,7 +23,7 @@ namespace CarDealership.DataAccess.Factories
                 OrderDate = model.OrderDate,
                 CompleteDate = model.CompleteDate,
                 Status = model.Status,
-                CarId = model.CarId,
+                AutoConfigurationId = model.AutoConfigurationId,
                 CustomerId = model.CustomerId,
                 ManagerId = model.ManagerId,
             };
@@ -36,11 +36,11 @@ namespace CarDealership.DataAccess.Factories
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
 
-            var carConfigEntity = entity.Car?.AutoConfiguration;
+            var configEntity = entity.AutoConfiguration;
 
-            var carBrandEntity = carConfigEntity?.AutoModel?.Brand;
-            var carEngineTypeEntity = carConfigEntity?.Engine?.EngineType;
-            var carTransmissionTypeEntity = carConfigEntity?.Engine?.TransmissionType;
+            var carBrandEntity = configEntity?.AutoModel?.Brand;
+            var carEngineTypeEntity = configEntity?.Engine?.EngineType;
+            var carTransmissionTypeEntity = configEntity?.Engine?.TransmissionType;
 
             var carBrand = carBrandEntity != null ? Brand.Create(
                carBrandEntity.Id,
@@ -49,27 +49,27 @@ namespace CarDealership.DataAccess.Factories
                carBrandEntity.IsDeleted
            ).Value : null;
 
-            var autoModel = carConfigEntity?.AutoModel != null ? AutoModel.Create(
-                    carConfigEntity.AutoModelId,
-                    carConfigEntity.AutoModel.Name,
-                    carConfigEntity.AutoModel.Price,
-                    carConfigEntity.AutoModel.BrandId,
-                    carConfigEntity.AutoModel.IsDeleted,
+            var autoModel = configEntity?.AutoModel != null ? AutoModel.Create(
+                    configEntity.AutoModelId,
+                    configEntity.AutoModel.Name,
+                    configEntity.AutoModel.Price,
+                    configEntity.AutoModel.BrandId,
+                    configEntity.AutoModel.IsDeleted,
                     carBrand
             ).Value : null;
 
-            var bodyType = carConfigEntity?.BodyType != null ? BodyType.Create(
-                    carConfigEntity.BodyTypeId,
-                    carConfigEntity.BodyType.Value,
-                    carConfigEntity.BodyType.Price,
-                    carConfigEntity.BodyType.IsDeleted
+            var bodyType = configEntity?.BodyType != null ? BodyType.Create(
+                    configEntity.BodyTypeId,
+                    configEntity.BodyType.Value,
+                    configEntity.BodyType.Price,
+                    configEntity.BodyType.IsDeleted
             ).Value : null;
 
-            var driveType = carConfigEntity?.DriveType != null ? DriveType.Create(
-                carConfigEntity.DriveTypeId,
-                carConfigEntity.DriveType.Value,
-                carConfigEntity.DriveType.Price,
-                carConfigEntity.DriveType.IsDeleted
+            var driveType = configEntity?.DriveType != null ? DriveType.Create(
+                configEntity.DriveTypeId,
+                configEntity.DriveType.Value,
+                configEntity.DriveType.Price,
+                configEntity.DriveType.IsDeleted
             ).Value : null;
 
 
@@ -85,54 +85,54 @@ namespace CarDealership.DataAccess.Factories
                 carTransmissionTypeEntity.IsDeleted
             ).Value : null;
 
-            var engine = carConfigEntity?.Engine != null ? Engine.Create(
-                carConfigEntity.EngineId,
-                carConfigEntity.Engine.Power,
-                carConfigEntity.Engine.Consumption,
-                carConfigEntity.Engine.Price,
-                carConfigEntity.Engine.EngineTypeId,
-                carConfigEntity.Engine.TransmissionTypeId,
-                carConfigEntity.Engine.IsDeleted,
+            var engine = configEntity?.Engine != null ? Engine.Create(
+                configEntity.EngineId,
+                configEntity.Engine.Power,
+                configEntity.Engine.Consumption,
+                configEntity.Engine.Price,
+                configEntity.Engine.EngineTypeId,
+                configEntity.Engine.TransmissionTypeId,
+                configEntity.Engine.IsDeleted,
                 carEngineType,
                 carTransmissionType
             ).Value : null;
 
-            var color = carConfigEntity?.Color != null ? Color.Create(
-                carConfigEntity.ColorId,
-                carConfigEntity.Color.Value,
-                carConfigEntity.Color.Price,
-                carConfigEntity.Color.IsDeleted
+            var color = configEntity?.Color != null ? Color.Create(
+                configEntity.ColorId,
+                configEntity.Color.Value,
+                configEntity.Color.Price,
+                configEntity.Color.IsDeleted
             ).Value : null;
 
-            var carEquipment = carConfigEntity?.Equipment != null ? Equipment.Create(
-                 carConfigEntity.EquipmentId,
-                 carConfigEntity.Equipment.Name,
-                 carConfigEntity.Equipment.Price,
-                 carConfigEntity.Equipment.ReleaseYear,
-                 carConfigEntity.Equipment.AutoModelId,
-                 carConfigEntity.Equipment.IsDeleted,
+            var carEquipment = configEntity?.Equipment != null ? Equipment.Create(
+                 configEntity.EquipmentId,
+                 configEntity.Equipment.Name,
+                 configEntity.Equipment.Price,
+                 configEntity.Equipment.ReleaseYear,
+                 configEntity.Equipment.AutoModelId,
+                 configEntity.Equipment.IsDeleted,
                  autoModel
              ).Value : null;
 
             if (carEquipment != null)
             {
-                foreach (var featureEntity in carConfigEntity.Equipment.equipmentFeatures)
+                foreach (var featureEntity in configEntity.Equipment.equipmentFeatures)
                 {
                     var featureModel = _equipmentFeatureEMFactory.CreateModel(featureEntity);
                     carEquipment.AddEquipmentFeature(featureModel);
                 }
             }
 
-            var carConfig = carConfigEntity != null ? AutoConfiguration.Create(
-                carConfigEntity.Id,
-                carConfigEntity.Price,
-                carConfigEntity.AutoModelId,
-                carConfigEntity.BodyTypeId,
-                carConfigEntity.DriveTypeId,
-                carConfigEntity.EngineId,
-                carConfigEntity.ColorId,
-                carConfigEntity.EquipmentId,
-                carConfigEntity.IsDeleted,
+            var config = configEntity != null ? AutoConfiguration.Create(
+                configEntity.Id,
+                configEntity.Price,
+                configEntity.AutoModelId,
+                configEntity.BodyTypeId,
+                configEntity.DriveTypeId,
+                configEntity.EngineId,
+                configEntity.ColorId,
+                configEntity.EquipmentId,
+                configEntity.IsDeleted,
                 autoModel,
                 bodyType,
                 driveType,
@@ -141,25 +141,17 @@ namespace CarDealership.DataAccess.Factories
                 carEquipment
             ).Value : null;
 
-            var car = entity.Car != null ? Car.Create(
-                entity.Car.Id,
-                entity.Car.VIN,
-                entity.Car.AutoConfigurationId,
-                entity.Car.IsDeleted,
-                carConfig
-            ).Value : null;
-
             var orderCreateResult = Order.Create(
                 entity.Id,
                 entity.OrderDate,
                 entity.CompleteDate,
                 entity.Status,
                 entity.Price,
-                entity.CarId,
+                entity.AutoConfigurationId,
                 entity.ManagerId,
                 entity.CustomerId,
                 entity.IsDeleted,
-                car
+                config
             );
 
             if (orderCreateResult.IsFailure)

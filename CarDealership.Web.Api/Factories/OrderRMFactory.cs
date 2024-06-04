@@ -9,24 +9,24 @@ namespace CarDealership.Web.Api.Factories
     public class OrderRMFactory : IOrderRMFactory
     {
         private readonly IUsersService _usersService;
-        private readonly ICarsService _carsService;
+        private readonly IAutoConfigsService _configsService;
 
-        private readonly ICarRMFactory _carRMFactory;
-        public OrderRMFactory(IUsersService usersService, ICarsService carsService, ICarRMFactory carRMFactory)
+        private readonly IAutoConfigRMFactory _configsRMFactory;
+        public OrderRMFactory(IUsersService usersService, IAutoConfigsService configsService, IAutoConfigRMFactory configsRMFactory)
         {
             _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
-            _carsService = carsService ?? throw new ArgumentNullException(nameof(carsService));
-            _carRMFactory = carRMFactory ?? throw new ArgumentNullException(nameof(carRMFactory));
+            _configsService = configsService ?? throw new ArgumentNullException(nameof(configsService));
+            _configsService = configsService ?? throw new ArgumentNullException(nameof(configsRMFactory));
         }
         public async Task<Order> CreateModelAsync(OrderRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
 
-            var manager = req.ManagerId != null ? await _usersService.GetByIdAsync((Guid)req.ManagerId) ?? throw new ArgumentException($"Менеджер с Id = {req.ManagerId} не найден") : null;
+            var manager = req.ManagerId != Guid.Empty ? await _usersService.GetByIdAsync((Guid)req.ManagerId) ?? throw new ArgumentException($"Менеджер с Id = {req.ManagerId} не найден") : null;
             var customer = await _usersService.GetByIdAsync(req.CustomerId) ?? throw new ArgumentNullException($"Покупатель с Id = {req.CustomerId} не найден");
-            var car = await _carsService.GetByIdAsync(req.CarId) ?? throw new ArgumentNullException($"Автомобиль с Id = {req.CarId} не найден");
-            var orderPrice = car.AutoConfiguration.Price;
+            var autoConfiguration = await _configsService.GetByIdAsync(req.AutoConfigurationId) ?? throw new ArgumentNullException($"Конфигурация машины с Id = {req.AutoConfigurationId} не найден");
+            var orderPrice = autoConfiguration.Price;
 
             var orderCreateResult = Order.Create(
                 req.Id,
@@ -34,11 +34,11 @@ namespace CarDealership.Web.Api.Factories
                 req.CompleteDate,
                 req.Status,
                 orderPrice,
-                req.CarId,
-                req.ManagerId,
+                req.AutoConfigurationId,
+                req.ManagerId != Guid.Empty ? req.ManagerId : null,
                 req.CustomerId,
                 false,
-                car,
+                autoConfiguration,
                 manager,
                 customer
             );
@@ -69,8 +69,8 @@ namespace CarDealership.Web.Api.Factories
                 CompleteDate = model.CompleteDate,
                 Status = model.Status.ToString(),
                 Price = model.Price,
-                CarId = model.CarId,
-                Car = _carRMFactory.CreateResponse(model.Car),
+                AutoConfigurationId = model.AutoConfigurationId,
+                AutoConfiguration = _configsRMFactory.CreateResponse(model.AutoConfiguration),
                 ManagerId = model.ManagerId,
                 CustomerId = model.CustomerId,
             };

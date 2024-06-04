@@ -54,12 +54,12 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 
-app.UseCookiePolicy(new CookiePolicyOptions
-{
-    MinimumSameSitePolicy = SameSiteMode.Strict,
-    HttpOnly = HttpOnlyPolicy.Always,
-    Secure = CookieSecurePolicy.Always
-});
+//app.UseCookiePolicy(new CookiePolicyOptions
+//{
+//    MinimumSameSitePolicy = SameSiteMode.Strict,
+//    HttpOnly = HttpOnlyPolicy.Always,
+//    Secure = CookieSecurePolicy.Always
+//});
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -71,6 +71,7 @@ app.UseCors(x =>
     x.WithHeaders().AllowAnyHeader();
     x.WithOrigins("http://localhost:3000");
     x.WithMethods().AllowAnyMethod();
+    x.AllowCredentials();
 });
 
 app.Run();

@@ -23,5 +23,6 @@
         public virtual EquipmentEntity? Equipment { get; set; }
 
         public virtual List<CarEntity> Cars { get; set; } = [];
+        public virtual List<OrderEntity> Orders { get; set; } = [];
     }
 }

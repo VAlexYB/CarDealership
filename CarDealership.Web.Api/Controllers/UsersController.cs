@@ -53,7 +53,7 @@ namespace CarDealership.Web.Api.Controllers
 
                 var user = userCreateResult.Value;
 
-                var role = await _rolesService.GetByIdAsync((int)Roles.Admin);
+                var role = await _rolesService.GetByIdAsync((int)Roles.User);
                 user.AddRole(role);
 
 
@@ -182,11 +182,11 @@ namespace CarDealership.Web.Api.Controllers
             {
                 UserName = u.UserName,
                 Email = u.Email,
-                FirstName = u.FirstName,
-                MiddleName = u.MiddleName,
-                LastName = u.LastName,
-                PhoneNumber = u.PhoneNumber,
-                CardDigits = $"{u.FirstCardDigits}########{u.LastCardDigits}"
+                FirstName = u.FirstName ?? "",
+                MiddleName = u.MiddleName ?? "",
+                LastName = u.LastName ?? "",
+                PhoneNumber = u.PhoneNumber ?? "",
+                CardDigits = u.FirstCardDigits != null && u.FirstCardDigits != null ? $"{u.FirstCardDigits}########{u.LastCardDigits}" : ""
             }).ToList();
             return Ok(response);
         }
@@ -201,11 +201,11 @@ namespace CarDealership.Web.Api.Controllers
             {
                 UserName = u.UserName,
                 Email = u.Email,
-                FirstName = u.FirstName,
-                MiddleName = u.MiddleName,
-                LastName = u.LastName,
-                PhoneNumber = u.PhoneNumber,
-                CardDigits = $"{u.FirstCardDigits}########{u.LastCardDigits}"
+                FirstName = u.FirstName ?? "",
+                MiddleName = u.MiddleName ?? "",
+                LastName = u.LastName ?? "",
+                PhoneNumber = u.PhoneNumber ?? "",
+                CardDigits = u.FirstCardDigits != null && u.FirstCardDigits != null ? $"{u.FirstCardDigits}########{u.LastCardDigits}" : ""
             }).ToList();
             return Ok(response);
         }
@@ -224,7 +224,7 @@ namespace CarDealership.Web.Api.Controllers
                 MiddleName = u.MiddleName,
                 LastName = u.LastName,
                 PhoneNumber = u.PhoneNumber,
-                CardDigits = $"{u.FirstCardDigits}########{u.LastCardDigits}"
+                CardDigits = u.FirstCardDigits != null && u.FirstCardDigits != null ? $"{u.FirstCardDigits}########{u.LastCardDigits}" : ""
             }).ToList();
             return Ok(response);
         }

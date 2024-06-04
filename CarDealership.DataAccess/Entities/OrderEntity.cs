@@ -9,8 +9,8 @@ namespace CarDealership.DataAccess.Entities
         public DateTime CompleteDate { get; set; }
         public OrderStatus Status { get; set; }
         public decimal Price { get; set; }
-        public Guid CarId { get; set; }
-        public virtual CarEntity Car { get; set; }
+        public Guid AutoConfigurationId { get; set; }
+        public virtual AutoConfigurationEntity AutoConfiguration { get; set; }
 
         public Guid? ManagerId { get; set; }
         public virtual UserEntity Manager { get; set; }

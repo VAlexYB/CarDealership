@@ -21,9 +21,9 @@ namespace CarDealership.DataAccess.Repositories
 
             if (existEntity == null) throw new InvalidOperationException();
             _context.Entry(existEntity).CurrentValues.SetValues(entity);
-            if (existEntity.CarId != entity.CarId)
+            if (existEntity.AutoConfigurationId != entity.AutoConfigurationId)
             {
-                existEntity.CarId = entity.CarId;
+                existEntity.AutoConfigurationId = entity.AutoConfigurationId;
             }
 
             if (existEntity.ManagerId != entity.ManagerId)

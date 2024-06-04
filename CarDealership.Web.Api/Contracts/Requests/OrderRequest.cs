@@ -9,7 +9,7 @@ namespace CarDealership.Web.Api.Contracts.Requests
         public DateTime OrderDate { get; set; }
         public DateTime CompleteDate { get; set; }
         public OrderStatus Status { get; set; }
-        public Guid CarId { get; set; }
+        public Guid AutoConfigurationId { get; set; }
 
         public Guid ManagerId { get; set; }
 
