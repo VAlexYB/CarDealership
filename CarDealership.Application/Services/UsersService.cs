@@ -22,8 +22,15 @@ namespace CarDealership.Application.Services
 
         public Task AddAsync(User user)
         {
-            _usersRepository.AddAsync(user);
-            return Task.CompletedTask;
+            try
+            {
+                _usersRepository.AddAsync(user);
+                return Task.CompletedTask;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task AssignSenior(Guid id)
@@ -31,10 +38,22 @@ namespace CarDealership.Application.Services
             var user = await GetByIdAsync(id);
             if(!user.Roles.Any(ur => ur.Id == (int)Roles.Manager))
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Назначить старшим иожно только менеджера системы");
             }
             var role = await _rolesRepository.GetByIdAsync((int)Roles.SeniorManager);
             user.AddRole(role);
+            await _usersRepository.UpdateAsync(user);
+        }
+
+        public async Task SuspendSenior(Guid id)
+        {
+            var user = await GetByIdAsync(id);
+            if (!user.Roles.Any(ur => ur.Id == (int)Roles.SeniorManager))
+            {
+                throw new InvalidOperationException("Это не старший менеджер");
+            }
+            var role = await _rolesRepository.GetByIdAsync((int)Roles.SeniorManager);
+            user.RemoveRole(role);
             await _usersRepository.UpdateAsync(user);
         }
 
@@ -70,7 +89,7 @@ namespace CarDealership.Application.Services
                 user = await _usersRepository.GetByUsernameAsync(identifier);
             }
 
-            if (user == null) throw new Exception("Login -> пользователь ввел несуществующую email/username");
+            if (user == null) throw new InvalidOperationException("Login -> пользователь ввел несуществующую email/username");
 
             var verified = _passwordVerifier.Verify(password, user.PasswordHash);
 
@@ -79,5 +98,18 @@ namespace CarDealership.Application.Services
             var token = _jwtProvider.GenerateToken(user);
             return token;
         }
+
+        public async Task<List<User>> GetUsersAsync(int? roleId = null)
+        {
+            var users = await _usersRepository.GetUsersAsync(roleId);
+            return users;
+        }
+
+        public async Task<Guid> DeleteAsync(Guid userId)
+        {
+            var id = await _usersRepository.DeleteAsync(userId);
+            return id;
+        }
+
     }
 }

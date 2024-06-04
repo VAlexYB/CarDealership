@@ -24,6 +24,9 @@ namespace CarDealership.Web.Api.Contracts.Responses
         public Guid ColorId { get; set; }
         public string Color { get; set; }
 
+        public Guid EquipmentId { get; set; }
+        public EquipmentResponse Equipment { get; set; }
+
         public AutoConfigurationResponse(Guid id) : base(id)
         {
 

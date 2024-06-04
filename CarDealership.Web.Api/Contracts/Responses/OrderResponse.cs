@@ -10,6 +10,7 @@ namespace CarDealership.Web.Api.Contracts.Responses
         public DateTime OrderDate { get; set; }
         public DateTime CompleteDate { get; set; }
         public string Status { get; set; }
+        public decimal Price { get; set; }
         public Guid CarId { get; set; }
         public CarResponse Car { get; set; }
 

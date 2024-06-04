@@ -12,5 +12,7 @@
         public virtual AutoModelEntity? AutoModel { get; set; }
 
         public virtual List<EquipmentFeatureEntity> equipmentFeatures { get; set; } = [];
+
+        public virtual List<AutoConfigurationEntity> Configurations { get; set; } = [];
     }
 }

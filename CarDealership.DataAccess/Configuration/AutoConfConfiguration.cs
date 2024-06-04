@@ -33,6 +33,10 @@ namespace CarDealership.DataAccess.Configuration
                 .WithMany(c => c.Configurations)
                 .HasForeignKey(ac => ac.ColorId);
 
+            builder.HasOne(ac => ac.Equipment)
+                .WithMany(e => e.Configurations)
+                .HasForeignKey(ac => ac.EquipmentId);
+
             builder.HasMany(ac => ac.Cars)
                 .WithOne(c => c.AutoConfiguration)
                 .HasForeignKey(c => c.AutoConfigurationId);

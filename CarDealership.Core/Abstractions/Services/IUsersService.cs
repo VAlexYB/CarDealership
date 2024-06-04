@@ -10,5 +10,8 @@ namespace CarDealership.Core.Abstractions.Services
         Task<User> GetByIdAsync(Guid id);
         Task<string> Login(string identifier, string password);
         Task AssignSenior(Guid id);
+        Task SuspendSenior(Guid id);
+        Task<List<User>> GetUsersAsync(int? roleId = null);
+        Task<Guid> DeleteAsync(Guid userId);
     }
 }

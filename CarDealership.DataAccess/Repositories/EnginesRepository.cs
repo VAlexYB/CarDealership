@@ -10,5 +10,25 @@ namespace CarDealership.DataAccess.Repositories
         public EnginesRepository(CarDealershipDbContext context, IEntityModelFactory<Engine, EngineEntity> factory) : base(context, factory)
         {
         }
+
+        public override async Task<Guid> UpdateAsync(Engine model)
+        {
+            var entity = _factory.CreateEntity(model);
+            var existEntity = await _dbSet.FindAsync(entity.Id);
+
+            if (existEntity == null) throw new InvalidOperationException();
+            _context.Entry(existEntity).CurrentValues.SetValues(entity);
+            if (existEntity.EngineTypeId != entity.EngineTypeId)
+            {
+                existEntity.EngineTypeId = entity.EngineTypeId;
+            }
+
+            if (existEntity.TransmissionTypeId != entity.TransmissionTypeId)
+            {
+                existEntity.TransmissionTypeId = entity.TransmissionTypeId;
+            }
+            await _context.SaveChangesAsync();
+            return existEntity.Id;
+        }
     }
 }

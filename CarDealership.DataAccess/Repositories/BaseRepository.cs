@@ -61,10 +61,11 @@ namespace CarDealership.DataAccess.Repositories
             return entity.Id;
         }
 
-        public async Task<Guid> UpdateAsync(M model)
+        public virtual async Task<Guid> UpdateAsync(M model)
         {
             var entity = _factory.CreateEntity(model);
             var existEntity = await _dbSet.FindAsync(entity.Id);
+            if (existEntity == null) throw new InvalidOperationException("");
             _context.Entry(existEntity).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
             return entity.Id;
