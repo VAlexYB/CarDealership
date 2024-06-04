@@ -8,7 +8,7 @@ namespace CarDealership.Core.Models
     public class Deal : BaseModel
     {
         public DateTime DealDate { get; }
-        public DealStatus Status { get; }
+        public DealStatus Status { get; private set; }
 
         public decimal Price { get; }
         public Guid CarId { get; }
@@ -59,6 +59,11 @@ namespace CarDealership.Core.Models
                 isDeleted, car, manager, customer);
 
             return Result.Success<Deal>(deal);
+        }
+
+        public void ChangeStatus(DealStatus status)
+        {
+            Status = status;
         }
     }
 }

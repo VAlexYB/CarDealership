@@ -1,11 +1,14 @@
 ﻿using CarDealership.Core.Abstractions.Repositories;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
+using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.DataAccess.Repositories
 {
-    public class AutoConfigsRepository : BaseRepository<AutoConfiguration, AutoConfigurationEntity, BaseFilter>, IAutoConfigsRepository
+    public class AutoConfigsRepository : BaseRepository<AutoConfiguration, AutoConfigurationEntity, ConfigurationsFilter>, IAutoConfigsRepository
     {
         public AutoConfigsRepository(CarDealershipDbContext context, IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> factory) : base(context, factory)
         {
@@ -50,6 +53,24 @@ namespace CarDealership.DataAccess.Repositories
 
             await _context.SaveChangesAsync();
             return existEntity.Id;
+        }
+
+        public override async Task<List<AutoConfiguration>> GetFilteredAsync(ConfigurationsFilter filter)
+        {
+            var entities = await _dbSet
+                .AsNoTracking()
+                .Where(ac => !ac.IsDeleted)
+                .WhereIf(filter.BrandId.HasValue, ac => ac.AutoModel.BrandId == filter.BrandId)
+                .WhereIf(filter.AutoModelId.HasValue, ac => ac.AutoModelId == filter.AutoModelId)
+                .WhereIf(filter.EquipmentId.HasValue, ac => ac.EquipmentId == filter.EquipmentId)
+                .WhereIf(filter.BodyTypeId.HasValue, ac => ac.BodyTypeId == filter.BodyTypeId)
+                .WhereIf(filter.EngineId.HasValue, ac => ac.EngineId == filter.EngineId)
+                .WhereIf(filter.ColorId.HasValue, ac => ac.ColorId == filter.ColorId)
+                .WhereIf(filter.DriveTypeId.HasValue, ac => ac.DriveTypeId == filter.DriveTypeId)
+                .OrderBy(x => x.Id)
+                .ToListAsync();
+
+            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
     }
 }

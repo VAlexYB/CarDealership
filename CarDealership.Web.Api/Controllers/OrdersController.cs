@@ -4,6 +4,7 @@ using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 using CarDealership.Web.Api.Factories.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarDealership.Web.Api.Controllers
@@ -17,19 +18,23 @@ namespace CarDealership.Web.Api.Controllers
             _ordersSerivce = service;
         }
 
-        [Route("changeStatus/{status}")]
-        [HttpGet]
-        public async Task<IActionResult> RemoveFeature(int status)
+        [Authorize(Roles = "Manager")]
+        [Route("changeStatus")]
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus([FromBody] ChangeStatusRequest request)
         {
             try
             {
-                if(status < Enum.GetValues(typeof(OrderStatus)).Cast<int>().Max())
-                await _ordersSerivce.ChangeStatus(4);
+                if(request.Status > Enum.GetValues(typeof(OrderStatus)).Cast<int>().Max())
+                {
+                    return BadRequest("Нет такого статуса заказа");
+                }
+                await _ordersSerivce.ChangeStatus(request.Id, request.Status);
                 return Ok();
             }
             catch (Exception)
             {
-                return StatusCode(500, "Ошибки случаются");
+                return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
     }

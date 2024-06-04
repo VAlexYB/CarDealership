@@ -1,12 +1,15 @@
-﻿using CarDealership.DataAccess.Entities;
+﻿using CarDealership.Core.Abstractions.Repositories;
+using CarDealership.Core.Models;
+using CarDealership.DataAccess.Entities;
+using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.DataAccess
 {
-    public class CarConfigurator
+    public class CarConfigurator : ICarConfigurator
     {
         private readonly DbSet<AutoConfigurationEntity> _configDbSet;
-
+        private readonly IEntityModelFactory<AutoConfiguration, AutoConfigurationEntity> factory;
 
         private Guid? _selectedBrandId;
         private Guid? _selectedAutoModelId;
@@ -65,7 +68,7 @@ namespace CarDealership.DataAccess
             _selectedColorId = colorId;
         }
 
-        public async Task<List<AutoConfigurationEntity>> GetFilteredConfigurations()
+        public async Task<List<AutoConfiguration>> GetFilteredConfigurations()
         {
             IQueryable<AutoConfigurationEntity> query = _configDbSet.AsQueryable();
 
@@ -100,7 +103,7 @@ namespace CarDealership.DataAccess
                 query = query.Where(config => config.ColorId == _selectedColorId);
             }
 
-            return await query.ToListAsync();
+            return await query.Select(config => factory.CreateModel(config)).ToListAsync();
         }
     }
 }

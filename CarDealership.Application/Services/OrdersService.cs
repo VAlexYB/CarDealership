@@ -1,5 +1,6 @@
 ﻿using CarDealership.Core.Abstractions.Repositories;
 using CarDealership.Core.Abstractions.Services;
+using CarDealership.Core.Enums;
 using CarDealership.Core.Models;
 
 namespace CarDealership.Application.Services
@@ -10,9 +11,13 @@ namespace CarDealership.Application.Services
         {
         }
 
-        public Task<Guid> ChangeStatus(int status)
+        public async Task<Guid> ChangeStatus(Guid id, int status)
         {
-            throw new NotImplementedException();
+            var order = await _repository.GetByIdAsync(id);
+            if (order == null) throw new InvalidOperationException("Заказ не найден");
+            order.ChangeStatus((OrderStatus)status);
+            await _repository.UpdateAsync(order);
+            return order.Id;
         }
     }
 }

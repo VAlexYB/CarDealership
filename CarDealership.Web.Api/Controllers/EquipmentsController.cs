@@ -1,4 +1,5 @@
 ﻿using CarDealership.Core.Abstractions.Services;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarDealership.Web.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class EquipmentsController : BaseController<Equipment, BaseFilter, EquipmentRequest, EquipmentResponse>
+    public class EquipmentsController : BaseController<Equipment, EquipmentsFilter, EquipmentRequest, EquipmentResponse>
     {
         private readonly IEquipmentRMFactory _equipRMFactory;
         private readonly IEquipmentsService equipService;

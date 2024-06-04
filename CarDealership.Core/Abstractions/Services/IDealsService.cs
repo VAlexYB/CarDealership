@@ -4,5 +4,6 @@ namespace CarDealership.Core.Abstractions.Services
 {
     public interface IDealsService : IGenericService<Deal, BaseFilter>
     {
+        Task<Guid> ChangeStatus(Guid id, int status);
     }
 }

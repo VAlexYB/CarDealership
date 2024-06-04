@@ -9,7 +9,7 @@ namespace CarDealership.Core.Models
     {
         public DateTime OrderDate { get; }
         public DateTime CompleteDate { get; }
-        public OrderStatus Status { get; }
+        public OrderStatus Status { get; private set; }
         public decimal Price { get; }
         public Guid CarId { get; }
         public virtual Car Car { get; }
@@ -60,6 +60,11 @@ namespace CarDealership.Core.Models
                 isDeleted, car, manager, customer);
 
             return Result.Success<Order>(order);
+        }
+
+        public void ChangeStatus(OrderStatus newStatus)
+        {
+            Status = newStatus;
         }
     }
 }

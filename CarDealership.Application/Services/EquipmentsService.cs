@@ -1,10 +1,11 @@
 ﻿using CarDealership.Core.Abstractions.Repositories;
 using CarDealership.Core.Abstractions.Services;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 
 namespace CarDealership.Application.Services
 {
-    public class EquipmentsService : BaseService<Equipment, BaseFilter>, IEquipmentsService
+    public class EquipmentsService : BaseService<Equipment, EquipmentsFilter>, IEquipmentsService
     {
         private readonly IEquipFeaturesRepository _equipFeaturesRepository;
         private readonly IEquipmentsRepository _equipmentsRepository;
