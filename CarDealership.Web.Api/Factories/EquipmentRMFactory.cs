@@ -15,7 +15,7 @@ namespace CarDealership.Web.Api.Factories
         private readonly IFeatureRMFactory _featureRMFactory;
         public EquipmentRMFactory(
             IAutoModelsService autoModelsService,
-            IFeaturesService featuresService, 
+            IFeaturesService featuresService,
             IFeatureRMFactory featureRMFactory
         )
         {
@@ -62,7 +62,10 @@ namespace CarDealership.Web.Api.Factories
                 Name = model.Name,
                 Price = model.Price,
                 ReleaseYear = model.ReleaseYear,
-                Features = featureResponses
+                Features = featureResponses,
+                AutoModelId = model.AutoModelId,
+                AutoModelName = model.AutoModel?.Name ?? "",
+                BrandName = model.AutoModel?.Brand?.Name ?? ""
             };
 
             return response;

@@ -9,5 +9,10 @@ namespace CarDealership.Application.Services
         public OrdersService(IOrdersRepository repository) : base(repository)
         {
         }
+
+        public Task<Guid> ChangeStatus(int status)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
