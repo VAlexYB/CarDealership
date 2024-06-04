@@ -1,11 +1,12 @@
 ﻿using CarDealership.Core.Abstractions.Repositories;
 using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Enums;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 
 namespace CarDealership.Application.Services
 {
-    public class DealsService : BaseService<Deal, BaseFilter>, IDealsService
+    public class DealsService : BaseService<Deal, DealsFilter>, IDealsService
     {
         public DealsService(IDealsRepository repository) : base(repository)
         {

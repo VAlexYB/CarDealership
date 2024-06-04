@@ -64,7 +64,8 @@ namespace CarDealership.Core.Models.Auth
         public void RemoveRole(Role role)
         {
             if (role == null) throw new ArgumentNullException(nameof(role));
-            roles.Remove(role);
+            var roleInList = roles.Single(x => x.Id ==  role.Id);
+            roles.Remove(roleInList);
         }
 
         public void AddManagedOrder(Order order)

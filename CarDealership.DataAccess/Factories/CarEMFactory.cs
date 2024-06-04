@@ -42,11 +42,18 @@ namespace CarDealership.DataAccess.Factories
             var carColorEntity = entity.AutoConfiguration?.Color;
             var carEquipmentEntity = entity.AutoConfiguration?.Equipment;
 
+            var carCountry = carBrandEntity?.Country != null ? Country.Create(
+                carBrandEntity.CountryId,
+                carBrandEntity.Country.Name,
+                carBrandEntity.Country.IsDeleted
+            ).Value : null;
+
             var carBrand = carBrandEntity != null ? Brand.Create(
                 carBrandEntity.Id,
                 carBrandEntity.Name,
                 carBrandEntity.CountryId,
-                carBrandEntity.IsDeleted
+                carBrandEntity.IsDeleted,
+                carCountry
             ).Value : null;
 
 

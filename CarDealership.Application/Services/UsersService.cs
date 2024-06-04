@@ -4,6 +4,7 @@ using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models.Auth;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Reflection;
 
 namespace CarDealership.Application.Services
 {
@@ -13,19 +14,27 @@ namespace CarDealership.Application.Services
         private readonly IRolesRepository _rolesRepository;
         private readonly IPasswordVerifier _passwordVerifier;
         private readonly IJwtProvider _jwtProvider;
-        public UsersService(IUsersRepository usersRepository, IPasswordVerifier passwordVerifier, JwtProvider jwtProvider)
+        public UsersService(IUsersRepository usersRepository, IRolesRepository rolesRepository, IPasswordVerifier passwordVerifier, JwtProvider jwtProvider)
         { 
             _usersRepository = usersRepository;
+            _rolesRepository = rolesRepository;
             _passwordVerifier = passwordVerifier;
             _jwtProvider = jwtProvider;
         }
 
-        public Task AddAsync(User user)
+        public async Task AddAsync(User user)
         {
             try
             {
-                _usersRepository.AddAsync(user);
-                return Task.CompletedTask;
+                bool _exist = await _usersRepository.ExistsAsync(user.Id);
+                if(_exist)
+                {
+                    await _usersRepository.UpdateAsync(user);
+                }
+                else
+                {
+                    await _usersRepository.AddAsync(user);
+                }
             }
             catch (Exception)
             {
@@ -40,6 +49,7 @@ namespace CarDealership.Application.Services
             {
                 throw new InvalidOperationException("Назначить старшим иожно только менеджера системы");
             }
+
             var role = await _rolesRepository.GetByIdAsync((int)Roles.SeniorManager);
             user.AddRole(role);
             await _usersRepository.UpdateAsync(user);

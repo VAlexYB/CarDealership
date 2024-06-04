@@ -1,5 +1,6 @@
 ﻿using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Enums;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    public class OrdersController : BaseController<Order, BaseFilter, OrderRequest, OrderResponse>
+    public class OrdersController : BaseController<Order, OrdersFilter, OrderRequest, OrderResponse>
     {
         private readonly IOrdersService _ordersSerivce;
 
