@@ -1,13 +1,15 @@
 ﻿using CarDealership.Core.Abstractions.Repositories;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
+using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
 using EquipmentFeatureEntity = CarDealership.DataAccess.Entities.EquipmentFeatureEntity;
 
 namespace CarDealership.DataAccess.Repositories
 {
-    public class EquipmentsRepository : BaseRepository<Equipment, EquipmentEntity, BaseFilter>, IEquipmentsRepository
+    public class EquipmentsRepository : BaseRepository<Equipment, EquipmentEntity, EquipmentsFilter>, IEquipmentsRepository
     {
         protected readonly DbSet<EquipmentFeatureEntity> _equipFeaturesSet;
         public EquipmentsRepository(CarDealershipDbContext context, IEntityModelFactory<Equipment, EquipmentEntity> factory) : base(context, factory)
@@ -43,6 +45,19 @@ namespace CarDealership.DataAccess.Repositories
 
             await _context.SaveChangesAsync();
             return existEntity.Id;
+        }
+
+        public override async Task<List<Equipment>> GetFilteredAsync(EquipmentsFilter filter)
+        {
+
+            var entities = await _dbSet
+                .AsNoTracking()
+                .Where(e => !e.IsDeleted)
+                .WhereIf(filter.AutoModelId.HasValue, e => e.AutoModelId == filter.AutoModelId)
+                .OrderBy(e => e.Id)
+                .ToListAsync();
+
+            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
     }
 }

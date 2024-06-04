@@ -1,12 +1,14 @@
 ﻿using CarDealership.Core.Abstractions.Repositories;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
+using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarDealership.DataAccess.Repositories
 {
-    public class AutoModelsRepository : BaseRepository<AutoModel, AutoModelEntity, BaseFilter>, IAutoModelsRepository
+    public class AutoModelsRepository : BaseRepository<AutoModel, AutoModelEntity, AutoModelsFilter>, IAutoModelsRepository
     {
         public AutoModelsRepository(CarDealershipDbContext context, IEntityModelFactory<AutoModel, AutoModelEntity> factory) : base(context, factory)
         {
@@ -26,6 +28,18 @@ namespace CarDealership.DataAccess.Repositories
             
             await _context.SaveChangesAsync();
             return existEntity.Id;
+        }
+
+        public async override Task<List<AutoModel>> GetFilteredAsync(AutoModelsFilter filter)
+        {
+            var entities = await _dbSet
+                .AsNoTracking()
+                .Where(am => !am.IsDeleted)
+                .WhereIf(filter.BrandId.HasValue, am => am.BrandId == filter.BrandId)
+                .OrderBy(am => am.Id)
+                .ToListAsync();
+
+            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
     }
 }
