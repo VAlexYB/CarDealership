@@ -31,18 +31,18 @@
            <section class="car-page d-flex justify-content-between align-items-center">
                 <div style="width: 100%;">
                     <div class="carInfo__top">
-                        <div class="carInfo__title">Mercedes-Benz S-Класс 500 2012</div>
-                        <div class="carInfo__subtitle">Цена: 1 400 000<b>₽</b></div>
+                        <div class="carInfo__title" id="carTitle">Mercedes-Benz S-Класс 500 2012</div>
+                        <div class="carInfo__subtitle" id="carTotalPrice"></div>
                     </div>
                     <div class="carInfo__bot">
                         <div class="carInfo__images">
-                            <img src="../assets/carImg/carBig.png" alt="" class="carInfo__imgB">
+                            <img id="carImg" alt="" class="carInfo__imgB" width="600px">
                         </div>
                         <div class="carInfo__texts">
                             <div class="carInfo__text">Основные параметры:</div>
                             <div class="carInfo__text d-flex justify-content-between">
                                 <div>Страна</div>
-                                <div>Германия</div>
+                                <div id="carCountry"></div>
                             </div>
                             <div class="carInfo__text d-flex justify-content-between">
                                 <div>Название комплектации</div> 
@@ -84,7 +84,7 @@
                                 <div>Комплектация</div>
                                 <div id="carFeatures">Перечисление особенностей</div>
                             </div>
-                            <div class="d-flex justify-content-center"><button href="index4.html" class="car-buy-btn cursor-pointer">Оформить заказ</button></div>
+                            <div class="d-flex justify-content-center"><button onclick="orderCar()" class="car-buy-btn cursor-pointer">Оформить заказ</button></div>
                         </div>
                     </div>
                 </div>

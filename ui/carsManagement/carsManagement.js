@@ -1,35 +1,82 @@
 document.addEventListener("DOMContentLoaded", async function() {
     await import('../scripts/navbarManager.js');
-    await getCountries();
+    await import('https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js');
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Если начало строки совпадает с искомым именем, берём значение
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      
+    const alterTroubleSuckyKey = getCookie('altertroublesuckykey');
+    if (!alterTroubleSuckyKey) {
+        alert('Вы не авторизованы');
+        window.location.href = "../login/login.html";
+    }
+    const decoded = jwt_decode(alterTroubleSuckyKey);
+    if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] !== 'Admin' &&  
+        !(decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === 'Manager' || 
+         decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"].some(role => role === "Manager"))) {
+        alert('Вы не админ или менеджер');
+        window.location.href = "../login/login.html";
+    }
+    if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === 'Manager') {
+        await import('../scripts/navbarManager.js');
+    }
+    else if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === 'Admin') {
+        await import('../scripts/navbarAdmin.js');
+    }
+    else {
+        await import('../scripts/navbarSeniorManager.js');
+    }
+    await getAutoConfigs();
     await getEntities();
 });
 
-const getCountries = async () => {
-    const response = await fetch("https://localhost:7243/api/AutoConfig/getAll", {
+const getAutoConfigs = async () => {
+    const response = await fetch("http://localhost:7243/api/AutoConfig/getAll", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
-        }
+        },
+        credentials: 'include',
     });
-    const entities = (await response.json());
-    if (entities.length === 0) return;
+    const entities = await response.json();
+    console.log(entities);
     const configSelect = document.getElementById('config');
+    let child = configSelect.firstChild;
+    while (child) {
+        const nextSibling = child.nextSibling; 
+        if (child.tagName !== 'TEMPLATE') configSelect.removeChild(child); 
+        child = nextSibling; 
+    }
     entities.forEach(entity => {
         const option = document.createElement('option');
         option.value = entity.id;
-        option.textContent = entity.brandName + " " + entity.modelName + " " + entity.equipmentName; //?????
+        option.textContent = entity.brandName + " " + entity.autoModelName + ", " + entity.bodyType + ", " + entity.color + ", "  + entity.equipment.name
+            + ", " + entity.equipment.releaseYear + ", " + entity.price + "₽";
         configSelect.appendChild(option);
     });
 }
 
 const getEntities = async () => {
-    const response = await fetch("https://localhost:7243/api/Cars/getAll", {
+    const response = await fetch("http://localhost:7243/api/Cars/getAll", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
-        }
+        },
+        credentials: 'include',
     });
     const entities = await response.json();
     const entitiesTableBody = document.getElementById('entitiesTableBody');
@@ -49,12 +96,15 @@ const getEntities = async () => {
     
     let entitiesCount = 0;
     const entitiesCardTemplate = document.getElementById('entitiesCardTemplate');
+    console.log(entities);
     entities.forEach(entity => {
         entitiesCount++;
         const entityCard = entitiesCardTemplate.content.cloneNode(true);
         entityCard.querySelector('#id').textContent = entitiesCount;
         entityCard.querySelector('#vinTable').textContent = entity.vin;
-        entityCard.querySelector('#configTable').textContent = entity.autoConfigurationId;
+        entityCard.querySelector('#configTable').textContent = entity.configuration.brandName + " " + entity.configuration.autoModelName + ", "
+             + entity.configuration.bodyType + ", " + entity.configuration.color + ", "  + entity.configuration.equipment.name
+            + ", " + entity.configuration.equipment.releaseYear + ", " + entity.configuration.price + "₽";
         entityCard.querySelector('#actionsTable').innerHTML = `
             <img src="../assets/img/update-icon.png" alt="" class="update-icon-img cursor-pointer">
             <img src="../assets/img/delete-icon.png" alt="" class="delete-icon-img cursor-pointer">
@@ -78,7 +128,7 @@ const openEntityDialog = (entity = null) => {
         const config = document.getElementById('config');
         const configOptions = config.querySelectorAll('option');
         for (let i = 0; i < configOptions.length; i++) {
-            if (configOptions[i].value === entity.configId) {
+            if (configOptions[i].value === entity.configuration.id) {
                 configOptions[i].selected = true;
                 break;
             }
@@ -114,19 +164,27 @@ const closeEntityDialog = () => {
 }
 
 const deleteEntity = async (entity) => {
-    await fetch(`https://localhost:7243/api/Cars/deleteById/${entity.id}`);
+    await fetch(`http://localhost:7243/api/Cars/deleteById/${entity.id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        credentials: 'include',
+    });
     await getEntities();
 }
 
 const addOrEditEntity = async (entity = null) => {
-    const name = document.getElementById('name').value;
+    const vin = document.getElementById('vin').value;
     const config = document.getElementById('config');
     const configOptions = config.querySelectorAll('option');
     const configId = configOptions[config.selectedIndex].value;
-    if (name === '' || config === '') {
+    if (vin === '' || configId === '') {
         alert('Поля не должны быть пустыми');
         return;
     }
+    
     let newEntity = {};
     if (entity) {
         newEntity = {
@@ -140,14 +198,20 @@ const addOrEditEntity = async (entity = null) => {
             "autoConfigurationId": configId
         }
     }
-    await fetch("https://localhost:7243/api/Cars/add", {
+    const response = await fetch("http://localhost:7243/api/Cars/add", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
-        body: JSON.stringify(newEntity)
-    });
+        body: JSON.stringify(newEntity),
+        credentials: 'include',
+    })
+    if (!response.ok) {
+        const error = await response.json()
+        alert(error);
+        return;
+    }
     closeEntityDialog();
     await getEntities();
 }

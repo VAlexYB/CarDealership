@@ -1,15 +1,54 @@
 document.addEventListener("DOMContentLoaded", async function() {
     await import('../scripts/navbarManager.js');
+    await import('https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js');
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Если начало строки совпадает с искомым именем, берём значение
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      
+    const alterTroubleSuckyKey = getCookie('altertroublesuckykey');
+    if (!alterTroubleSuckyKey) {
+        alert('Вы не авторизованы');
+        window.location.href = "../login/login.html";
+    }
+    const decoded = jwt_decode(alterTroubleSuckyKey);
+    if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] !== 'Admin' &&  
+        !(decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === 'Manager' || 
+         decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"].some(role => role === "Manager"))) {
+        alert('Вы не админ или менеджер');
+        window.location.href = "../login/login.html";
+    }
+    if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === 'Manager') {
+        await import('../scripts/navbarManager.js');
+    }
+    else if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === 'Admin') {
+        await import('../scripts/navbarAdmin.js');
+    }
+    else {
+        await import('../scripts/navbarSeniorManager.js');
+    }
     await getEntities();
 });
 
 const getEntities = async () => {
-    const response = await fetch("https://localhost:7243/api/Colors/getAll", {
+    const response = await fetch("http://localhost:7243/api/Colors/getAll", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
-        }
+        },
+        credentials: 'include',
     });
     const entities = (await response.json()).sort((a, b) => a.value.localeCompare(b.value));
     const entitiesTableBody = document.getElementById('entitiesTableBody');
@@ -83,7 +122,14 @@ const closeEntityDialog = () => {
 }
 
 const deleteEntity = async (entity) => {
-    await fetch(`https://localhost:7243/api/Colors/deleteById/${entity.id}`);
+    await fetch(`http://localhost:7243/api/Colors/deleteById/${entity.id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        credentials: 'include',
+    });
     await getEntities();
 }
 
@@ -107,14 +153,20 @@ const addOrEditEntity = async (entity = null) => {
             "price": price
         }
     }
-    await fetch("https://localhost:7243/api/Colors/add", {
+    const response = await fetch("http://localhost:7243/api/Colors/add", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
-        body: JSON.stringify(newEntity)
+        body: JSON.stringify(newEntity),
+        credentials: 'include',
     });
+    if (!response.ok) {
+        const error = await response.json()
+        alert(error);
+        return;
+    }
     closeEntityDialog();
     await getEntities();
 }

@@ -107,5 +107,26 @@ namespace CarDealership.Web.Api.Controllers
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
+
+        [Authorize(Roles = "User")]
+        [Route("cancelOrder/{orderId}")]
+        [HttpGet]
+        public async Task<IActionResult> CancelOrder(Guid orderId)
+        {
+            try
+            {
+                await _ordersService.ChangeStatus(orderId, (int)OrderStatus.Cancelled);
+                return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(400, e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Внутренняя ошибка сервера");
+            }
+        }
+
     }
 }

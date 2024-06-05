@@ -243,20 +243,27 @@ th, td {
     width: 40px;
 }
 .col2 {
-    width: 200px;
+    width: 150px;
 }
 .col3 {
-    width: 100px;
+    width: 150px;
 }
 .col4 {
-    width: 200px;
+    width: 130px;
 }
 .col5 {
-    width: 560px;
+    width: 130px;
 }
 .col6 {
     width: 130px;
 }
+.col7 {
+    width: 560px;
+}
+.col8 {
+    width: 130px;
+}
+
 
 .dialog-title{
     font-family: 'Russo One', sans-serif;

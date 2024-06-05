@@ -10,7 +10,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url("../img/image3.png")no-repeat;
+    background: url("../assets/carImg/image3.png")no-repeat;
     background-size: cover;
     padding: 0 0 10px 0;
     background-position: center;
@@ -46,9 +46,6 @@ body{
     font-size: 18px;
 }
 
-.auto__email{
-    
-}
 
 .auto__email input{
     border: 3px solid #a0887e;
@@ -104,7 +101,7 @@ body{
         display: flex;
         justify-content: center;
         align-items: center;
-        background: url("../img/image3.png")no-repeat;
+        background: url("../assets/carImg/image3.png")no-repeat;
         background-size: cover;
         padding: 0 0 50px 0;
         background-position: center;

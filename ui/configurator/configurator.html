@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&family=Russo+One&display=swap"
+        rel="stylesheet">
+    <title>Конфигуратор</title>
+    <link rel="stylesheet" href="configurator.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="custom_container">
+                <div class="header__top">
+                    <div class="d-flex justify-content-center">
+                        <div class="header__list" style="font-size: 24px">
+                            CarDealership
+                        </div>
+                    </div>
+                </div>
+                <div class="header__bottom" style="padding: 23px 0;">
+                    <nav id="navbar"></nav>
+                </div>
+            </div>
+        </header>
+        <main class="main">
+            <div class="d-flex justify-content-center configurator">
+                <div id="config_step_1">
+                    <template id="brandTitleTemplate">
+                        <div class="config-part-title text-center" style="margin-bottom: 20px;"></div>
+                    </template>
+                    <template id="brandCardTemplate">
+                        <a class="config-part-article cursor-pointer">
+                            <span class="config-part-title"></span>
+                        </a>
+                    </template>
+                </div>
+                <div id="config_step_2">
+                    <template id="modelTitleTemplate">
+                        <div class="config-part-title text-center" style="margin-bottom: 20px;"></div>
+                    </template>
+                    <template id="modelCardTemplate">
+                        <a class="config-part-article cursor-pointer">
+                            <span class="config-part-title"></span>
+                        </a>
+                    </template>
+                </div>
+                <div id="config_step_3">
+                    <template id="bodyTypeTitleTemplate">
+                        <div class="config-part-title text-center" style="margin-bottom: 20px;"></div>
+                    </template>
+                    <template id="bodyTypeCardTemplate">
+                        <a class="config-part-article cursor-pointer">
+                            <span class="config-part-title"></span>
+                        </a>
+                    </template>
+                </div>
+                <div id="config_step_4">
+                    <template id="driveTypeTitleTemplate">
+                        <div class="config-part-title text-center" style="margin-bottom: 20px;"></div>
+                    </template>
+                    <template id="driveTypeCardTemplate">
+                        <a class="config-part-article cursor-pointer">
+                            <span class="config-part-title"></span>
+                        </a>
+                    </template>
+                </div>
+                <div id="config_step_5">
+                    <template id="equipmentTitleTemplate">
+                        <div class="config-part-title text-center" style="margin-bottom: 20px;"></div>
+                    </template>
+                    <template id="equipmentCardTemplate">
+                        <a class="config-part-article cursor-pointer">
+                            <span class="config-part-title"></span>
+                        </a>
+                    </template>
+                </div>
+                <div id="config_step_6">
+                    <template id="engineTitleTemplate">
+                        <div class="config-part-title text-center" style="margin-bottom: 20px;"></div>
+                    </template>
+                    <template id="engineCardTemplate">
+                        <a class="config-part-article cursor-pointer">
+                            <span class="config-part-title"></span>
+                        </a>
+                    </template>
+                </div>
+                <div id="config_step_7">
+                    <template id="colorTitleTemplate">
+                        <div class="config-part-title text-center" style="margin-bottom: 20px;"></div>
+                    </template>
+                    <template id="colorCardTemplate">
+                        <a class="config-part-article cursor-pointer">
+                            <span class="config-part-title"></span>
+                        </a>
+                    </template>
+                </div>
+                <div id="configuratedCar" class="d-none">
+                    <p id="carTitle" class="text-center"></p>
+                    <img id="carImg" alt="">
+                    <p id="carText"></p>
+                    <button class="car-btn text-center" onclick="orderCar()">Заказать</button>
+                </div>
+            </div>
+        </main>
+        <footer class="footer d-flex justify-content-center">
+            <div class="custom_container">
+                <div class="footer__body">
+                    <div class="footer__text">
+                        <div class="footer__logo">CarDealership</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="configurator.js"></script>
+</body>
+
+</html>

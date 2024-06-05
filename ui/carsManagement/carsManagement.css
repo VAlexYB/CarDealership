@@ -264,7 +264,7 @@ th, td {
     border: 5px solid #a0887e;
     border-radius: 20px;
     border-radius: 10px;
-    width: 400px;
+    width: 530px;
     padding: 20px;
     .x {
 		filter: grayscale(1);
@@ -279,7 +279,7 @@ th, td {
         font-size: 18px;
 	}
     input {
-        width: 200px;
+        width: 520px;
         border: 1px solid #a0887e;
         border-radius: 5px;
         padding: 5px;
@@ -289,7 +289,7 @@ th, td {
         outline: none;
     }
     select {
-        width: 200px;
+        width: 520px;
         border: 1px solid #a0887e;
         border-radius: 5px;
         padding: 5px;

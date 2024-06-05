@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&family=Russo+One&display=swap" rel="stylesheet">
-    <title>Модели</title>
+    <title>Комплектации</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="equipmentsManagement.css">
 </head>
@@ -43,6 +43,8 @@
                                     <div>
                                         <label class="d-block" for="name">Название комплектации</label>
                                         <input class="d-block" type="text" name="name" id="name"></input>
+                                        <label class="d-block" for="brand">Бренд</label>
+                                        <select class="d-block" name="brand" id="brand"></select>
                                         <label class="d-block" for="model">Модель</label>
                                         <select class="d-block" name="model" id="model"></select>
                                         <label class="d-block" for="releaseYear">Год выпуска</label>
@@ -62,11 +64,13 @@
                         <thead>
                             <tr>
                                 <th class="col1 text-center">#</th>
-                                <th class="col2">Название </th>
-                                <th class="col3">Цена</th>
-                                <th class="col4">Год выпуска</th>
-                                <th class="col5">Особенности</th>
-                                <th class="col6">Действие</th>
+                                <th class="col2">Название</th>
+                                <th class="col3">Бренд</th>
+                                <th class="col4">Модель</th>
+                                <th class="col5">Цена</th>
+                                <th class="col6">Год выпуска</th>
+                                <th class="col7">Особенности</th>
+                                <th class="col8">Действие</th>
                             </tr>
                         </thead>
                         <tbody id="entitiesTableBody">
@@ -74,10 +78,12 @@
                                 <tr>
                                     <td class="col1" id="id"></td>
                                     <td class="col2" id="nameTable"></td>
-                                    <td class="col3" id="priceTable"></td>
-                                    <td class="col4" id="releaseYearTable"></td>
-                                    <td class="col5" id="featuresTable"></td>
-                                    <td class="col6" id="actionsTable"></td>
+                                    <td class="col3" id="brandTable"></td>
+                                    <td class="col4" id="modelTable"></td>
+                                    <td class="col5" id="priceTable"></td>
+                                    <td class="col6" id="releaseYearTable"></td>
+                                    <td class="col7" id="featuresTable"></td>
+                                    <td class="col8" id="actionsTable"></td>
                                 </tr>
                             </template>
                             <template id="noEntitiesCardTemplate">

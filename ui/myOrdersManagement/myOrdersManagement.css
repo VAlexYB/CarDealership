@@ -223,7 +223,7 @@ svg:hover{
 /* End Section FOOTER */
 
 .custom-div-table {
-    width: 1630px;
+    width: 1230px;
 }
 
 th {
@@ -243,39 +243,20 @@ th, td {
     width: 40px;
 }
 .col2 {
-    width: 130px;
+    width: 430px;
 }
 .col3 {
-    width: 120px;
+    width: 200px;
 }
 .col4 {
-    width: 130px;
+    width: 200px;
 }
 .col5 {
     width: 130px;
 }
 .col6 {
-    width: 270px;
-}
-.col7 {
-    width: 170px;
-}
-.col8 {
     width: 130px;
 }
-.col9 {
-    width: 170px;
-}
-.col10 {
-    width: 190px;
-}
-.col11 {
-    width: 130px;
-}
-.col12 {
-    width: 130px;
-}
-
 
 .dialog-title{
     font-family: 'Russo One', sans-serif;
@@ -289,7 +270,7 @@ th, td {
     border: 5px solid #a0887e;
     border-radius: 20px;
     border-radius: 10px;
-    width: 500px;
+    width: 400px;
     padding: 20px;
     .x {
 		filter: grayscale(1);
@@ -304,7 +285,7 @@ th, td {
         font-size: 18px;
 	}
     input {
-        width: 490px;
+        width: 200px;
         border: 1px solid #a0887e;
         border-radius: 5px;
         padding: 5px;
@@ -314,7 +295,7 @@ th, td {
         outline: none;
     }
     select {
-        width: 490px;
+        width: 200px;
         border: 1px solid #a0887e;
         border-radius: 5px;
         padding: 5px;

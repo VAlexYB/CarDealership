@@ -56,7 +56,6 @@ namespace CarDealership.Web.Api.Controllers
                 var role = await _rolesService.GetByIdAsync((int)Roles.User);
                 user.AddRole(role);
 
-
                 await _usersService.AddAsync(user);
                 return Ok();
             } 
@@ -228,7 +227,7 @@ namespace CarDealership.Web.Api.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SeniorManager")]
         [Route("getUsers")]
         [HttpGet]
         public async Task<IActionResult> GetOnlyUsers()

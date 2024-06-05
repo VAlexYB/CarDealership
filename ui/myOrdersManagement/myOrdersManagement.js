@@ -65,13 +65,14 @@ document.addEventListener("DOMContentLoaded", async function() {
 // }
 
 const getEntities = async () => {
-    const response = await fetch("http://localhost:7243/api/Orders/getFreeOrders", {
-        method: "GET",
+    const response = await fetch("http://localhost:7243/api/Orders/getByFilter", {
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
         credentials: 'include',
+        body: JSON.stringify({managerId: userId})
     });
     const entities = (await response.json())
     const entitiesTableBody = document.getElementById('entitiesTableBody');
@@ -98,24 +99,80 @@ const getEntities = async () => {
         entityCard.querySelector('#carTable').textContent = entity.autoConfiguration.brandName + " " + entity.autoConfiguration.autoModelName + " " 
         + entity.autoConfiguration.equipment.name + " " + entity.autoConfiguration.equipment.releaseYear; ;
         entityCard.querySelector('#orderDateTable').textContent = entity.orderDate.split('T')[0];
+        entityCard.querySelector('#deliveryDateTable').textContent = (entity.completeDate !== '0001-01-01T00:00:00' ? entity.completeDate.split('T')[0] : "Не доставлено");
         entityCard.querySelector('#orderStatusTable').textContent = entity.status === 1 ? "Ожидание" : 
                                                                     entity.status === 2 ? "В обработке" :
                                                                     entity.status === 3 ? "Доставлен" : "Отменен"; 
-        if (entity.status === 1) {
+        if (entity.status === 2) {
             entityCard.querySelector('#actionsTable').innerHTML = `
-            <img src="../assets/img/add-icon.png" width="20px" height="20px"     alt="" class="add-icon-img cursor-pointer">
-        `
-        entityCard.querySelector('.add-icon-img').addEventListener('click', () => {
-            takeInProcess(entity);
-        });
+            <img src="../assets/img/update-icon.png" alt="" class="update-icon-img cursor-pointer">
+            <img src="../assets/img/delete-icon.png" alt="" class="delete-icon-img cursor-pointer">
+            `
+            entityCard.querySelector('.update-icon-img').addEventListener('click', () => {
+                openEntityDialog(entity);
+            });
+            entityCard.querySelector('.delete-icon-img').addEventListener('click', () => {
+                leaveOrder(entity);
+            });
         }
         entitiesTableBody.appendChild(entityCard);
     });
 
 }
+const changeStatus = async (entity) => {
+    const orderStatus = document.getElementById('orderStatus');
+    const orderStatusOptions = orderStatus.querySelectorAll('option');
+    const status = orderStatusOptions[orderStatus.selectedIndex].value;
+    console.log(entity)
+    if (status == 3) {
+        const newEntity = {
+            "id": entity.id ,
+                "managerId": userId,
+                "status": 3,
+                "completeDate": new Date().toISOString(),
+                "orderDate": entity.orderDate,
+                "autoConfigurationId": entity.autoConfigurationId,
+                "customerId": entity.customerId
+        }
+        console.log(newEntity)
+        const deliverOrder = await fetch("http://localhost:7243/api/Orders/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            credentials: 'include',
+            body: JSON.stringify(newEntity)
+        })
+        if (!deliverOrder.ok) {
+            alert("Заказ " + entity.id + " не доставлен");
+        }
+    } else {
+        const cancelOrder = await fetch("http://localhost:7243/api/Orders/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                "id": entity.id ,
+                "managerId": userId,
+                "status": 4,
+                "orderDate": entity.orderDate,
+                "autoConfigurationId": entity.autoConfigurationId,
+                "customerId": entity.customerId
+            })
+        })
+        if (!cancelOrder.ok) {
+            alert("Заказ " + entity.id + " не отменен");
+        }
+    }
+    await getEntities()
+}
 
-const takeInProcess = async (entity) => {
-    const response = await fetch("http://localhost:7243/api/Orders/takeInProcess", {
+const leaveOrder = async (entity) => {
+    const response = await fetch(`http://localhost:7243/api/Orders/leaveOrder/${entity.id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -123,12 +180,43 @@ const takeInProcess = async (entity) => {
         },
         credentials: 'include',
         body: JSON.stringify({
-            "taskId": entity.id ,
-            "managerId": userId
+            "orderId": entity.id
         })
     })
     if (!response.ok) {
-        alert("Заказ " + entity.id + " не принят в обработку");
+        alert("Заказ " + entity.id + " не убран из обработки");
     }
     await getEntities();
+}
+
+const openEntityDialog = (entity) => {
+    document.getElementById('addEntityDialog').showModal();
+    const entityForm = document.getElementById('entityForm');
+    if (entity) {
+        const orderStatus = document.getElementById('orderStatus');
+        const orderStatusOptions = orderStatus.querySelectorAll('option');
+        for (let i = 0; i < orderStatusOptions.length; i++) {
+            if (orderStatusOptions[i].value === entity.brandId) {
+                orderStatusOptions[i].selected = true;
+                break;
+            } 
+        };
+        document.getElementById('dialogTitle').textContent = 'Заказ';
+        document.getElementById('dialogSubmitBtn').textContent = 'Сохранить';
+        entityForm.onsubmit = (event) => {
+            event.preventDefault();
+            changeStatus(entity);
+        };
+    }
+}
+
+const closeEntityDialog = () => {
+    const entityForm = document.getElementById('entityForm');
+    const orderStatus = document.getElementById('orderStatus');
+    const orderStatusOptions = orderStatus.querySelectorAll('option');
+    for (let i = 0; i < orderStatusOptions.length; i++) {
+        orderStatusOptions[i].selected = false;
+    };
+    entityForm.onsubmit = null;
+    document.getElementById('addEntityDialog').close();
 }

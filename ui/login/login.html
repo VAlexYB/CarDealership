@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&family=Russo+One&display=swap" rel="stylesheet">
-    <title>Login</title>
+    <title>Авторизация</title>
     <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -16,15 +16,17 @@
         <section class="auto">
             <div class="auto__body">
                 <div class="auto__title">Авторизация</div>
-                <div class="auto__subtitle">ANNUAL</div>
-                <form action="#" class="auto__form" method="post">
-                    <div class="auto__email"><input type="email" placeholder="Введите почту"></div>
-                    <div class="auto__pass"><input type="password" placeholder="Введите пароль"></div>
+                <div class="auto__subtitle">CarDealership</div>
+                <form id="entityForm" class="auto__form" method="post">
+                    <div class="auto__email"><input type="text" placeholder="Введите логин" id="userName"></div>
+                    <div class="auto__pass"><input type="password" placeholder="Введите пароль" id="password"></div>
                     <button class="auto__btn">Войти</button>
                 </form>
                 <div class="auto__link"><a href="../registration/registration.html">Регистрация</a></div>
             </div>
         </section>
     </main>
+
+    <script src="login.js"></script>
 </body>
 </html>

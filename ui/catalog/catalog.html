@@ -36,147 +36,38 @@
                     <div class="catalog-title">Автомобили в наличии</div>
                 </div>
                 <div class="d-flex justify-content-center" style="margin: 0 250px; width: 1500px;">
-                    <div style="width: 270px; border: 5px solid #e0e0e0; border-radius: 10px; height: 500px;">
-                        Некая фильтрация?
+                    <div class="catalog-filter d-none" style="width: 270px; border: 5px solid #e0e0e0; border-radius: 10px; height: 100px; padding: 10px;">
+                        <label for="brand" style="margin-left: 1px;" class="text-center">Бренд</label>
+                        <select class="d-block filter-select" name="brand" id="brand"></select>
+                        <label id="brandMessage" class="text-center"></label>
+                        <label for="model">Модель</label>
+                        <select class="d-block filter-select" name="model" id="model"></select>
+                        <label id="modelMessage" class="text-center"></label>
                     </div>
                     <div id="catalog" class="d-flex catalog custom-width" style="width: 100%; overflow-y: auto; flex-wrap: wrap;">
                         <template id="carCardTemplate">
                             <a class="car-card cursor-pointer">
                                 <div>
-                                    <div class="car-name"><span id="carCatalogBrand"><b></b></span> <span id="carCatalogModel"></span> <span id="carCatalogBodyType"></span></div>
-                                    <div class="car-equipment"><span id="carCatalogEquipmentName"></span> <span id="carCatalogReleaseYear"></span></div>
+                                    <div class="car-name"><span id="carBrand"><b></b></span> <span id="carModel"></span> <span id="carBodyType"></span></div>
+                                    <div class="car-equipment"><span id="carEquipmentName"></span> <span id="carReleaseYear"></span></div>
                                 </div>
-                                <img alt="">
-                                <div class="car-price" id="carCatalogPrice"><img src="../assets/img/valute.png" alt="" class="car__valute"></div>
+                                <img id="carImg" alt="">
+                                <div class="car-price" id="carTotalPrice"></div>
                                 <hr>
-                                <div class="d-flex justify-content-between car-techs">
-                                    <div class="car-tech"></div>
-                                    <div class="car-tech"></div>
+                                <div class="d-flex justify-content-around car-techs">
+                                    <div class="car-tech">
+                                        <div style="font-size: 12px" class="text-center">Двигатель</div>
+                                        <div id="carEngine" class="text-center" style="margin-top: 5px; font-size: 12px"></div>
+                                    </div> 
+                                    <div class="car-tech">
+                                        <div style="font-size: 12px" class="text-center">Трансмиссия</div>
+                                        <div id="carTransmission" class="text-center" style="margin-top: 5px; font-size: 12px"></div>
+                                    </div>
                                 </div>
                                 <hr>
-                                <button class="car-btn text-center d-none" >Выбрать</button>
+                                <button class="car-btn text-center d-none" onclick="handleEvent(event)">Выбрать</button>
                             </a>
                         </template>
-                        <a class="car-card cursor-pointer" href="../carPage/carPage.html">
-                            <div>
-                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
-                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
-                            </div>
-                            <img src="../assets/carImg/682915.png" alt="">
-                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
-                            <hr>
-                            <div class="d-flex justify-content-between car-techs">
-                                <div class="car-tech">Двигатель</div>
-                                <div class="car-tech">Трансмиссия</div>
-                            </div>
-                            <hr>
-                            <button class="car-btn text-center d-none" onclick="handleEvent(event)">Выбрать</button>
-                        </a>
-                        <a class="car-card cursor-pointer">
-                            <div>
-                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
-                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
-                            </div>
-                            <img src="../assets/carImg/682915.png" alt="">
-                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
-                            <hr>
-                            <div class="d-flex justify-content-between car-techs">
-                                <div class="car-tech">Двигатель</div>
-                                <div class="car-tech">Трансмиссия</div>
-                            </div>
-                            <hr>
-                            <button class="car-btn text-center d-none">Сделка?</button>
-                        </a>
-                        <a class="car-card cursor-pointer">
-                            <div>
-                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
-                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
-                            </div>
-                            <img src="../assets/carImg/682915.png" alt="">
-                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
-                            <hr>
-                            <div class="d-flex justify-content-between car-techs">
-                                <div class="car-tech">Двигатель</div>
-                                <div class="car-tech">Трансмиссия</div>
-                            </div>
-                            <hr>
-                            <button class="car-btn text-center d-none">Сделка?</button>
-                        </a>
-                        <a class="car-card cursor-pointer">
-                            <div>
-                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
-                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
-                            </div>
-                            <img src="../assets/carImg/682915.png" alt="">
-                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
-                            <hr>
-                            <div class="d-flex justify-content-between car-techs">
-                                <div class="car-tech">Двигатель</div>
-                                <div class="car-tech">Трансмиссия</div>
-                            </div>
-                            <hr>
-                            <button class="car-btn text-center d-none">Сделка?</button>
-                        </a>
-                        <a class="car-card cursor-pointer">
-                            <div>
-                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
-                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
-                            </div>
-                            <img src="../assets/carImg/682915.png" alt="">
-                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
-                            <hr>
-                            <div class="d-flex justify-content-between car-techs">
-                                <div class="car-tech">Двигатель</div>
-                                <div class="car-tech">Трансмиссия</div>
-                            </div>
-                            <hr>
-                            <button class="car-btn text-center d-none">Сделка?</button>
-                        </a>
-                        <a class="car-card cursor-pointer">
-                            <div>
-                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
-                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
-                            </div>
-                            <img src="../assets/carImg/682915.png" alt="">
-                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
-                            <hr>
-                            <div class="d-flex justify-content-between car-techs">
-                                <div class="car-tech">Двигатель</div>
-                                <div class="car-tech">Трансмиссия</div>
-                            </div>
-                            <hr>
-                            <button class="car-btn text-center d-none">Сделка?</button>
-                        </a>
-                        <a class="car-card cursor-pointer">
-                            <div>
-                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
-                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
-                            </div>
-                            <img src="../assets/carImg/682915.png" alt="">
-                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
-                            <hr>
-                            <div class="d-flex justify-content-between car-techs">
-                                <div class="car-tech">Двигатель</div>
-                                <div class="car-tech">Трансмиссия</div>
-                            </div>
-                            <hr>
-                            <button class="car-btn text-center d-none">Сделка?</button>
-                        </a>
-                        <a class="car-card cursor-pointer">
-                            <div>
-                                <div class="car-name"><span id="carBrand"><b>Toyota</b></span> <span id="carModel">Camry</span> <span id="carBodyType">Седан</span></div>
-                                <div class="car-equipment"><span id="carEquipmentName">Classic 24</span> <span id="carReleaseYear">2024</span></div>
-                            </div>
-                            <img src="../assets/carImg/682915.png" alt="">
-                            <div class="car-price">Цена: 1 850 000 <img src="../assets/img/valute.png" alt="" class="car__valute"></div>
-                            <hr>
-                            <div class="d-flex justify-content-between car-techs">
-                                <div class="car-tech">Двигатель</div>
-                                <div class="car-tech">Трансмиссия</div>
-                            </div>
-                            <hr>
-                            <button class="car-btn text-center d-none">Сделка?</button>
-                        </a>
                     </div>
                 </div>
             </div>

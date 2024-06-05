@@ -1,15 +1,43 @@
 document.addEventListener("DOMContentLoaded", async function() {
     await import('../scripts/navbarAdmin.js');
+    await import('https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js');
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Если начало строки совпадает с искомым именем, берём значение
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      
+    const alterTroubleSuckyKey = getCookie('altertroublesuckykey');
+    if (!alterTroubleSuckyKey) {
+        alert('Вы не авторизованы');
+        window.location.href = "../login/login.html";
+    }
+    const decoded = jwt_decode(alterTroubleSuckyKey);
+    if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] !== 'Admin') {
+        alert('Вы не админ');
+        window.location.href = "../catalog/catalog.html";
+    }
     await getEntities();
 });
 
 const getEntities = async () => {
-    const response = await fetch("https://localhost:7243/api/Users/getMgrs", {
+    const response = await fetch("http://localhost:7243/api/Users/getMgrs", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
-        }
+        },
+        credentials: 'include'
     });
     const entities = await response.json();
     const entitiesTableBody = document.getElementById('entitiesTableBody');
@@ -32,7 +60,7 @@ const getEntities = async () => {
         entitiesCount++;
         const entityCard = entitiesCardTemplate.content.cloneNode(true);
         entityCard.querySelector('#id').textContent = entitiesCount;
-        entityCard.querySelector('#userNameable').textContent = entity.userName;
+        entityCard.querySelector('#userNameTable').textContent = entity.userName;
         entityCard.querySelector('#emailTable').textContent = entity.email;
         entityCard.querySelector('#firstNameTable').textContent = entity.firstName;
         entityCard.querySelector('#lastNameTable').textContent = entity.lastName;
@@ -84,62 +112,141 @@ const closeEntityDialog = () => {
     const entityForm = document.getElementById('entityForm');
     document.getElementById('userName').value = '';
     document.getElementById('email').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('repeatPassword').value = '';
     document.getElementById('firstName').value = '';
     document.getElementById('lastName').value = '';
     document.getElementById('middleName').value = '';
     document.getElementById('phoneNumber').value = '';
+    const position = document.getElementById('position').checked = false;
     entityForm.onsubmit = null;
     document.getElementById('addEntityDialog').close();
 }
 
 const deleteEntity = async (entity) => {
-    await fetch(`https://localhost:7243/api/Users/deleteById/${entity.id}`);
+    await fetch(`http://localhost:7243/api/Users/deleteById/${entity.id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        credentials: 'include'  
+    });
     await getEntities();
 }
 
 const addOrEditEntity = async (entity = null) => {
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Если начало строки совпадает с искомым именем, берём значение
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+    }
+    const alterTroubleSuckyKey = getCookie('altertroublesuckykey');
+    if (!alterTroubleSuckyKey) {
+        alert('Вы не авторизованы');
+        return;
+    }
+    const decoded = jwt_decode(alterTroubleSuckyKey);
+    if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] !== 'Admin') {
+        alert('Вы не администратор');
+    }
     const userName = document.getElementById('userName').value;
     const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const repeatPassword = document.getElementById('repeatPassword').value;
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
     const middleName = document.getElementById('middleName').value;
     const phoneNumber = document.getElementById('phoneNumber').value;
-    const cardDigits = document.getElementById('cardDigits').value;
-    if (userName === '' || email === '' || firstName === '' || lastName === '' || middleName === '' || phoneNumber === '' || cardDigits === '') {
+    if (userName === '' || email === '' || firstName === '' || lastName === '' || middleName === '' || phoneNumber === '' || password === '' || repeatPassword === '') {
         alert('Поля не должны быть пустыми');
         return;
     }
+    if (password !== repeatPassword) {
+        alert('Пароли не совпадают');
+        return;
+    }
+    const position = document.getElementById('position').checked ? 1 : 0;
     let newEntity = {};
     if (entity) {
         newEntity = {
             "id": entity.id,
             "userName": userName,
             "email": email,
+            "password": password,
             "firstName": firstName,
             "lastName": lastName,
             "middleName": middleName,
-            "phoneNumber": phoneNumber,
-            "cardDigits": cardDigits
+            "phoneNumber": phoneNumber
         }
     } else {
         newEntity = {
             "userName": userName,
             "email": email,
+            "password": password,
             "firstName": firstName,
             "lastName": lastName,
             "middleName": middleName,
-            "phoneNumber": phoneNumber,
-            "cardDigits": cardDigits
+            "phoneNumber": phoneNumber
         }
     }
-    await fetch("https://localhost:7243/api/Users/addmgr", {
+    await fetch("http://localhost:7243/api/Users/addmgr", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
-        body: JSON.stringify(newEntity)
+        body: JSON.stringify(newEntity),
+        credentials: 'include'
     });
+    let mgrId;
+    if (!entity) {
+        const mgrs = await fetch('http://localhost:7243/api/Users/getMgrs', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+        });
+        const mgrsJson = await mgrs.json();
+        mgrsJson.forEach(mgr => {
+            if (mgr.userName === userName) {
+                mgrId = mgr.id;
+            }
+        });
+    } else {
+        mgrId = entity.id;
+    }
+    if (position === 1) {
+        await fetch(`http://localhost:7243/api/Users/assignSenior/${mgrId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            credentials: 'include'
+        });
+    } else {
+        await fetch(`http://localhost:7243/api/Users/suspendSenior/${mgrId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            credentials: 'include'
+        });
+    }
     closeEntityDialog();
     await getEntities();
 }

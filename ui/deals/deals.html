@@ -7,8 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&family=Russo+One&display=swap" rel="stylesheet">
-    <title>Мои заказы</title>
-    <link rel="stylesheet" href="orders.css">
+    <title>Мои сделки</title>
+    <link rel="stylesheet" href="deals.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -32,9 +32,9 @@
                 <div class="custom_container">
                     <div class="basket__body">
                         <div class="text-center basket__title" style="margin-bottom: 30px;">
-                            Мои заказы
+                            Мои сделки
                         </div>
-                        <div class="basket__bot" id="orders">
+                        <div class="basket__bot" id="deals">
                             <template id="entityCardTemplate">
                                 <div class="basket__item bas" style="width: 1220px; margin: 0 350px 30px 350px">
                                     <img width="310px" height="195px" id="carImg" alt="" style="margin-right: 20px;">
@@ -78,11 +78,9 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <div style="margin-bottom: 5px" id="orderDate">Дата заказа: </div>
-                                                <div style="margin-bottom: 5px" id="deliveryDate">Дата доставки: </div>
-                                                <div style="margin-bottom: 5px" id="orderPrice">Оплачено: </div>
-                                                <div style="margin-bottom: 20px" id="orderStatus">Статус заказа: </div>
-                                                <button id="cancelOrder" class="bas__btn cursor-pointer d-none">Отменить</button>
+                                                <div style="margin-bottom: 5px" id="dealDate">Дата сделки: </div>
+                                                <div style="margin-bottom: 5px" id="dealPrice">Стоимость сделки: </div>
+                                                <div style="margin-bottom: 40px" id="dealStatus">Статус сделки: </div>
                                             </div>
                                         </div>
                                     </div>
@@ -103,6 +101,6 @@
             </div>
         </footer>
     </div>
-    <script src="orders.js"></script>
+    <script src="deals.js"></script>
 </body>
 </html>

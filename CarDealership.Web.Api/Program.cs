@@ -42,8 +42,6 @@ builder.Services
     .AddBusinessLogic()
     .AddControllersSupport();
 
-
-
 var app = builder.Build();
 
 app.UseSwagger();
@@ -52,14 +50,14 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Car Dealership API V1");
 });
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-//app.UseCookiePolicy(new CookiePolicyOptions
-//{
-//    MinimumSameSitePolicy = SameSiteMode.Strict,
-//    HttpOnly = HttpOnlyPolicy.Always,
-//    Secure = CookieSecurePolicy.Always
-//});
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+    HttpOnly = HttpOnlyPolicy.None,
+    Secure = CookieSecurePolicy.Always
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

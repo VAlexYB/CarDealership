@@ -1,1 +1,104 @@
-?
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&family=Russo+One&display=swap" rel="stylesheet">
+    <title>Сделки</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="dealsManagement.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="custom_container">
+                <div class="header__top">
+                    <div class="d-flex justify-content-center">
+                        <div class="header__list" style="font-size: 24px">
+                            CarDealership
+                        </div>
+                    </div>
+                </div>
+                <div class="header__bottom" style="margin-bottom: 50px;">
+                    <nav id="navbar"></nav>
+                </div>
+            </div>
+        </header>
+        <main class="main">
+           <div class="d-flex justify-content-center">
+               <div class="custom-div-table align-items-center">
+                    <div>   
+                        <div class="text-end" style="margin-bottom: 10px;">
+                            <button class="cursor-pointer btn" onclick="openEntityDialog()">
+                                Добавить
+                            </button>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center dialog-container">
+                            <dialog id="addEntityDialog" class="dialog">
+                                <div id="dialogTitle" class="dialog-title text-center"></div><br>
+                                <form id="entityForm">
+                                    <div>
+                                        <label class="d-block" for="car">Автомобиль</label>
+                                        <select class="d-block" name="car" id="car"></select>
+                                        <label class="d-block" for="customer">Клиент</label>
+                                        <select class="d-block" type="date" name="customer" id="customer"></select>
+                                        <label class="d-block" for="dealStatus">Статус сделки</label>
+                                        <select class="d-block" type="date" name="dealStatus" id="dealStatus">
+                                            <option value="1">На согласовании</option>
+                                            <option value="2">Одобрена</option>
+                                            <option value="3">Отклонена</option>
+                                            <option value="4">Завершена</option>
+                                        </select>
+                                        <button id="dialogSubmitBtn" class="btn cursor-pointer" type="submit"></button>
+                                    </div>
+                                </form>
+                                <button onclick="closeEntityDialog()" aria-label="close" class="x">❌</button>
+                            </dialog>
+                        </div>
+                    </div>
+                    <table style="border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th class="col1 text-center">#</th>
+                                <th class="col2">Автомобиль</th>
+                                <th class="col3">Дата сделки</th>
+                                <th class="col4">Статус сделки</th>
+                                <th class="col5">Действие</th>
+                            </tr>
+                        </thead>
+                        <tbody id="entitiesTableBody">
+                            <template id="entitiesCardTemplate">
+                                <tr>
+                                    <td class="col1" id="id"></td>
+                                    <td class="col2" id="carTable"></td>
+                                    <td class="col3" id="dealDateTable"></td>
+                                    <td class="col4" id="dealStatusTable"></td>
+                                    <td class="col5" id="actionsTable"></td>
+                                </tr>
+                            </template>
+                            <template id="noEntitiesCardTemplate">
+                                <tr id="entitiesMessage">
+                                    <td colspan="8"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+               </div>
+           </div>
+        </main>
+        <footer class="footer d-flex justify-content-center">
+            <div class="custom_container">
+                <div class="footer__body">
+                    <div class="footer__text">
+                        <div class="footer__logo">CarDealership</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="dealsManagement.js"></script>
+</body>
+</html>

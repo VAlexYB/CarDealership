@@ -1,16 +1,55 @@
 document.addEventListener("DOMContentLoaded", async function() {
     await import('../scripts/navbarManager.js');
+    await import('https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js');
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Если начало строки совпадает с искомым именем, берём значение
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      
+    const alterTroubleSuckyKey = getCookie('altertroublesuckykey');
+    if (!alterTroubleSuckyKey) {
+        alert('Вы не авторизованы');
+        window.location.href = "../login/login.html";
+    }
+    const decoded = jwt_decode(alterTroubleSuckyKey);
+    if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] !== 'Admin' &&  
+        !(decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === 'Manager' || 
+         decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"].some(role => role === "Manager"))) {
+        alert('Вы не админ или менеджер');
+        window.location.href = "../login/login.html";
+    }
+    if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === 'Manager') {
+        await import('../scripts/navbarManager.js');
+    }
+    else if (decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === 'Admin') {
+        await import('../scripts/navbarAdmin.js');
+    }
+    else {
+        await import('../scripts/navbarSeniorManager.js');
+    }
     await getCountries();
     await getEntities();
 });
 
 const getCountries = async () => {
-    const response = await fetch("https://localhost:7243/api/Countries/getAll", {
+    const response = await fetch("http://localhost:7243/api/Countries/getAll", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
-        }
+        },
+        credentials: 'include',
     });
     const entities = (await response.json()).sort((a, b) => a.name.localeCompare(b.name));
     if (entities.length === 0) return;
@@ -24,14 +63,15 @@ const getCountries = async () => {
 }
 
 const getEntities = async () => {
-    const response = await fetch("https://localhost:7243/api/Brands/getAll", {
+    const response = await fetch("http://localhost:7243/api/Brands/getAll", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
-        }
+        },
+        credentials: 'include',
     });
-    const entities = await response.json();
+    const entities = (await response.json()).sort((a, b) => a.name.localeCompare(b.name));
     const entitiesTableBody = document.getElementById('entitiesTableBody');
     let child = entitiesTableBody.firstChild;
     while (child) {
@@ -114,7 +154,14 @@ const closeEntityDialog = () => {
 }
 
 const deleteEntity = async (entity) => {
-    await fetch(`https://localhost:7243/api/Brands/deleteById/${entity.id}`);
+    await fetch(`http://localhost:7243/api/Brands/deleteById/${entity.id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        credentials: 'include',
+    });
     await getEntities();
 }
 
@@ -140,7 +187,7 @@ const addOrEditEntity = async (entity = null) => {
             "countryId": countryId
         }
     }
-    await fetch("https://localhost:7243/api/Brands/add", {
+    const response = await fetch("http://localhost:7243/api/Brands/add", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -148,6 +195,11 @@ const addOrEditEntity = async (entity = null) => {
         },
         body: JSON.stringify(newEntity)
     });
+    if (!response.ok) {
+        const error = await response.json()
+        alert(error);
+        return;
+    }
     closeEntityDialog();
     await getEntities();
 }

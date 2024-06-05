@@ -10,7 +10,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url("../img/image3.png")no-repeat;
+    background: url("../assets/carImg/image3.png")no-repeat;
     background-size: cover;
     padding: 0 0 10px 0;
     background-position: center;

@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Comfortaa&family=Russo+One&display=swap" rel="stylesheet">
-    <title>Модели</title>
+    <title>Конфигурации</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="autoConfigManagement.css">
 </head>
@@ -41,20 +41,24 @@
                                 <div id="dialogTitle" class="dialog-title text-center"></div><br>
                                 <form id="entityForm">
                                     <div>
-                                        <label class="d-block" for="brandModel">Бренд и модель</label>
-                                        <select class="d-block" name="brandModel" id="brandModel"></select>
+                                        <label class="d-block" for="brand">Бренд</label>
+                                        <select class="d-block" name="brand" id="brand"></select>
+                                        <label class="d-block" for="model">Модель</label>
+                                        <select class="d-block" name="model" id="model"></select>
                                         <label class="d-block" for="bodyType">Тип кузова</label>
                                         <select class="d-block" name="bodyType" id="bodyType"></select>
                                         <label class="d-block" for="driveType">Тип привода</label>
                                         <select class="d-block" name="driveType" id="driveType"></select>
                                         <label class="d-block" for="engine">Двигатель</label>
                                         <select class="d-block" name="engine" id="engine"></select>
+                                        <label for="equipment">Комплектация</label>
+                                        <select class="d-block" name="equipment" id="equipment"></select>
                                         <label class="d-block" for="color">Цвет</label>
                                         <select class="d-block" name="color" id="color"></select>
-                                        <label class="d-block" for="price">Цена</label>
+                                        <label class="d-block" for="price">Цена конфигурации</label>
                                         <input class="d-block" type="number" name="price" id="price" min="0"></input>
-                                        <label class="d-block" for="price">Цена</label>
-                                        <input class="d-block" type="price" name="price" id="price"></input>
+                                        <label for="image">Изображение</label>
+                                        <input class="d-block" type="file" name="image" id="image"></input>
                                         <button id="dialogSubmitBtn" class="btn cursor-pointer" type="submit"></button>
                                     </div>
                                 </form>
@@ -71,9 +75,12 @@
                                 <th class="col4">Тип кузова</th>
                                 <th class="col5">Тип привода</th>
                                 <th class="col6">Двигатель</th>
-                                <th class="col7">Цвет</th>
-                                <th class="col8">Цена</th>
-                                <th class="col9">Действие</th>
+                                <th class="col7">Комплектация</th>
+                                <th class="col8">Цвет</th>
+                                <th class="col9">Цена конфиг-ии</th>
+                                <th class="col10">Полная стоимость</th>
+                                <th class="col11">Изображение</th>
+                                <th class="col12">Действие</th>
                             </tr>
                         </thead>
                         <tbody id="entitiesTableBody">
@@ -85,14 +92,19 @@
                                     <td class="col4" id="bodyTypeTable"></td>
                                     <td class="col5" id="driveTypeTable"></td>
                                     <td class="col6" id="engineTable"></td>
-                                    <td class="col7" id="colorTable"></td>
-                                    <td class="col8" id="priceTable"></td>
-                                    <td class="col9" id="actionsTable"></td>
+                                    <td class="col7" id="equipmentTable"></td>
+                                    <td class="col8" id="colorTable"></td>
+                                    <td class="col9" id="priceTable"></td>
+                                    <td class="col10" id="totalPriceTable"></td>
+                                    <td class="col11" id="imageTable">
+                                        <img alt="" id="carImage" height="36px">
+                                    </td>
+                                    <td class="col12" id="actionsTable"></td>
                                 </tr>
                             </template>
                             <template id="noEntitiesCardTemplate">
                                 <tr id="entitiesMessage">
-                                    <td colspan="9"></td>
+                                    <td colspan="12"></td>
                                 </tr>
                             </template>
                         </tbody>
