@@ -26,68 +26,119 @@ namespace CarDealership.DataAccess.Repositories
 
         public virtual async Task<List<M>> GetAllAsync()
         {
-            var entities =  await _dbSet
+            try
+            {
+                var entities = await _dbSet
                 .AsNoTracking()
                 .Where(x => !x.IsDeleted)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
 
-            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public virtual async Task<List<M>> GetFilteredAsync(F filter)
         {
-            var entities = await _dbSet
+            try
+            {
+                var entities = await _dbSet
                 .AsNoTracking()
                 .Where(x => !x.IsDeleted)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
 
-            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public virtual async Task<M> GetByIdAsync(Guid entityId)
         {
-            var entity =  await _dbSet.FindAsync(entityId);
+            try
+            {
+                var entity = await _dbSet.FindAsync(entityId);
 
-            return _factory.CreateModel(entity);
+                return _factory.CreateModel(entity);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+           
         }
 
         public async Task<Guid> InsertAsync(M model)
         {
-            var entity = _factory.CreateEntity(model);
-            await _dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return entity.Id;
+            try
+            {
+                var entity = _factory.CreateEntity(model);
+                await _dbSet.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                return entity.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         public virtual async Task<Guid> UpdateAsync(M model)
         {
-            var entity = _factory.CreateEntity(model);
-            var existEntity = await _dbSet.FindAsync(entity.Id);
-            if (existEntity == null) throw new InvalidOperationException("");
-            _context.Entry(existEntity).CurrentValues.SetValues(entity);
-            await _context.SaveChangesAsync();
-            return entity.Id;
+            try
+            {
+                var entity = _factory.CreateEntity(model);
+                var existEntity = await _dbSet.FindAsync(entity.Id);
+                if (existEntity == null) throw new InvalidOperationException("");
+                _context.Entry(existEntity).CurrentValues.SetValues(entity);
+                await _context.SaveChangesAsync();
+                return entity.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<Guid> DeleteAsync(Guid entityId)
         {
-            var entity = await _dbSet.FindAsync(entityId);
-            if (entity != null)
+            try
             {
-                entity.IsDeleted = true;
-                //_dbSet.Remove(entity);
+                var entity = await _dbSet.FindAsync(entityId);
+                if (entity != null)
+                {
+                    entity.IsDeleted = true;
+                    //_dbSet.Remove(entity);
+                }
+                await _context.SaveChangesAsync();
+                return entityId;
             }
-            await _context.SaveChangesAsync();
-            return entityId;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> ExistsAsync(Guid entityId)
         {
-            return await _dbSet
+            try
+            {
+                return await _dbSet
                 .AsNoTracking()
                 .AnyAsync(e => e.Id == entityId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace CarDealership.Web.Api.Contracts.Responses
     public class DealResponse : BaseResponse
     {
         public DateTime DealDate { get; set; }
-        public string Status { get; set; }
+        public DealStatus Status { get; set; }
         public decimal Price { get; set; }
         public Guid CarId { get; set; }
         public CarResponse Car { get; set; }

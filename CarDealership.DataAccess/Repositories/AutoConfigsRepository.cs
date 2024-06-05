@@ -16,61 +16,76 @@ namespace CarDealership.DataAccess.Repositories
 
         public override async Task<Guid> UpdateAsync(AutoConfiguration model)
         {
-            var entity = _factory.CreateEntity(model);
-            var existEntity = await _dbSet.FindAsync(entity.Id);
-
-            if (existEntity == null) throw new InvalidOperationException();
-            _context.Entry(existEntity).CurrentValues.SetValues(entity);
-            if (existEntity.AutoModelId != entity.AutoModelId)
+            try
             {
-                existEntity.AutoModelId = entity.AutoModelId;
-            }
+                var entity = _factory.CreateEntity(model);
+                var existEntity = await _dbSet.FindAsync(entity.Id);
 
-            if (existEntity.BodyTypeId != entity.BodyTypeId)
+                if (existEntity == null) throw new InvalidOperationException();
+                _context.Entry(existEntity).CurrentValues.SetValues(entity);
+                if (existEntity.AutoModelId != entity.AutoModelId)
+                {
+                    existEntity.AutoModelId = entity.AutoModelId;
+                }
+
+                if (existEntity.BodyTypeId != entity.BodyTypeId)
+                {
+                    existEntity.BodyTypeId = entity.BodyTypeId;
+                }
+
+                if (existEntity.DriveTypeId != entity.DriveTypeId)
+                {
+                    existEntity.DriveTypeId = entity.DriveTypeId;
+                }
+
+                if (existEntity.EngineId != entity.EngineId)
+                {
+                    existEntity.EngineId = entity.EngineId;
+                }
+
+                if (existEntity.ColorId != entity.ColorId)
+                {
+                    existEntity.ColorId = entity.ColorId;
+                }
+
+                if (existEntity.EquipmentId != entity.EquipmentId)
+                {
+                    existEntity.EquipmentId = entity.EquipmentId;
+                }
+
+                await _context.SaveChangesAsync();
+                return existEntity.Id;
+            }
+            catch (Exception)
             {
-                existEntity.BodyTypeId = entity.BodyTypeId;
+                throw;
             }
-
-            if (existEntity.DriveTypeId != entity.DriveTypeId)
-            {
-                existEntity.DriveTypeId = entity.DriveTypeId;
-            }
-
-            if (existEntity.EngineId != entity.EngineId)
-            {
-                existEntity.EngineId = entity.EngineId;
-            }
-
-            if (existEntity.ColorId != entity.ColorId)
-            {
-                existEntity.ColorId = entity.ColorId;
-            }
-
-            if (existEntity.EquipmentId != entity.EquipmentId)
-            {
-                existEntity.EquipmentId = entity.EquipmentId;
-            }
-
-            await _context.SaveChangesAsync();
-            return existEntity.Id;
+            
         }
 
         public override async Task<List<AutoConfiguration>> GetFilteredAsync(ConfigurationsFilter filter)
         {
-            var entities = await _dbSet
-                .AsNoTracking()
-                .Where(ac => !ac.IsDeleted)
-                .WhereIf(filter.BrandId.HasValue, ac => ac.AutoModel.BrandId == filter.BrandId)
-                .WhereIf(filter.AutoModelId.HasValue, ac => ac.AutoModelId == filter.AutoModelId)
-                .WhereIf(filter.EquipmentId.HasValue, ac => ac.EquipmentId == filter.EquipmentId)
-                .WhereIf(filter.BodyTypeId.HasValue, ac => ac.BodyTypeId == filter.BodyTypeId)
-                .WhereIf(filter.EngineId.HasValue, ac => ac.EngineId == filter.EngineId)
-                .WhereIf(filter.ColorId.HasValue, ac => ac.ColorId == filter.ColorId)
-                .WhereIf(filter.DriveTypeId.HasValue, ac => ac.DriveTypeId == filter.DriveTypeId)
-                .OrderBy(x => x.Id)
-                .ToListAsync();
+            try
+            {
+                var entities = await _dbSet
+               .AsNoTracking()
+               .Where(ac => !ac.IsDeleted)
+               .WhereIf(filter.BrandId.HasValue, ac => ac.AutoModel.BrandId == filter.BrandId)
+               .WhereIf(filter.AutoModelId.HasValue, ac => ac.AutoModelId == filter.AutoModelId)
+               .WhereIf(filter.EquipmentId.HasValue, ac => ac.EquipmentId == filter.EquipmentId)
+               .WhereIf(filter.BodyTypeId.HasValue, ac => ac.BodyTypeId == filter.BodyTypeId)
+               .WhereIf(filter.EngineId.HasValue, ac => ac.EngineId == filter.EngineId)
+               .WhereIf(filter.ColorId.HasValue, ac => ac.ColorId == filter.ColorId)
+               .WhereIf(filter.DriveTypeId.HasValue, ac => ac.DriveTypeId == filter.DriveTypeId)
+               .OrderBy(x => x.Id)
+               .ToListAsync();
 
-            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

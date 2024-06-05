@@ -2,7 +2,8 @@
 namespace CarDealership.Web.Api.Contracts.Responses
 {
     public class AutoConfigurationResponse : BaseResponse
-    {   
+    {  
+        public decimal TotalPrice { get; set; }
         public decimal Price { get; set; }
 
         public Guid AutoModelId { get; set; }

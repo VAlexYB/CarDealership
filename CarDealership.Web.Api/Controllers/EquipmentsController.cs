@@ -28,9 +28,13 @@ namespace CarDealership.Web.Api.Controllers
                 await equipService.CreateOrEditAsync(model, request.FeatureIds);
                 return Ok();
             }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(400, e.Message);
+            }
             catch (Exception)
             {
-                return StatusCode(500, "Ошибки случаются");
+                return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
 
@@ -43,9 +47,13 @@ namespace CarDealership.Web.Api.Controllers
                 await equipService.RemoveFeatureFromEquipment(request.EquipmentId, request.FeatureId);
                 return Ok();
             }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(400, e.Message);
+            }
             catch (Exception)
             {
-                return StatusCode(500, "Ошибки случаются");
+                return StatusCode(500, "Внутренняя ошибка");
             }
         }
 
@@ -57,6 +65,10 @@ namespace CarDealership.Web.Api.Controllers
             {
                 await equipService.AddFeatureToEquipment(request.EquipmentId, request.FeatureId);
                 return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(400, e.Message);
             }
             catch (Exception)
             {

@@ -15,7 +15,14 @@ namespace CarDealership.Application.Services
 
         public async Task<Role> GetByIdAsync(int id)
         {
-            return await _rolesRepository.GetByIdAsync(id);
+            try
+            {
+                return await _rolesRepository.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

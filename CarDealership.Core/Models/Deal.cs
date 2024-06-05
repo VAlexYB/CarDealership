@@ -14,7 +14,7 @@ namespace CarDealership.Core.Models
         public Guid CarId { get; }
         public virtual Car Car { get; }
 
-        public Guid? ManagerId { get; }
+        public Guid? ManagerId { get; private set; }
         public virtual User Manager { get; }
 
         public Guid CustomerId { get; set; }
@@ -64,6 +64,16 @@ namespace CarDealership.Core.Models
         public void ChangeStatus(DealStatus status)
         {
             Status = status;
+        }
+
+        public void SetAsManager(Guid managerId)
+        {
+            ManagerId = managerId;
+        }
+
+        public void RemoveManager()
+        {
+            ManagerId = null;
         }
     }
 }

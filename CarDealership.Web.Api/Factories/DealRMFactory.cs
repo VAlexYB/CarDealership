@@ -26,7 +26,13 @@ namespace CarDealership.Web.Api.Factories
             var manager = req.ManagerId != null ? await _usersService.GetByIdAsync((Guid)req.ManagerId) ?? throw new ArgumentException($"Менеджер с Id = {req.ManagerId} не найден") : null;
             var customer = await _usersService.GetByIdAsync(req.CustomerId) ?? throw new ArgumentNullException($"Покупатель с Id = {req.CustomerId} не найден");
             var car = await _carsService.GetByIdAsync(req.CarId) ?? throw new ArgumentNullException($"Автомобиль с Id = {req.CarId} не найден");
-            var dealPrice = car.AutoConfiguration.Price;
+            decimal autoModelPrice = car?.AutoConfiguration.AutoModel?.Price ?? 0;
+            decimal bodyTypePrice = car?.AutoConfiguration.BodyType?.Price ?? 0;
+            decimal driveTypePrice = car?.AutoConfiguration.DriveType?.Price ?? 0;
+            decimal colorPrice = car?.AutoConfiguration.Color?.Price ?? 0;
+            decimal equipmentPrice = car?.AutoConfiguration.Equipment?.Price ?? 0;
+             
+            var dealPrice = (car.AutoConfiguration.Price + autoModelPrice + bodyTypePrice + driveTypePrice + colorPrice + equipmentPrice) * 0.70m;
 
             var dealCreateResult = Deal.Create(
                 req.Id,
@@ -65,7 +71,7 @@ namespace CarDealership.Web.Api.Factories
             var response = new DealResponse(model.Id)
             {
                 DealDate = model.DealDate,
-                Status = model.Status.ToString(),
+                Status = model.Status,
                 Price = model.Price,
                 CarId = model.CarId,
                 Car = _carRMFactory.CreateResponse(model.Car),
