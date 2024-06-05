@@ -34,7 +34,7 @@ namespace CarDealership.Web.Api.Factories
                 req.Status,
                 dealPrice,
                 req.CarId,
-                req.ManagerId,
+                req.ManagerId != Guid.Empty ? req.ManagerId : null,
                 req.CustomerId,
                 false,
                 car,

@@ -29,6 +29,9 @@ namespace CarDealership.Core.Models
         private readonly List<Car> cars = new List<Car>();
         public IReadOnlyCollection<Car> Cars => cars.AsReadOnly();
 
+        private readonly List<Order> orders = new List<Order>();
+        public IReadOnlyCollection<Order> Orders => orders.AsReadOnly();
+
         private AutoConfiguration(Guid id, decimal price, Guid autoModelId,  Guid bodyTypeId,  Guid driveTypeId, Guid engineId, Guid colorId, Guid equipmentId,
             bool isDeleted, AutoModel? autoModel, BodyType? bodyType, DriveType? driveType, Engine? engine, Color? color, Equipment? equipment) : base(id)
         {
@@ -52,6 +55,12 @@ namespace CarDealership.Core.Models
         {
             if(car == null) throw new ArgumentNullException(nameof(car));
             cars.Add(car);
+        }
+
+        public void AddOrder(Order order)
+        {
+            if (order == null) throw new ArgumentNullException(nameof(order));
+            orders.Add(order);
         }
 
         public static Result<AutoConfiguration> Create(Guid id, decimal price, Guid autoModelId, Guid bodyTypeId, Guid driveTypeId,

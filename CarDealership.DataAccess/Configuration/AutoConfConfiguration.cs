@@ -41,6 +41,10 @@ namespace CarDealership.DataAccess.Configuration
                 .WithOne(c => c.AutoConfiguration)
                 .HasForeignKey(c => c.AutoConfigurationId);
 
+            builder.HasMany(ac => ac.Orders)
+                .WithOne(o => o.AutoConfiguration)
+                .HasForeignKey(o => o.AutoConfigurationId);
+
         }
     }
 }

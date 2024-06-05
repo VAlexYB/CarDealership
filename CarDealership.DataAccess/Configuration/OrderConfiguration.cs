@@ -10,9 +10,9 @@ namespace CarDealership.DataAccess.Configuration
         {
             builder.HasKey(o => o.Id);
 
-            builder.HasOne(o => o.Car)
-                  .WithMany()
-                  .HasForeignKey(o => o.CarId);
+            builder.HasOne(o => o.AutoConfiguration)
+                  .WithMany(ac => ac.Orders)
+                  .HasForeignKey(o => o.AutoConfigurationId);
 
             builder.HasOne(o => o.Manager)
                    .WithMany(m => m.ManagedOrders)

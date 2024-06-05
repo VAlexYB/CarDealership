@@ -8,13 +8,16 @@ namespace CarDealership.DataAccess.Factories
     {
         private readonly IEntityModelFactory<Car, CarEntity> _carEMFactory;
         private readonly IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> _equipmentFeatureEMFactory;
+        private readonly IEntityModelFactory<Order, OrderEntity> _orderEMFactory;
         public AutoConfigEMFactory(
             IEntityModelFactory<Car, CarEntity> carEMFactory,
-            IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> equipmentFeatureEMFactory
+            IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> equipmentFeatureEMFactory,
+            IEntityModelFactory<Order, OrderEntity> orderEMFactory
         )
         {
             _carEMFactory = carEMFactory ?? throw new ArgumentNullException(nameof(carEMFactory));
             _equipmentFeatureEMFactory = equipmentFeatureEMFactory ?? throw new ArgumentNullException(nameof(equipmentFeatureEMFactory));
+            _orderEMFactory = orderEMFactory ?? throw new ArgumentNullException(nameof(orderEMFactory));
 
         }
 
@@ -147,6 +150,10 @@ namespace CarDealership.DataAccess.Factories
                 autoConfiguration.AddCar(_carEMFactory.CreateModel(carEntity));
             }
 
+            foreach (var orderEntity in entity.Orders)
+            {
+                autoConfiguration.AddOrder(_orderEMFactory.CreateModel(orderEntity));
+            }
             return autoConfiguration;
         }
 
@@ -155,6 +162,7 @@ namespace CarDealership.DataAccess.Factories
             if (model == null) throw new ArgumentNullException(nameof(model));
 
             var carEntities = model.Cars.Select(car => _carEMFactory.CreateEntity(car)).ToList();
+            var orderEntities = model.Orders.Select(order => _orderEMFactory.CreateEntity(order)).ToList();
 
             var entity = new AutoConfigurationEntity
             {
@@ -167,7 +175,8 @@ namespace CarDealership.DataAccess.Factories
                 ColorId = model.ColorId,
                 EquipmentId = model.EquipmentId,
                 IsDeleted = model.IsDeleted,
-                Cars = carEntities
+                Cars = carEntities,
+                Orders = orderEntities
             };
 
             return entity;
