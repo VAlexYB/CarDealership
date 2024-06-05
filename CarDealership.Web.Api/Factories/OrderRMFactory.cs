@@ -16,7 +16,7 @@ namespace CarDealership.Web.Api.Factories
         {
             _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
             _configsService = configsService ?? throw new ArgumentNullException(nameof(configsService));
-            _configsService = configsService ?? throw new ArgumentNullException(nameof(configsRMFactory));
+            _configsRMFactory = configsRMFactory ?? throw new ArgumentNullException(nameof(configsRMFactory));
         }
         public async Task<Order> CreateModelAsync(OrderRequest req)
         {
@@ -26,7 +26,12 @@ namespace CarDealership.Web.Api.Factories
             var manager = req.ManagerId != Guid.Empty ? await _usersService.GetByIdAsync((Guid)req.ManagerId) ?? throw new ArgumentException($"Менеджер с Id = {req.ManagerId} не найден") : null;
             var customer = await _usersService.GetByIdAsync(req.CustomerId) ?? throw new ArgumentNullException($"Покупатель с Id = {req.CustomerId} не найден");
             var autoConfiguration = await _configsService.GetByIdAsync(req.AutoConfigurationId) ?? throw new ArgumentNullException($"Конфигурация машины с Id = {req.AutoConfigurationId} не найден");
-            var orderPrice = autoConfiguration.Price;
+            decimal autoModelPrice = autoConfiguration.AutoModel?.Price ?? 0;
+            decimal bodyTypePrice = autoConfiguration.BodyType?.Price ?? 0;
+            decimal driveTypePrice = autoConfiguration.DriveType?.Price ?? 0;
+            decimal colorPrice = autoConfiguration.Color?.Price ?? 0;
+            decimal equipmentPrice = autoConfiguration.Equipment?.Price ?? 0;
+            var orderPrice = (autoConfiguration.Price + autoModelPrice + bodyTypePrice + driveTypePrice + colorPrice + equipmentPrice) * 0.30m;
 
             var orderCreateResult = Order.Create(
                 req.Id,
@@ -67,7 +72,7 @@ namespace CarDealership.Web.Api.Factories
             {
                 OrderDate = model.OrderDate,
                 CompleteDate = model.CompleteDate,
-                Status = model.Status.ToString(),
+                Status = model.Status,
                 Price = model.Price,
                 AutoConfigurationId = model.AutoConfigurationId,
                 AutoConfiguration = _configsRMFactory.CreateResponse(model.AutoConfiguration),

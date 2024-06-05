@@ -26,6 +26,7 @@ namespace CarDealership.DataAccess.Factories
                 AutoConfigurationId = model.AutoConfigurationId,
                 CustomerId = model.CustomerId,
                 ManagerId = model.ManagerId,
+                Price = model.Price
             };
 
             return order;

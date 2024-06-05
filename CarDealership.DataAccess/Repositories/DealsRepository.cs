@@ -41,7 +41,9 @@ namespace CarDealership.DataAccess.Repositories
 
         public override async Task<List<Deal>> GetFilteredAsync(DealsFilter filter)
         {
-            var entities = await _dbSet
+            try
+            {
+                var entities = await _dbSet
                 .AsNoTracking()
                 .Where(d => !d.IsDeleted)
                 .WhereIf(filter.CustomerId.HasValue, d => d.CustomerId == filter.CustomerId)
@@ -50,7 +52,32 @@ namespace CarDealership.DataAccess.Repositories
                 .OrderBy(x => x.Id)
                 .ToListAsync();
 
-            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
+        public async Task<List<Deal>> GetDealsWithoutManager()
+        {
+            try
+            {
+                var entities = await _dbSet
+                .AsNoTracking()
+                .Where(d => !d.IsDeleted)
+                .Where(d => d.ManagerId == null)
+                .OrderBy(x => x.Id)
+                .ToListAsync();
+
+                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

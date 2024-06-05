@@ -25,6 +25,7 @@ namespace CarDealership.DataAccess.Factories
                 CarId = model.CarId,
                 CustomerId = model.CustomerId,
                 ManagerId = model.ManagerId,
+                Price = model.Price
             };
 
             return deal;

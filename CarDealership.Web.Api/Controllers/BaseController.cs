@@ -49,10 +49,13 @@ namespace CarDealership.Web.Api.Controllers
                 var response = models.Select(model => _factory.CreateResponse(model)).ToList();
                 return Ok(response);
             }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(400, e.Message);
+            }
             catch (Exception e)
             {
-
-                return StatusCode(500, e.Message);
+                return StatusCode(500, "Внутренняя ошибка сервера");
             }
            
         }
@@ -67,10 +70,13 @@ namespace CarDealership.Web.Api.Controllers
                 var response = models.Select(model => _factory.CreateResponse(model)).ToList();
                 return Ok(response);
             }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(400, e.Message);
+            }
             catch (Exception e)
             {
-
-                return StatusCode(500, e.Message);
+                return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
 
@@ -87,6 +93,10 @@ namespace CarDealership.Web.Api.Controllers
                 }
                 var response = _factory.CreateResponse(model);
                 return Ok(response);
+            }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(400, e.Message);
             }
             catch (Exception e)
             {
@@ -113,9 +123,12 @@ namespace CarDealership.Web.Api.Controllers
                 await _service.CreateOrEditAsync(model);
                 return Ok();
             }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(400, e.Message);
+            }
             catch (Exception e)
             {
-
                 return StatusCode(500, e.Message);
             }
         }
@@ -130,9 +143,12 @@ namespace CarDealership.Web.Api.Controllers
                 await _service.DeleteAsync(itemId);
                 return Ok();
             }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(400, e.Message);
+            }
             catch (Exception e)
             {
-
                 return StatusCode(500, e.Message);
             }
         }

@@ -8,7 +8,7 @@ namespace CarDealership.Web.Api.Contracts.Responses
     {
         public DateTime OrderDate { get; set; }
         public DateTime CompleteDate { get; set; }
-        public string Status { get; set; }
+        public OrderStatus Status { get; set; }
         public decimal Price { get; set; }
         public Guid AutoConfigurationId { get; set; }
         public AutoConfigurationResponse AutoConfiguration { get; set; }

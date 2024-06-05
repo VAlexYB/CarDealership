@@ -84,7 +84,8 @@ namespace CarDealership.Web.Api.Factories
 
             var response = new AutoConfigurationResponse(model.Id)
             {
-                Price = model.Price + autoModelPrice + bodyTypePrice + driveTypePrice + configEngineRes.Price + colorPrice + equipmentPrice,
+                TotalPrice = model.Price + autoModelPrice + bodyTypePrice + driveTypePrice + configEngineRes.Price + colorPrice + equipmentPrice,
+                Price = model.Price,
                 AutoModelId = model.AutoModelId,
                 AutoModelName = model.AutoModel?.Name ?? string.Empty,
                

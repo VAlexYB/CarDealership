@@ -16,30 +16,44 @@ namespace CarDealership.DataAccess.Repositories
 
         public override async Task<Guid> UpdateAsync(AutoModel model)
         {
-            var entity = _factory.CreateEntity(model);
-            var existEntity = await _dbSet.FindAsync(entity.Id);
-
-            if (existEntity == null) throw new InvalidOperationException();
-            _context.Entry(existEntity).CurrentValues.SetValues(entity);
-            if(existEntity.BrandId != entity.BrandId)
+            try
             {
-                existEntity.BrandId = entity.BrandId;
+                var entity = _factory.CreateEntity(model);
+                var existEntity = await _dbSet.FindAsync(entity.Id);
+
+                if (existEntity == null) throw new InvalidOperationException();
+                _context.Entry(existEntity).CurrentValues.SetValues(entity);
+                if (existEntity.BrandId != entity.BrandId)
+                {
+                    existEntity.BrandId = entity.BrandId;
+                }
+
+                await _context.SaveChangesAsync();
+                return existEntity.Id;
             }
-            
-            await _context.SaveChangesAsync();
-            return existEntity.Id;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async override Task<List<AutoModel>> GetFilteredAsync(AutoModelsFilter filter)
         {
-            var entities = await _dbSet
+            try
+            {
+                var entities = await _dbSet
                 .AsNoTracking()
                 .Where(am => !am.IsDeleted)
                 .WhereIf(filter.BrandId.HasValue, am => am.BrandId == filter.BrandId)
                 .OrderBy(am => am.Id)
                 .ToListAsync();
 
-            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

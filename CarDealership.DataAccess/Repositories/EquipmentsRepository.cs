@@ -20,44 +20,65 @@ namespace CarDealership.DataAccess.Repositories
 
         public async Task RemoveFeatureFromEquipment(Guid equipmentId, Guid featureId)
         {
-            var equipFeature = await _equipFeaturesSet.FirstOrDefaultAsync(ef => ef.EquipmentId == equipmentId && ef.FeatureId == featureId);
-
-            if(equipFeature == null)
+            try
             {
-                throw new InvalidOperationException("Такая сущность не найдена"); 
-            }
+                var equipFeature = await _equipFeaturesSet.FirstOrDefaultAsync(ef => ef.EquipmentId == equipmentId && ef.FeatureId == featureId);
 
-            _equipFeaturesSet.Remove(equipFeature);
-            await _context.SaveChangesAsync();
+                if (equipFeature == null)
+                {
+                    throw new InvalidOperationException("Такая сущность не найдена");
+                }
+
+                _equipFeaturesSet.Remove(equipFeature);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public override async Task<Guid> UpdateAsync(Equipment model)
         {
-            var entity = _factory.CreateEntity(model);
-            var existEntity = await _dbSet.FindAsync(entity.Id);
-
-            if (existEntity == null) throw new InvalidOperationException();
-            _context.Entry(existEntity).CurrentValues.SetValues(entity);
-            if (existEntity.AutoModelId != entity.AutoModelId)
+            try
             {
-                existEntity.AutoModelId = entity.AutoModelId;
-            }
+                var entity = _factory.CreateEntity(model);
+                var existEntity = await _dbSet.FindAsync(entity.Id);
 
-            await _context.SaveChangesAsync();
-            return existEntity.Id;
+                if (existEntity == null) throw new InvalidOperationException();
+                _context.Entry(existEntity).CurrentValues.SetValues(entity);
+                if (existEntity.AutoModelId != entity.AutoModelId)
+                {
+                    existEntity.AutoModelId = entity.AutoModelId;
+                }
+
+                await _context.SaveChangesAsync();
+                return existEntity.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         public override async Task<List<Equipment>> GetFilteredAsync(EquipmentsFilter filter)
         {
-
-            var entities = await _dbSet
+            try
+            {
+                var entities = await _dbSet
                 .AsNoTracking()
                 .Where(e => !e.IsDeleted)
                 .WhereIf(filter.AutoModelId.HasValue, e => e.AutoModelId == filter.AutoModelId)
                 .OrderBy(e => e.Id)
                 .ToListAsync();
 
-            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
