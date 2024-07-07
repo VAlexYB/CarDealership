@@ -16,11 +16,13 @@ namespace CarDealership.Web.Api.Controllers
     {
         private readonly IOrdersService _ordersService;
         private readonly IOrderRMFactory _orderRMFactory;
+        private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(IOrdersService service, IOrderRMFactory factory) : base(service, factory)
+        public OrdersController(IOrdersService service, IOrderRMFactory factory, ILogger<OrdersController> logger) : base(service, factory, logger)
         {
             _ordersService = service;
             _orderRMFactory = factory;
+            _logger = logger;
         }
 
         [Authorize(Roles = "Manager")]
@@ -41,8 +43,9 @@ namespace CarDealership.Web.Api.Controllers
             {
                 return StatusCode(400, e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в OrdersController -> ChangeStatus()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -64,6 +67,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в OrdersController -> GetOrdersWithoutManager()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -84,6 +88,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в OrdersController -> TakeOrderInProcess()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -104,6 +109,28 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в OrdersController ->  LeaveOrder()");
+                return StatusCode(500, "Внутренняя ошибка сервера");
+            }
+        }
+
+        [Authorize(Roles = "User")]
+        [Route("cancelOrder/{orderId}")]
+        [HttpGet]
+        public async Task<IActionResult> CancelOrder(Guid orderId)
+        {
+            try
+            {
+                await _ordersService.ChangeStatus(orderId, (int)OrderStatus.Cancelled);
+                return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return StatusCode(400, e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Ошибка возникла в OrdersController ->  CancelOrder()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }

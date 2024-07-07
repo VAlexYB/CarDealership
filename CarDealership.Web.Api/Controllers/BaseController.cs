@@ -23,11 +23,15 @@ namespace CarDealership.Web.Api.Controllers
         protected readonly IResponseBuilder<Res, M> _factory;
         protected readonly IModelBuilder<Req, M> _modelBuilder;
         protected readonly IModelBuilderAsync<Req, M> _modelBuilderAsync;
+
+        protected readonly ILogger _logger;
+
         private readonly bool _useAsyncBuilder;
 
         public BaseController(
             IGenericService<M, F> service,
-            IResponseBuilder<Res, M> factory
+            IResponseBuilder<Res, M> factory,
+            ILogger logger
         )
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
@@ -36,6 +40,7 @@ namespace CarDealership.Web.Api.Controllers
             _modelBuilder = factory as IModelBuilder<Req, M>;
             _modelBuilderAsync = factory as IModelBuilderAsync<Req, M>;
 
+            _logger = logger;
             _useAsyncBuilder = _modelBuilderAsync != null;
         }
 
@@ -55,6 +60,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в {Controller} -> GetAllAsync()", GetType().Name);
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
            
@@ -76,13 +82,14 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в {Controller} -> GetByFilterAsync()", GetType().Name);
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
 
         [Route("getById/{itemId}")]
         [HttpGet]
-        public async Task<IActionResult> GetById(Guid itemId)
+        public async Task<IActionResult> GetByIdAsync(Guid itemId)
         {
             try
             {
@@ -100,14 +107,14 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
-
+                _logger.LogError(e, "Ошибка возникла в {Controller} -> GetByIdAsync()", GetType().Name);
                 return StatusCode(500, e.Message);
             }
         }
 
         [Route("add")]
         [HttpPost]
-        public virtual async Task<IActionResult> CreateOrEdit([FromBody] Req req)
+        public virtual async Task<IActionResult> CreateOrEditAsync([FromBody] Req req)
         {
             try
             {
@@ -129,6 +136,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в {Controller} -> CreateOrEditAsync()", GetType().Name);
                 return StatusCode(500, e.Message);
             }
         }
@@ -136,7 +144,7 @@ namespace CarDealership.Web.Api.Controllers
 
         [Route("deleteById/{itemId}")]
         [HttpGet]
-        public async Task<IActionResult> DeleteById(Guid itemId)
+        public async Task<IActionResult> DeleteByIdAsync(Guid itemId)
         {
             try
             {
@@ -149,6 +157,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в {Controller} -> DeleteByIdAsync()", GetType().Name);
                 return StatusCode(500, e.Message);
             }
         }

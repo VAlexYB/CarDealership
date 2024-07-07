@@ -10,7 +10,7 @@ namespace CarDealership.Web.Api.Controllers
 {
     public class EnginesController : BaseController<Engine, BaseFilter, EngineRequest, EngineResponse>
     {
-        public EnginesController(IEnginesService service, IEngineRMFactory factory) : base(service, factory)
+        public EnginesController(IEnginesService service, IEngineRMFactory factory, ILogger<EnginesController> logger) : base(service, factory, logger)
         {
         }
     }

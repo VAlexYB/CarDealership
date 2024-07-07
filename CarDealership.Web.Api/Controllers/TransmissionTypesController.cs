@@ -10,7 +10,7 @@ namespace CarDealership.Web.Api.Controllers
 {
     public class TransmissionTypesController : BaseController<TransmissionType, BaseFilter, TransmissionTypeRequest, TransmissionTypeResponse>
     {
-        public TransmissionTypesController(ITransmissionTypesService service, ITransmissionTypeRMFactory factory) : base(service, factory)
+        public TransmissionTypesController(ITransmissionTypesService service, ITransmissionTypeRMFactory factory, ILogger<TransmissionTypesController> logger) : base(service, factory, logger)
         {
         }
     }

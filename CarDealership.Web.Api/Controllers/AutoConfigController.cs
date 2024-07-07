@@ -12,7 +12,7 @@ namespace CarDealership.Web.Api.Controllers
 {
     public class AutoConfigController : BaseController<AutoConfiguration, ConfigurationsFilter, AutoConfigurationRequest, AutoConfigurationResponse>
     {
-        public AutoConfigController(IAutoConfigsService service, IAutoConfigRMFactory factory) : base(service, factory)
+        public AutoConfigController(IAutoConfigsService service, IAutoConfigRMFactory factory, ILogger<AutoConfigController> logger) : base(service, factory, logger)
         {
         }
     }

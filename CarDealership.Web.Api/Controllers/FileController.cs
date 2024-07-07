@@ -8,10 +8,12 @@ namespace CarDealership.Web.Api.Controllers
     public class FileController : ControllerBase
     {
         private readonly IWebHostEnvironment _environment;
+        private readonly ILogger _logger;
 
-        public FileController(IWebHostEnvironment environment)
+        public FileController(IWebHostEnvironment environment, ILogger<FileController> logger)
         {
             _environment = environment;
+            _logger = logger;
         }
 
         [Route("upload")]
@@ -21,27 +23,28 @@ namespace CarDealership.Web.Api.Controllers
             try
             {
                 var file = Request.Form.Files[0];
-                if (file.Length > 0)
-                {
-                    var uploads = Path.Combine(_environment.WebRootPath, "uploads");
-                    if (!Directory.Exists(uploads))
-                    {
-                        Directory.CreateDirectory(uploads);
-                    }
-                    var filePath = Path.Combine(uploads, ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"'));
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
-                    return Ok("Файл успешно загружен");
-                }
-                else
+                if (file == null || file.Length == 0)
                 {
                     return BadRequest("Файл пуст");
                 }
+
+                var uploads = Path.Combine(_environment.ContentRootPath, "uploads");
+                if (!Directory.Exists(uploads))
+                {
+                    Directory.CreateDirectory(uploads);
+                }
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var newFileName = Path.Combine(uploads, fileName);
+
+                using (var fileStream = new FileStream(newFileName, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+                return Ok("Файл успешно загружен");
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Ошибка возникла в FileController -> Upload()");
                 return StatusCode(500, $"Внутренняя ошибка сервера");
             }
         }
@@ -50,16 +53,24 @@ namespace CarDealership.Web.Api.Controllers
         [HttpGet]
         public IActionResult GetImage(Guid id)
         {
-            var uploads = Path.Combine(_environment.WebRootPath, "uploads");
-            var filePath = Path.Combine(uploads, id + ".png");
-            if (System.IO.File.Exists(filePath))
+            try
             {
-                var fileStream = new FileStream(filePath, FileMode.Open);
-                return File(fileStream, "image/png");
+                var uploads = Path.Combine(_environment.ContentRootPath, "uploads");
+                var filePath = Path.Combine(uploads, $"{id}.png");
+                if (System.IO.File.Exists(filePath))
+                {
+                    var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                    return File(fileStream, "image/png");
+                }
+                else
+                {
+                    return NotFound("Изображение не найдено");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return NotFound("Изображение не найдено");
+                _logger.LogError(e, "Ошибка возникла в FileController -> GetImage()");
+                return StatusCode(500, $"Внутренняя ошибка сервера");
             }
         }
     }

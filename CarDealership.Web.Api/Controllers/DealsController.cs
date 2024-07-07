@@ -15,10 +15,12 @@ namespace CarDealership.Web.Api.Controllers
     {
         private readonly IDealsService _dealsService;
         private readonly IDealRMFactory _dealRMFactory;
-        public DealsController(IDealsService service, IDealRMFactory factory) : base(service, factory)
+        private readonly ILogger _logger;
+        public DealsController(IDealsService service, IDealRMFactory factory, ILogger<DealsController> logger) : base(service, factory, logger)
         {
-            _dealsService = service;
-            _dealRMFactory = factory;
+            _dealsService = service ?? throw new ArgumentNullException(nameof(service));
+            _dealRMFactory = factory ?? throw new ArgumentNullException(nameof(factory));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [Authorize(Roles = "SeniorManager")]
@@ -39,8 +41,9 @@ namespace CarDealership.Web.Api.Controllers
             {
                 return StatusCode(400, e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в DealsController -> ChangeStatus()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -62,6 +65,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в DealsController -> GetDealsWithoutManager()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -69,7 +73,7 @@ namespace CarDealership.Web.Api.Controllers
         [Authorize(Roles = "SeniorManager")]
         [Route("takeInProcess")]
         [HttpPost]
-        public async Task<IActionResult> TakeOrderInProcess([FromBody] TakeTaskRequest request)
+        public async Task<IActionResult> TakeDealInProcess([FromBody] TakeTaskRequest request)
         {
             try
             {
@@ -82,6 +86,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в DealsController -> TakeDealInProcess()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -89,7 +94,7 @@ namespace CarDealership.Web.Api.Controllers
         [Authorize(Roles = "SeniorManager")]
         [Route("leaveOrder/{dealId}")]
         [HttpPost]
-        public async Task<IActionResult> LeaveOrder(Guid dealId)
+        public async Task<IActionResult> LeaveDeal(Guid dealId)
         {
             try
             {
@@ -102,6 +107,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в DealsController -> LeaveDeal()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
