@@ -116,6 +116,7 @@ namespace CarDealership.DataAccess.Repositories
                 if (entity != null)
                 {
                     entity.IsDeleted = true;
+                    entity.DeletedDate = DateTime.UtcNow;
                     //_dbSet.Remove(entity);
                 }
                 await _context.SaveChangesAsync();

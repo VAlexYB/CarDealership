@@ -1,12 +1,15 @@
 using CarDealership.Application;
 using CarDealership.Application.Auth;
 using CarDealership.DataAccess;
+using CarDealership.Infrastructure;
 using CarDealership.Web.Api;
 using CarDealership.Web.Api.Exstensions;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using NLog.Web;
+using Quartz;
 using System.Reflection;
 
 var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
@@ -14,6 +17,10 @@ var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLo
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+
+    builder.Logging.ClearProviders();
+    builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+    builder.Host.UseNLog();
 
     builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
     var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
@@ -42,7 +49,8 @@ try
     builder.Services
         .AddDataAccess()
         .AddBusinessLogic()
-        .AddControllersSupport();
+        .AddControllersSupport()
+        .ConfigureSupportingServices();
 
 
 
@@ -75,6 +83,9 @@ try
         x.WithMethods().AllowAnyMethod();
         x.AllowCredentials();
     });
+
+    var scheduler = app.Services.GetService<IScheduler>();
+    scheduler.Start().Wait();
 
     app.Run();
 }

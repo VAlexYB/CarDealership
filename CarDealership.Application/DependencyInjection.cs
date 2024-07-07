@@ -25,10 +25,7 @@ namespace CarDealership.Application
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IRolesService, RolesService>();
             services.AddTransient<IOrdersService, OrdersService>();
-            services.AddTransient<IDealsService, DealsService>();
-
-            services.AddScoped<IPasswordVerifier, PasswordVerifier>();
-            services.AddScoped<JwtProvider>();
+            services.AddTransient<IDealsService, DealsService>();            
 
             return services;
         }

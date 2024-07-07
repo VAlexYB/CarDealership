@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CarDealership.Application\CarDealership.Application.csproj" />
     <ProjectReference Include="..\CarDealership.DataAccess\CarDealership.DataAccess.csproj" />
+    <ProjectReference Include="..\CarDealership.Infrastructure\CarDealership.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
-﻿using CarDealership.Core.Abstractions.Services;
+﻿using CarDealership.Application.Auth;
+using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models.Auth;
-using CarDealership.Web.Api.Auth;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +18,7 @@ namespace CarDealership.Web.Api.Controllers
         private readonly IPasswordHasher _passwordHasher;
         private readonly ILogger _logger;
 
-        public UsersController(IUsersService usersService, IRolesService rolesService, IPasswordHasher passwordHasher, ILogger logger)
+        public UsersController(IUsersService usersService, IRolesService rolesService, IPasswordHasher passwordHasher, ILogger<UsersController> logger)
         {
             _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
             _rolesService = rolesService ?? throw new ArgumentNullException(nameof(rolesService));

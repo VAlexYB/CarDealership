@@ -1,9 +1,7 @@
 ﻿namespace CarDealership.DataAccess.Entities.Auth
 {
-    public class UserEntity
+    public class UserEntity : BaseEntity
     {
-        public Guid Id { get; set; }
-        public bool IsDeleted { get; set; }
         public string UserName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;

@@ -1,4 +1,5 @@
 ﻿using CarDealership.Application.Auth;
+using CarDealership.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

@@ -14,7 +14,7 @@ namespace CarDealership.Application.Services
         private readonly IRolesRepository _rolesRepository;
         private readonly IPasswordVerifier _passwordVerifier;
         private readonly IJwtProvider _jwtProvider;
-        public UsersService(IUsersRepository usersRepository, IRolesRepository rolesRepository, IPasswordVerifier passwordVerifier, JwtProvider jwtProvider)
+        public UsersService(IUsersRepository usersRepository, IRolesRepository rolesRepository, IPasswordVerifier passwordVerifier, IJwtProvider jwtProvider)
         { 
             _usersRepository = usersRepository;
             _rolesRepository = rolesRepository;
