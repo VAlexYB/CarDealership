@@ -5,12 +5,13 @@ using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace CarDealership.DataAccess.Repositories
 {
     public class OrdersRepository : BaseRepository<Order, OrderEntity, OrdersFilter>, IOrdersRepository
     {
-        public OrdersRepository(CarDealershipDbContext context, IEntityModelFactory<Order, OrderEntity> factory) : base(context, factory)
+        public OrdersRepository(CarDealershipDbContext context, IEntityModelFactory<Order, OrderEntity> factory,  IDistributedCache cache) : base(context, factory, cache)
         {
         }
 

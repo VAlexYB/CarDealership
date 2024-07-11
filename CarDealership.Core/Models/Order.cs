@@ -2,6 +2,7 @@
 using CarDealership.Core.Models.Auth;
 using CSharpFunctionalExtensions;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace CarDealership.Core.Models
 {
@@ -20,6 +21,7 @@ namespace CarDealership.Core.Models
         public Guid CustomerId { get; set; }
         public virtual User Customer { get; set; }
 
+        [JsonConstructor]
         private Order(Guid id, DateTime orderDate, DateTime completeDate, OrderStatus status, decimal price, Guid autoConfigurationId, Guid? managerId, Guid customerId, 
             bool isDeleted, AutoConfiguration configuration, User manager, User customer) : base(id)
         {

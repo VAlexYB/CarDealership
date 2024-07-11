@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Text.Json.Serialization;
+using CSharpFunctionalExtensions;
 namespace CarDealership.Core.Models
 {
     public class Country : BaseModel
@@ -8,6 +9,8 @@ namespace CarDealership.Core.Models
 
         private readonly List<Brand> brands = new List<Brand>();
         public IReadOnlyCollection<Brand> Brands => brands.AsReadOnly();
+        
+        [JsonConstructor]
         private Country(Guid id, string name, bool isDeleted) : base(id)
         {
             Name = name;

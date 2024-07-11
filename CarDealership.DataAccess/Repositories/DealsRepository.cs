@@ -5,12 +5,13 @@ using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace CarDealership.DataAccess.Repositories
 {
     public class DealsRepository : BaseRepository<Deal, DealEntity, DealsFilter>, IDealsRepository
     {
-        public DealsRepository(CarDealershipDbContext context, IEntityModelFactory<Deal, DealEntity> factory) : base(context, factory)
+        public DealsRepository(CarDealershipDbContext context, IEntityModelFactory<Deal, DealEntity> factory, IDistributedCache cache) : base(context, factory, cache)
         {
         }
 

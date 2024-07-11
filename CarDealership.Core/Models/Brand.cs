@@ -1,4 +1,5 @@
 ﻿
+using System.Text.Json.Serialization;
 using CSharpFunctionalExtensions;
 
 namespace CarDealership.Core.Models
@@ -13,6 +14,8 @@ namespace CarDealership.Core.Models
 
         private readonly List<AutoModel> models = new List<AutoModel>();
         public IReadOnlyCollection<AutoModel> Models => models.AsReadOnly();
+        
+        [JsonConstructor]
         private Brand(Guid id, string name, Guid countryId, bool isDeleted, Country? country) : base(id)
         {
             Name = name;
