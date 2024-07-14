@@ -45,6 +45,11 @@ try
         {
             options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(CarDealershipDbContext)));
         });
+    
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    });
 
     builder.Services
         .AddDataAccess()
@@ -91,7 +96,7 @@ try
 }
 catch (Exception ex)
 {
-    logger.Error(ex, "Ошибка при запуске программы");
+    logger.Error(ex, "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
     throw;
 }
 finally

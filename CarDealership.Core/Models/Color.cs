@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Text.Json.Serialization;
+using CSharpFunctionalExtensions;
 namespace CarDealership.Core.Models
 {
     public class Color : BaseModel
@@ -9,6 +10,8 @@ namespace CarDealership.Core.Models
 
         private readonly List<AutoConfiguration> configurations = new List<AutoConfiguration>();
         public IReadOnlyCollection<AutoConfiguration> Configurations => configurations.AsReadOnly();
+        
+        [JsonConstructor]
         private Color(Guid id, string value, decimal price, bool isDeleted) : base(id)
         {
             Value = value;

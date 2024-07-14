@@ -1,4 +1,5 @@
 ﻿
+using System.Text.Json.Serialization;
 using CSharpFunctionalExtensions;
 
 namespace CarDealership.Core.Models
@@ -9,6 +10,8 @@ namespace CarDealership.Core.Models
         public string VIN { get; }
         public Guid AutoConfigurationId { get; }
         public AutoConfiguration? AutoConfiguration { get; }
+        
+        [JsonConstructor]
         private Car(Guid id, string VIN, Guid autoConfigurationId, bool isDeleted, AutoConfiguration? autoConfiguration) : base(id)
         {
             this.VIN = VIN;

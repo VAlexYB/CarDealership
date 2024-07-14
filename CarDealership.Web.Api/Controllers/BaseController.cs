@@ -1,4 +1,5 @@
-﻿using CarDealership.Application.Services;
+﻿using System.Diagnostics;
+using CarDealership.Application.Services;
 using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
