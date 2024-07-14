@@ -1,6 +1,8 @@
 ﻿using CarDealership.Application.Auth;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Jobs;
+using CarDealership.Infrastructure.Auth;
+using CarDealership.Infrastructure.JobSheduling;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;

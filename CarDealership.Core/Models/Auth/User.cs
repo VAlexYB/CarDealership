@@ -48,8 +48,8 @@ namespace CarDealership.Core.Models.Auth
             IsDeleted = isDeleted;
         }
 
-        public static Result<User> Create(Guid id, string userName, string email, string passwordHash, string firstName, string middleName, string lastName,
-            string phoneNumber, string firstCardDigits, string lastCardDigits, bool isDeleted = false)
+        public static Result<User> Create(Guid id, string userName, string email, string passwordHash, string firstName = null, string middleName = null, string lastName = null,
+            string phoneNumber = null, string firstCardDigits = null, string lastCardDigits = null, bool isDeleted = false)
         {
             var user = new User(id, userName, email, passwordHash, firstName, middleName, lastName, phoneNumber, firstCardDigits, lastCardDigits, isDeleted);
             return Result.Success(user);

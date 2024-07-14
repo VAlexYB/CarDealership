@@ -1,6 +1,6 @@
 ﻿using Quartz;
 
-namespace CarDealership.Infrastructure
+namespace CarDealership.Infrastructure.JobSheduling
 {
     public class JobSchedule
     {

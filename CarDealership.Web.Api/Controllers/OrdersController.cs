@@ -4,6 +4,7 @@ using CarDealership.Core.Enums;
 using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.Core.Models.Auth;
+using CarDealership.Infrastructure.Messaging;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 using CarDealership.Web.Api.Factories.Abstract;
@@ -17,12 +18,22 @@ namespace CarDealership.Web.Api.Controllers
         private readonly IOrdersService _ordersService;
         private readonly IOrderRMFactory _orderRMFactory;
         private readonly ILogger<OrdersController> _logger;
+        private readonly RabbitMQMessageSender _messageSender;
+        private readonly IConfiguration _configuration;
 
-        public OrdersController(IOrdersService service, IOrderRMFactory factory, ILogger<OrdersController> logger) : base(service, factory, logger)
+        public OrdersController(
+            IOrdersService service,
+            IOrderRMFactory factory,
+            ILogger<OrdersController> logger,
+            RabbitMQMessageSender messageSender,
+            IConfiguration configuration
+        ) : base(service, factory, logger)
         {
             _ordersService = service;
             _orderRMFactory = factory;
             _logger = logger;
+            _messageSender = messageSender;
+            _configuration = configuration;
         }
 
         [Authorize(Roles = "Manager")]
@@ -37,7 +48,17 @@ namespace CarDealership.Web.Api.Controllers
                     return BadRequest("Нет такого статуса заказа");
                 }
                 await _ordersService.ChangeStatus(request.Id, request.Status);
-                return Ok();
+
+                var orderInfo = await _ordersService.GetByIdAsync(request.Id);
+                var message = new MessageInfo
+                {
+                    Id = orderInfo.Id.ToString(),
+                    PhoneNumber = orderInfo?.Customer?.PhoneNumber ?? string.Empty,
+                    Status = request.Status.ToString("d"),
+                    Type = MessageTypes.Order.ToString("g")
+                };
+                _messageSender.SendMessage(message, _configuration["RabbitMQ:Queues:CDQueue"]);
+                return Ok();    
             }
             catch (InvalidOperationException e)
             {

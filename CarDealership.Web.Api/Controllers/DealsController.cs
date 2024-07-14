@@ -3,6 +3,7 @@ using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Enums;
 using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
+using CarDealership.Infrastructure.Messaging;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 using CarDealership.Web.Api.Factories.Abstract;
@@ -15,12 +16,22 @@ namespace CarDealership.Web.Api.Controllers
     {
         private readonly IDealsService _dealsService;
         private readonly IDealRMFactory _dealRMFactory;
-        private readonly ILogger _logger;
-        public DealsController(IDealsService service, IDealRMFactory factory, ILogger<DealsController> logger) : base(service, factory, logger)
+        private readonly ILogger<DealsController> _logger;
+        private readonly RabbitMQMessageSender _messageSender;
+        private readonly IConfiguration _configuration;
+        public DealsController(
+            IDealsService service,
+            IDealRMFactory factory,
+            ILogger<DealsController> logger,
+             RabbitMQMessageSender messageSender,
+            IConfiguration configuration
+        ) : base(service, factory, logger)
         {
             _dealsService = service ?? throw new ArgumentNullException(nameof(service));
             _dealRMFactory = factory ?? throw new ArgumentNullException(nameof(factory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _messageSender = messageSender;
+            _configuration = configuration;
         }
 
         [Authorize(Roles = "SeniorManager")]
@@ -35,6 +46,17 @@ namespace CarDealership.Web.Api.Controllers
                     return BadRequest("Нет такого статуса заказа");
                 }
                 await _dealsService.ChangeStatus(request.Id, request.Status);
+
+                var dealInfo = await _dealsService.GetByIdAsync(request.Id);
+                var message = new MessageInfo
+                {
+                    Id = dealInfo.Id.ToString(),
+                    PhoneNumber = dealInfo?.Customer?.PhoneNumber ?? string.Empty,
+                    Status = request.Status.ToString("d"),
+                    Type = MessageTypes.Deal.ToString("g")
+                };
+                _messageSender.SendMessage(message, _configuration["RabbitMQ:Queues:CDQueue"]);
+
                 return Ok();
             }
             catch (InvalidOperationException e)

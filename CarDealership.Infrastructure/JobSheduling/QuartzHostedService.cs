@@ -2,7 +2,7 @@
 using Quartz;
 using Quartz.Spi;
 
-namespace CarDealership.Infrastructure
+namespace CarDealership.Infrastructure.JobSheduling
 {
     public class QuartzHostedService : IHostedService
     {

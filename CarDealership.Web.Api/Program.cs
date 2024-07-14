@@ -2,6 +2,8 @@ using CarDealership.Application;
 using CarDealership.Application.Auth;
 using CarDealership.DataAccess;
 using CarDealership.Infrastructure;
+using CarDealership.Infrastructure.Auth;
+using CarDealership.Infrastructure.Messaging;
 using CarDealership.Web.Api;
 using CarDealership.Web.Api.Exstensions;
 using Microsoft.AspNetCore.CookiePolicy;
@@ -17,20 +19,22 @@ var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLo
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+    var config = builder.Configuration;
+    var services = builder.Services;
 
     builder.Logging.ClearProviders();
     builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
     builder.Host.UseNLog();
 
-    builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
+    services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
     var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
-    builder.Services.AddApiAuthentication(Options.Create(jwtOptions));
+    services.AddApiAuthentication(Options.Create(jwtOptions));
 
-    builder.Services.AddControllers();
+    services.AddControllers();
 
-    builder.Services.AddEndpointsApiExplorer();
+    services.AddEndpointsApiExplorer();
 
-    builder.Services.AddSwaggerGen(c =>
+    services.AddSwaggerGen(c =>
     {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Car Dealership API", Version = "v1" });
 
@@ -40,19 +44,23 @@ try
         Console.WriteLine($"XML Path: {xmlPath}");
     });
 
-    builder.Services.AddDbContext<CarDealershipDbContext>(
+   services.AddDbContext<CarDealershipDbContext>(
         options =>
         {
             options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(CarDealershipDbContext)));
         });
 
-    builder.Services
+    services
         .AddDataAccess()
         .AddBusinessLogic()
         .AddControllersSupport()
         .ConfigureSupportingServices();
 
-
+    services.AddSingleton(new RabbitMQMessageSender(
+        config["RabbitMQ:HostName"],
+        config["RabbitMQ:UserName"],
+        config["RabbitMQ:Password"]
+    ));
 
     var app = builder.Build();
 

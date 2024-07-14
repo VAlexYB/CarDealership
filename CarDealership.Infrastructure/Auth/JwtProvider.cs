@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarDealership.Infrastructure
+namespace CarDealership.Infrastructure.Auth
 {
     public class JwtProvider : IJwtProvider
     {

@@ -2,7 +2,7 @@
 using Quartz.Spi;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CarDealership.Infrastructure
+namespace CarDealership.Infrastructure.JobSheduling
 {
     public class ScopedJobFactory : IJobFactory
     {
@@ -19,12 +19,12 @@ namespace CarDealership.Infrastructure
             {
                 return scope.ServiceProvider.GetRequiredService(bundle.JobDetail.JobType) as IJob;
             }
-            
+
         }
 
         public void ReturnJob(IJob job)
         {
-            
+
         }
     }
 }

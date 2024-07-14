@@ -1,5 +1,5 @@
 ﻿using CarDealership.Application.Auth;
-using CarDealership.Infrastructure;
+using CarDealership.Infrastructure.Auth;
 using CarDealership.Web.Api.Factories;
 using CarDealership.Web.Api.Factories.Abstract;
 

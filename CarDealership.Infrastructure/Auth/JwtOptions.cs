@@ -1,4 +1,4 @@
-﻿namespace CarDealership.Infrastructure
+﻿namespace CarDealership.Infrastructure.Auth
 {
     public class JwtOptions
     {
