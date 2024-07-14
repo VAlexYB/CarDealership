@@ -1,4 +1,5 @@
 ﻿
+using System.Text.Json.Serialization;
 using CSharpFunctionalExtensions;
 
 namespace CarDealership.Core.Models
@@ -12,6 +13,8 @@ namespace CarDealership.Core.Models
 
         private readonly List<AutoConfiguration> configurations = new List<AutoConfiguration>();
         public IReadOnlyCollection<AutoConfiguration> Configurations => configurations.AsReadOnly();
+        
+        [JsonConstructor]
         private BodyType(Guid id, string value, decimal price, bool isDeleted) : base(id)
         {
             Value = value;

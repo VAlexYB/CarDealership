@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Text.Json.Serialization;
+using CSharpFunctionalExtensions;
 
 namespace CarDealership.Core.Models
 {
@@ -10,6 +11,8 @@ namespace CarDealership.Core.Models
         private readonly List<Engine> engines = new List<Engine>();
 
         public IReadOnlyCollection<Engine> Engines => engines.AsReadOnly();
+        
+        [JsonConstructor]
         public EngineType(Guid id, string value, bool isDeleted) : base(id)
         {
             Value = value;

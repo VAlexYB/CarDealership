@@ -2,12 +2,13 @@
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Factories;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace CarDealership.DataAccess.Repositories
 {
     public class CarsRepository : BaseRepository<Car, CarEntity, BaseFilter>, ICarsRepository
     {
-        public CarsRepository(CarDealershipDbContext context, IEntityModelFactory<Car, CarEntity> factory) : base(context, factory)
+        public CarsRepository(CarDealershipDbContext context, IEntityModelFactory<Car, CarEntity> factory,  IDistributedCache cache) : base(context, factory, cache)
         {
         }
 

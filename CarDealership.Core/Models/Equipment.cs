@@ -1,6 +1,7 @@
 ﻿
 using CSharpFunctionalExtensions;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace CarDealership.Core.Models
 {
@@ -19,6 +20,8 @@ namespace CarDealership.Core.Models
 
         public IReadOnlyCollection<EquipmentFeature> EquipmentFeatures => equipmentFeatures.AsReadOnly();
         public IReadOnlyCollection<AutoConfiguration> Configurations => configurations.AsReadOnly();
+        
+        [JsonConstructor]
         public Equipment(Guid id, string name, decimal price, string releaseYear, Guid autoModelId, bool isDeleted, AutoModel? autoModel) : base(id)
         {
             Name = name;
