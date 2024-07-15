@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models.Auth
 {
@@ -31,6 +32,7 @@ namespace CarDealership.Core.Models.Auth
         public IReadOnlyCollection<Order> CustomerOrders => customerOrders.AsReadOnly();
         public IReadOnlyCollection<Deal> CustomerDeals => customerDeals.AsReadOnly();
 
+        [JsonConstructor]
         private User(Guid id, string userName, string email, string passwordHash, string firstName, string middleName, string lastName,
             string phoneNumber, string firstCardDigits, string lastCardDigits, bool isDeleted)
         {

@@ -39,6 +39,8 @@ namespace CarDealership.DataAccess.Repositories
                     existEntity.CustomerId = entity.CustomerId;
                 }
                 await _context.SaveChangesAsync();
+                await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
+                await _cache.RemoveAsync($"{model.GetType().Name}_All");
                 return existEntity.Id;
             }
             catch (Exception)

@@ -2,7 +2,7 @@
 using CarDealership.Core.Models.Auth;
 using CSharpFunctionalExtensions;
 using System.Text;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {
