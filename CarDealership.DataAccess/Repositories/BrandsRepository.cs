@@ -2,12 +2,13 @@
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Factories;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace CarDealership.DataAccess.Repositories
 {
     public class BrandsRepository : BaseRepository<Brand, BrandEntity, BaseFilter>, IBrandsRepository
     {
-        public BrandsRepository(CarDealershipDbContext context, IEntityModelFactory<Brand, BrandEntity> factory) : base(context, factory)
+        public BrandsRepository(CarDealershipDbContext context, IEntityModelFactory<Brand, BrandEntity> factory, IDistributedCache cache) : base(context, factory, cache)
         {
         }
 
@@ -26,6 +27,8 @@ namespace CarDealership.DataAccess.Repositories
                 }
 
                 await _context.SaveChangesAsync();
+                await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
+                await _cache.RemoveAsync($"{model.GetType().Name}_All");
                 return existEntity.Id;
             }
             catch (Exception)

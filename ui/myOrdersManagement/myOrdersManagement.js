@@ -127,15 +127,10 @@ const changeStatus = async (entity) => {
     if (status == 3) {
         const newEntity = {
             "id": entity.id ,
-                "managerId": userId,
-                "status": 3,
-                "completeDate": new Date().toISOString(),
-                "orderDate": entity.orderDate,
-                "autoConfigurationId": entity.autoConfigurationId,
-                "customerId": entity.customerId
+            "status": 3
         }
         console.log(newEntity)
-        const deliverOrder = await fetch("http://localhost:7243/api/Orders/add", {
+        const deliverOrder = await fetch("http://localhost:7243/api/Orders/changeStatus", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -148,7 +143,7 @@ const changeStatus = async (entity) => {
             alert("Заказ " + entity.id + " не доставлен");
         }
     } else {
-        const cancelOrder = await fetch("http://localhost:7243/api/Orders/add", {
+        const cancelOrder = await fetch("http://localhost:7243/api/Orders/changeStatus", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -156,12 +151,8 @@ const changeStatus = async (entity) => {
             },
             credentials: 'include',
             body: JSON.stringify({
-                "id": entity.id ,
-                "managerId": userId,
-                "status": 4,
-                "orderDate": entity.orderDate,
-                "autoConfigurationId": entity.autoConfigurationId,
-                "customerId": entity.customerId
+                "id": entity.id, 
+                "status": 4
             })
         })
         if (!cancelOrder.ok) {

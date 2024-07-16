@@ -14,13 +14,16 @@ namespace CarDealership.Web.Api.Controllers
     {
         private readonly IEquipmentRMFactory _equipRMFactory;
         private readonly IEquipmentsService equipService;
-        public EquipmentsController(IEquipmentsService service, IEquipmentRMFactory factory) : base(service, factory)
+        private readonly ILogger _logger;
+        public EquipmentsController(IEquipmentsService service, IEquipmentRMFactory factory, ILogger<EquipmentsController> logger) : base(service, factory, logger)
         {
             _equipRMFactory = factory ?? throw new ArgumentNullException(nameof(factory));
             equipService = service ?? throw new ArgumentNullException(nameof(service));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
         }
 
-        public override async Task<IActionResult> CreateOrEdit(EquipmentRequest request)
+        public override async Task<IActionResult> CreateOrEditAsync(EquipmentRequest request)
         {
             try
             {
@@ -32,8 +35,9 @@ namespace CarDealership.Web.Api.Controllers
             {
                 return StatusCode(400, e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в EquipmentsController -> CreateOrEditAsync()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -51,9 +55,10 @@ namespace CarDealership.Web.Api.Controllers
             {
                 return StatusCode(400, e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, "Внутренняя ошибка");
+                _logger.LogError(e, "Ошибка возникла в EquipmentsController -> RemoveFeature()");
+                return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
 
@@ -70,9 +75,10 @@ namespace CarDealership.Web.Api.Controllers
             {
                 return StatusCode(400, e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, "Ошибки случаются");
+                _logger.LogError(e, "Ошибка возникла в EquipmentsController -> AddFeature()");
+                return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
     } 

@@ -5,12 +5,13 @@ using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace CarDealership.DataAccess.Repositories
 {
     public class AutoModelsRepository : BaseRepository<AutoModel, AutoModelEntity, AutoModelsFilter>, IAutoModelsRepository
     {
-        public AutoModelsRepository(CarDealershipDbContext context, IEntityModelFactory<AutoModel, AutoModelEntity> factory) : base(context, factory)
+        public AutoModelsRepository(CarDealershipDbContext context, IEntityModelFactory<AutoModel, AutoModelEntity> factory, IDistributedCache cache) : base(context, factory, cache)
         {
         }
 
@@ -29,6 +30,8 @@ namespace CarDealership.DataAccess.Repositories
                 }
 
                 await _context.SaveChangesAsync();
+                await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
+                await _cache.RemoveAsync($"{model.GetType().Name}_All");
                 return existEntity.Id;
             }
             catch (Exception)

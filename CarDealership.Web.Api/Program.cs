@@ -1,27 +1,47 @@
 using CarDealership.Application;
 using CarDealership.Application.Auth;
 using CarDealership.DataAccess;
+using CarDealership.Infrastructure;
+using CarDealership.Infrastructure.Auth;
+using CarDealership.Infrastructure.Messaging;
 using CarDealership.Web.Api;
 using CarDealership.Web.Api.Exstensions;
-using CarDealership.Web.Api.Factories;
-using CarDealership.Web.Api.Factories.Abstract;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using NLog.Web;
+using Quartz;
 using System.Reflection;
+using Newtonsoft.Json;
 
-var builder = WebApplication.CreateBuilder(args);
+var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
-var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
-builder.Services.AddApiAuthentication(Options.Create(jwtOptions));
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
+    var config = builder.Configuration;
+    var services = builder.Services;
 
-builder.Services.AddControllers();
+    builder.Logging.ClearProviders();
+    builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+    builder.Host.UseNLog();
 
-builder.Services.AddEndpointsApiExplorer();
+    services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
+    var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
+    services.AddApiAuthentication(Options.Create(jwtOptions));
 
-builder.Services.AddSwaggerGen(c =>
+    services.AddControllers().AddNewtonsoftJson();
+    
+    JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
+    {
+        PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+    };
+
+    services.AddEndpointsApiExplorer();
+
+    services.AddSwaggerGen(c =>
     {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Car Dealership API", Version = "v1" });
 
@@ -31,45 +51,71 @@ builder.Services.AddSwaggerGen(c =>
         Console.WriteLine($"XML Path: {xmlPath}");
     });
 
-builder.Services.AddDbContext<CarDealershipDbContext>(
-    options =>
+   services.AddDbContext<CarDealershipDbContext>(
+        options =>
+        {
+            options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(CarDealershipDbContext)));
+        });
+    
+    builder.Services.AddStackExchangeRedisCache(options =>
     {
-        options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(CarDealershipDbContext)));
+        options.Configuration = builder.Configuration.GetConnectionString("Redis");
     });
 
-builder.Services
-    .AddDataAccess()
-    .AddBusinessLogic()
-    .AddControllersSupport();
+    services
+        .AddDataAccess()
+        .AddBusinessLogic()
+        .AddControllersSupport()
+        .ConfigureSupportingServices();
 
-var app = builder.Build();
+    services.AddSingleton<IRabbitMQMessageSender>(provider => new RabbitMQMessageSender(
+        config["RabbitMQ:HostName"],
+        config["RabbitMQ:UserName"],
+        config["RabbitMQ:Password"]
+    ));
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+    var app = builder.Build();
+
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Car Dealership API V1");
+    });
+
+    //app.UseHttpsRedirection();
+
+    app.UseCookiePolicy(new CookiePolicyOptions
+    {
+        MinimumSameSitePolicy = SameSiteMode.Strict,
+        //HttpOnly = HttpOnlyPolicy.Always,
+        HttpOnly = HttpOnlyPolicy.None,
+        Secure = CookieSecurePolicy.Always
+    });
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.UseCors(x =>
+    {
+        x.WithHeaders().AllowAnyHeader();
+        x.WithOrigins("http://localhost:3000");
+        x.WithMethods().AllowAnyMethod();
+        x.AllowCredentials();
+    });
+
+    var scheduler = app.Services.GetService<IScheduler>();
+    scheduler.Start().Wait();
+
+    app.Run();
+}
+catch (Exception ex)
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Car Dealership API V1");
-});
-
-//app.UseHttpsRedirection();
-
-app.UseCookiePolicy(new CookiePolicyOptions
+    logger.Error(ex, "������ ��� ������� ���������");
+    throw;
+}
+finally
 {
-    MinimumSameSitePolicy = SameSiteMode.Strict,
-    HttpOnly = HttpOnlyPolicy.None,
-    Secure = CookieSecurePolicy.Always
-});
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.UseCors(x =>
-{
-    x.WithHeaders().AllowAnyHeader();
-    x.WithOrigins("http://localhost:3000");
-    x.WithMethods().AllowAnyMethod();
-    x.AllowCredentials();
-});
-
-app.Run();
+    NLog.LogManager.Shutdown();
+}

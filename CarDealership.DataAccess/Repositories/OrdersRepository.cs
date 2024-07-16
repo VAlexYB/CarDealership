@@ -4,14 +4,46 @@ using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
+using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace CarDealership.DataAccess.Repositories
 {
     public class OrdersRepository : BaseRepository<Order, OrderEntity, OrdersFilter>, IOrdersRepository
     {
-        public OrdersRepository(CarDealershipDbContext context, IEntityModelFactory<Order, OrderEntity> factory) : base(context, factory)
+        public OrdersRepository(CarDealershipDbContext context, IEntityModelFactory<Order, OrderEntity> factory,  IDistributedCache cache) : base(context, factory, cache)
         {
+        }
+
+        public override async Task<Order> GetByIdAsync(Guid entityId)
+        {
+            try
+            {
+                var entity = await _dbSet.FindAsync(entityId);
+                return _factory.CreateModel(entity);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public override async Task<List<Order>> GetAllAsync()
+        {
+            try
+            {
+                var entities = await _dbSet
+                .AsNoTracking()
+                .Where(d => !d.IsDeleted)
+                .OrderBy(x => x.Id)
+                .ToListAsync();
+
+                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public override async Task<Guid> UpdateAsync(Order model)
@@ -38,6 +70,8 @@ namespace CarDealership.DataAccess.Repositories
                     existEntity.CustomerId = entity.CustomerId;
                 }
                 await _context.SaveChangesAsync();
+                await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
+                await _cache.RemoveAsync($"{model.GetType().Name}_All");
                 return existEntity.Id;
             }
             catch (Exception)

@@ -2,6 +2,7 @@
 using CarDealership.Core.Models.Auth;
 using CSharpFunctionalExtensions;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {
@@ -20,6 +21,7 @@ namespace CarDealership.Core.Models
         public Guid CustomerId { get; set; }
         public virtual User Customer { get; set; }
 
+        [JsonConstructor]
         private Deal(Guid id, DateTime dealDate, DealStatus status, decimal price,  Guid carId, Guid? managerId, Guid customerId,
             bool isDeleted, Car car, User manager, User customer) : base(id)
         {

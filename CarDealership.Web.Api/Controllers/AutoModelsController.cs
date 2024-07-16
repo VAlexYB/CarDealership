@@ -11,7 +11,7 @@ namespace CarDealership.Web.Api.Controllers
 {
     public class AutoModelsController : BaseController<AutoModel, AutoModelsFilter, AutoModelRequest, AutoModelResponse>
     {
-        public AutoModelsController(IAutoModelsService service, IAutoModelRMFactory factory) : base(service, factory)
+        public AutoModelsController(IAutoModelsService service, IAutoModelRMFactory factory, ILogger<AutoModelsController> logger) : base(service, factory, logger)
         {
         }
     }

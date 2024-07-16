@@ -1,10 +1,7 @@
-﻿namespace CarDealership.Web.Api.Auth
-{
-    public interface IPasswordHasher
-    {
-        string Generate(string password);
-    }
+﻿using CarDealership.Application.Auth;
 
+namespace CarDealership.Infrastructure.Auth
+{
     public class PasswordHasher : IPasswordHasher
     {
         public string Generate(string password) =>

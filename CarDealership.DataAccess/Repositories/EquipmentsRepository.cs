@@ -5,6 +5,7 @@ using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using EquipmentFeatureEntity = CarDealership.DataAccess.Entities.EquipmentFeatureEntity;
 
 namespace CarDealership.DataAccess.Repositories
@@ -12,7 +13,7 @@ namespace CarDealership.DataAccess.Repositories
     public class EquipmentsRepository : BaseRepository<Equipment, EquipmentEntity, EquipmentsFilter>, IEquipmentsRepository
     {
         protected readonly DbSet<EquipmentFeatureEntity> _equipFeaturesSet;
-        public EquipmentsRepository(CarDealershipDbContext context, IEntityModelFactory<Equipment, EquipmentEntity> factory) : base(context, factory)
+        public EquipmentsRepository(CarDealershipDbContext context, IEntityModelFactory<Equipment, EquipmentEntity> factory,  IDistributedCache cache) : base(context, factory, cache)
         {
             _equipFeaturesSet = _context.Set<EquipmentFeatureEntity>();
         }
@@ -53,6 +54,8 @@ namespace CarDealership.DataAccess.Repositories
                 }
 
                 await _context.SaveChangesAsync();
+                await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
+                await _cache.RemoveAsync($"{model.GetType().Name}_All");
                 return existEntity.Id;
             }
             catch (Exception)

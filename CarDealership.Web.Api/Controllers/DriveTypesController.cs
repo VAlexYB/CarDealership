@@ -11,7 +11,7 @@ namespace CarDealership.Web.Api.Controllers
 {
     public class DriveTypesController : BaseController<DriveType, BaseFilter, DriveTypeRequest, DriveTypeResponse>
     {
-        public DriveTypesController(IDriveTypesService service, IDriveTypeRMFactory factory) : base(service, factory)
+        public DriveTypesController(IDriveTypesService service, IDriveTypeRMFactory factory, ILogger<DriveTypesController> logger) : base(service, factory, logger)
         {
         }
     }

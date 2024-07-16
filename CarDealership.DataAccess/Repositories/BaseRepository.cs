@@ -3,6 +3,8 @@ using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 
 namespace CarDealership.DataAccess.Repositories
 {
@@ -14,11 +16,14 @@ namespace CarDealership.DataAccess.Repositories
         protected readonly CarDealershipDbContext _context;
         protected readonly IEntityModelFactory<M, E> _factory;
         protected readonly DbSet<E> _dbSet;
-        public BaseRepository(CarDealershipDbContext context, IEntityModelFactory<M, E> factory)
+        protected readonly IDistributedCache _cache;
+        
+        public BaseRepository(CarDealershipDbContext context, IEntityModelFactory<M, E> factory, IDistributedCache cache)
         {
             _context = context;
             _factory = factory;
-            _dbSet = context.Set<E>();  
+            _dbSet = context.Set<E>();
+            _cache = cache;
         }
 
 
@@ -28,13 +33,33 @@ namespace CarDealership.DataAccess.Repositories
         {
             try
             {
+                var key = $"{typeof(M).Name}_All";
+                
+                var cachedData = await _cache.GetStringAsync(key);
+                if (!string.IsNullOrEmpty(cachedData))
+                {
+                    var cachedModels = JsonConvert.DeserializeObject<List<M>>(cachedData);
+                    if (cachedModels != null)
+                    {
+                        Console.WriteLine("Данные получены из кэша");
+                        return cachedModels;
+                    }
+                }
+                
                 var entities = await _dbSet
                 .AsNoTracking()
                 .Where(x => !x.IsDeleted)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
 
-                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+                var models =  entities.Select(entity => _factory.CreateModel(entity)).ToList();
+
+                if (models.Count != 0)
+                {
+                    await _cache.SetStringAsync(key, JsonConvert.SerializeObject(models));
+                }
+                
+                return models;
             }
             catch (Exception)
             {
@@ -64,7 +89,24 @@ namespace CarDealership.DataAccess.Repositories
         {
             try
             {
+                
+                var key = $"{typeof(M).Name}_{entityId}";
+                
+                var cachedData = await _cache.GetStringAsync(key);
+                if (!string.IsNullOrEmpty(cachedData))
+                {
+                    var cachedModels = JsonConvert.DeserializeObject<M>(cachedData);
+                    if (cachedModels != null)
+                    {
+                        Console.WriteLine("Данные получены из кэша");
+                        return cachedModels;
+                    }
+                }
                 var entity = await _dbSet.FindAsync(entityId);
+                if (entity != null)
+                {
+                    await _cache.SetStringAsync(key, JsonConvert.SerializeObject(entity));
+                }
 
                 return _factory.CreateModel(entity);
             }
@@ -82,6 +124,7 @@ namespace CarDealership.DataAccess.Repositories
                 var entity = _factory.CreateEntity(model);
                 await _dbSet.AddAsync(entity);
                 await _context.SaveChangesAsync();
+                await _cache.RemoveAsync($"{typeof(M).Name}_All");
                 return entity.Id;
             }
             catch (Exception)
@@ -100,6 +143,8 @@ namespace CarDealership.DataAccess.Repositories
                 if (existEntity == null) throw new InvalidOperationException("");
                 _context.Entry(existEntity).CurrentValues.SetValues(entity);
                 await _context.SaveChangesAsync();
+                await _cache.RemoveAsync($"{typeof(M).Name}_{existEntity.Id}");
+                await _cache.RemoveAsync($"{typeof(M).Name}_All");
                 return entity.Id;
             }
             catch (Exception)
@@ -116,9 +161,12 @@ namespace CarDealership.DataAccess.Repositories
                 if (entity != null)
                 {
                     entity.IsDeleted = true;
+                    entity.DeletedDate = DateTime.UtcNow;
                     //_dbSet.Remove(entity);
                 }
                 await _context.SaveChangesAsync();
+                await _cache.RemoveAsync($"{typeof(M).Name}_All");
+                await _cache.RemoveAsync($"{typeof(M).Name}_{entityId}");
                 return entityId;
             }
             catch (Exception)
@@ -131,6 +179,19 @@ namespace CarDealership.DataAccess.Repositories
         {
             try
             {
+                var key = $"{typeof(M).Name}_{entityId}";
+                
+                var cachedData = await _cache.GetStringAsync(key);
+                if (!string.IsNullOrEmpty(cachedData))
+                {
+                    var cachedModels = JsonConvert.DeserializeObject<M>(cachedData);
+                    if (cachedModels != null)
+                    {
+                        Console.WriteLine("Данные получены из кэша");
+                        return true;
+                    }
+                }
+                
                 return await _dbSet
                 .AsNoTracking()
                 .AnyAsync(e => e.Id == entityId);

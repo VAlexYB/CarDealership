@@ -1,6 +1,6 @@
-﻿using CarDealership.Core.Abstractions.Services;
+﻿using CarDealership.Application.Auth;
+using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models.Auth;
-using CarDealership.Web.Api.Auth;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +16,14 @@ namespace CarDealership.Web.Api.Controllers
         private readonly IUsersService _usersService;
         private readonly IRolesService _rolesService;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly ILogger _logger;
 
-        public UsersController(IUsersService usersService, IRolesService rolesService, IPasswordHasher passwordHasher)
+        public UsersController(IUsersService usersService, IRolesService rolesService, IPasswordHasher passwordHasher, ILogger<UsersController> logger)
         {
             _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
             _rolesService = rolesService ?? throw new ArgumentNullException(nameof(rolesService));
             _passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
+            _logger = logger;
         }
 
         [Route("register")]
@@ -63,8 +65,9 @@ namespace CarDealership.Web.Api.Controllers
             {
                 return StatusCode(400, e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController ->  Register()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
            
@@ -114,6 +117,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController ->  AddManager()");
                 return StatusCode(500, "Внутренняя ошибка");
             }
         }
@@ -134,6 +138,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController ->  AssignSenior()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -154,6 +159,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController ->  SuspendSenior()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -174,6 +180,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController ->  Login()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -193,6 +200,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController ->  Logout()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -223,6 +231,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController -> GetAllMgrs()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -253,6 +262,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController ->  GetOnlyUsers()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -283,6 +293,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController ->  GetAll()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -304,6 +315,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController ->  Delete()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
@@ -334,6 +346,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Ошибка возникла в UsersController ->  GetUserInfo()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }

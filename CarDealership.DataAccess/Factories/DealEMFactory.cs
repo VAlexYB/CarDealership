@@ -1,4 +1,5 @@
 ﻿using CarDealership.Core.Models;
+using CarDealership.Core.Models.Auth;
 using CarDealership.DataAccess.Entities;
 using DriveType = CarDealership.Core.Models.DriveType;
 
@@ -149,6 +150,28 @@ namespace CarDealership.DataAccess.Factories
                 carConfig
             ).Value : null;
 
+            var manager = entity.Manager != null ? User.Create(
+                entity.Manager.Id,
+                entity.Manager.UserName,
+                entity.Manager.Email,
+                entity.Manager.PasswordHash,
+                entity.Manager.FirstName,
+                entity.Manager.MiddleName,
+                entity.Manager.LastName,
+                entity.Manager.PhoneNumber
+            ).Value : null;
+
+            var customer = entity.Customer != null ? User.Create(
+                entity.Customer.Id,
+                entity.Customer.UserName,
+                entity.Customer.Email,
+                entity.Customer.PasswordHash,
+                entity.Customer.FirstName,
+                entity.Customer.MiddleName,
+                entity.Customer.LastName,
+                entity.Customer.PhoneNumber
+            ).Value : null;
+
             var dealCreateResult = Deal.Create(
                 entity.Id,
                 entity.DealDate,
@@ -158,7 +181,9 @@ namespace CarDealership.DataAccess.Factories
                 entity.ManagerId,
                 entity.CustomerId,
                 entity.IsDeleted,
-                car
+                car,
+                manager,
+                customer
             );
 
             if(dealCreateResult.IsFailure)

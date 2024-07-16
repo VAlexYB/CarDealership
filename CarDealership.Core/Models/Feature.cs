@@ -1,5 +1,5 @@
-﻿
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {
@@ -10,7 +10,8 @@ namespace CarDealership.Core.Models
 
         private readonly List<EquipmentFeature> featureEquipments = new List<EquipmentFeature>();
         public IReadOnlyCollection<EquipmentFeature> FeatureEquipments => featureEquipments.AsReadOnly();
-
+        
+        [JsonConstructor]
         private Feature(Guid id, string description, bool isDeleted) : base(id)
         {
             Description = description;

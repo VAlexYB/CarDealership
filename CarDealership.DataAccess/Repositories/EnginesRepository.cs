@@ -2,12 +2,13 @@
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Factories;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace CarDealership.DataAccess.Repositories
 {
     public class EnginesRepository : BaseRepository<Engine, EngineEntity, BaseFilter>, IEnginesRepository
     {
-        public EnginesRepository(CarDealershipDbContext context, IEntityModelFactory<Engine, EngineEntity> factory) : base(context, factory)
+        public EnginesRepository(CarDealershipDbContext context, IEntityModelFactory<Engine, EngineEntity> factory,  IDistributedCache cache) : base(context, factory, cache)
         {
         }
 
@@ -30,6 +31,8 @@ namespace CarDealership.DataAccess.Repositories
                     existEntity.TransmissionTypeId = entity.TransmissionTypeId;
                 }
                 await _context.SaveChangesAsync();
+                await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
+                await _cache.RemoveAsync($"{model.GetType().Name}_All");
                 return existEntity.Id;
             }
             catch (Exception)

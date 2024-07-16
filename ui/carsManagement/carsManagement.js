@@ -64,7 +64,7 @@ const getAutoConfigs = async () => {
         const option = document.createElement('option');
         option.value = entity.id;
         option.textContent = entity.brandName + " " + entity.autoModelName + ", " + entity.bodyType + ", " + entity.color + ", "  + entity.equipment.name
-            + ", " + entity.equipment.releaseYear + ", " + entity.price + "₽";
+            + ", " + entity.equipment.releaseYear + ", " + entity.totalPrice + "₽";
         configSelect.appendChild(option);
     });
 }

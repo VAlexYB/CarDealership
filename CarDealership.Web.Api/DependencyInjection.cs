@@ -1,10 +1,5 @@
 ﻿using CarDealership.Application.Auth;
-using CarDealership.Core.Abstractions.Repositories;
-using CarDealership.Core.Models;
-using CarDealership.DataAccess.Entities;
-using CarDealership.DataAccess.Factories;
-using CarDealership.DataAccess.Repositories;
-using CarDealership.Web.Api.Auth;
+using CarDealership.Infrastructure.Auth;
 using CarDealership.Web.Api.Factories;
 using CarDealership.Web.Api.Factories.Abstract;
 

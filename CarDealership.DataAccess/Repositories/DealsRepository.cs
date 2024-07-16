@@ -5,12 +5,13 @@ using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace CarDealership.DataAccess.Repositories
 {
     public class DealsRepository : BaseRepository<Deal, DealEntity, DealsFilter>, IDealsRepository
     {
-        public DealsRepository(CarDealershipDbContext context, IEntityModelFactory<Deal, DealEntity> factory) : base(context, factory)
+        public DealsRepository(CarDealershipDbContext context, IEntityModelFactory<Deal, DealEntity> factory, IDistributedCache cache) : base(context, factory, cache)
         {
         }
 
@@ -36,6 +37,8 @@ namespace CarDealership.DataAccess.Repositories
                 existEntity.CustomerId = entity.CustomerId;
             }
             await _context.SaveChangesAsync();
+            await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
+            await _cache.RemoveAsync($"{model.GetType().Name}_All");
             return existEntity.Id;
         }
 

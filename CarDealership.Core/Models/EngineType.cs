@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {
@@ -10,7 +11,9 @@ namespace CarDealership.Core.Models
         private readonly List<Engine> engines = new List<Engine>();
 
         public IReadOnlyCollection<Engine> Engines => engines.AsReadOnly();
-        public EngineType(Guid id, string value, bool isDeleted) : base(id)
+        
+        [JsonConstructor]
+        private EngineType(Guid id, string value, bool isDeleted) : base(id)
         {
             Value = value;
             IsDeleted = isDeleted;

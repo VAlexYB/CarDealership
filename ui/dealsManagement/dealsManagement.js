@@ -190,34 +190,19 @@ const openEntityDialog = (entity = null) => {
     const entityForm = document.getElementById('entityForm');
     if (entity) {
         const carSelect = document.getElementById('car');
-        const carSelectOptions = carSelect.querySelectorAll('option');
-        for (let i = 0; i < carSelectOptions.length; i++) {
-            if (carSelectOptions[i].value === entity.carId) {
-                carSelectOptions[i].selected = true;
-                break;
-            } 
-        };
+        carSelect.value = entity.carId;
+
         const customerSelect = document.getElementById('customer');
-        const customerSelectOptions = customerSelect.querySelectorAll('option');
-        for (let i = 0; i < customerSelectOptions.length; i++) {
-            if (customerSelectOptions[i].value === entity.customerId) {
-                customerSelectOptions[i].selected = true;
-                break;
-            }
-        }
+        customerSelect.value = entity.customerId;
+
         const dealStatusSelect = document.getElementById('dealStatus');
-        const dealStatusSelectOptions = dealStatusSelect.querySelectorAll('option');
-        for (let i = 0; i < dealStatusSelectOptions.length; i++) {
-            if (dealStatusSelectOptions[i].value === entity.status) {
-                dealStatusSelectOptions[i].selected = true;
-                break;
-            }
-        }
+        dealStatusSelect.value = entity.status;
+
         document.getElementById('dialogTitle').textContent = 'Редактировать сделку';
         document.getElementById('dialogSubmitBtn').textContent = 'Сохранить';
         entityForm.onsubmit = (event) => {
             event.preventDefault();
-            addOrEditEntity(entity);
+            changeDealStatus(entity);
         };
     }
     else {
@@ -232,58 +217,29 @@ const openEntityDialog = (entity = null) => {
 
 const closeEntityDialog = () => {
     const entityForm = document.getElementById('entityForm');
-    const carSelect = document.getElementById('car');
-    const carSelectOptions = carSelect.querySelectorAll('option');
-    for (let i = 0; i < carSelectOptions.length; i++) {
-        carSelectOptions[i].selected = false;
-    };
-    const customerSelect = document.getElementById('customer');
-    const customerSelectOptions = customerSelect.querySelectorAll('option');
-    for (let i = 0; i < customerSelectOptions.length; i++) {
-        customerSelectOptions[i].selected = false;
-    }
-    const dealStatusSelect = document.getElementById('dealStatus');
-    const dealStatusSelectOptions = dealStatusSelect.querySelectorAll('option');
-    for (let i = 0; i < dealStatusSelectOptions.length; i++) {
-        dealStatusSelectOptions[i].selected = false;
-    }
+    entityForm.reset(); 
     entityForm.onsubmit = null;
     document.getElementById('addEntityDialog').close();
-}
+};
 
-const addOrEditEntity = async (entity = null) => {
-    const car = document.getElementById('car');
-    const carOptions = car.querySelectorAll('option');
-    const carId = carOptions[car.selectedIndex].value;
-    const customer = document.getElementById('customer');
-    const customerOptions = customer.querySelectorAll('option');
-    const customerId = customerOptions[customer.selectedIndex].value;
-    const dealStatus = document.getElementById('dealStatus');
-    const dealStatusOptions = dealStatus.querySelectorAll('option');
-    const status = dealStatusOptions[dealStatus.selectedIndex].value;
+const addDeal = async () => {
+    const carId = document.getElementById('car').value;
+    const customerId = document.getElementById('customer').value;
+    const status = document.getElementById('dealStatus').value;
+
     if (!carId || !customerId || !status) {
         alert('Поля не должны быть пустыми');
         return;
     }
-    let newEntity = {};
-    if (entity) {
-        newEntity = {
-            "id": entity.id,
-            "dealDate": entity.dealDate,
-            "carId": carId,
-            "customerId": customerId,
-            "status": +status,
-            "managerId": userId
-        }
-    } else {
-        newEntity = {
-            "dealDate": new Date(),
-            "carId": carId,
-            "customerId": customerId,
-            "status": +status,
-            "managerId": userId
-        }
-    }
+
+    const newEntity = {
+        "dealDate": new Date(),
+        "carId": carId,
+        "customerId": customerId,
+        "status": +status,
+        "managerId": userId
+    };
+
     const response = await fetch("http://localhost:7243/api/Deals/add", {
         method: "POST",
         headers: {
@@ -293,12 +249,40 @@ const addOrEditEntity = async (entity = null) => {
         body: JSON.stringify(newEntity),
         credentials: 'include',
     });
+
     if (!response.ok) {
-        const error = await response.json()
+        const error = await response.json();
         alert(error);
         return;
     }
+
     closeEntityDialog();
-    await getFreeCars()
+    await getFreeCars();
     await getEntities();
-}
+};
+
+const changeDealStatus = async (entity) => {
+    const status = document.getElementById('dealStatus').value;
+
+    const newEntity = {
+        "id": entity.id,
+        "status": +status
+    };
+
+    const response = await fetch("http://localhost:7243/api/Deals/changeStatus", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        credentials: 'include',
+        body: JSON.stringify(newEntity)
+    });
+
+    if (!response.ok) {
+        alert("Сделка " + entity.id + " не изменена");
+    }
+
+    closeEntityDialog();
+    await getEntities();
+};

@@ -8,10 +8,12 @@ namespace CarDealership.Web.Api.Controllers
     public class FileController : ControllerBase
     {
         private readonly IWebHostEnvironment _environment;
+        private readonly ILogger _logger;
 
-        public FileController(IWebHostEnvironment environment)
+        public FileController(IWebHostEnvironment environment, ILogger<FileController> logger)
         {
             _environment = environment;
+            _logger = logger;
         }
 
         [Route("upload")]
@@ -42,6 +44,7 @@ namespace CarDealership.Web.Api.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Ошибка возникла в FileController -> Upload()");
                 return StatusCode(500, $"Внутренняя ошибка сервера");
             }
         }
@@ -50,16 +53,24 @@ namespace CarDealership.Web.Api.Controllers
         [HttpGet]
         public IActionResult GetImage(Guid id)
         {
-            var uploads = Path.Combine(_environment.ContentRootPath, "uploads");
-            var filePath = Path.Combine(uploads, $"{id}.png");
-            if (System.IO.File.Exists(filePath))
+            try
             {
-                var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-                return File(fileStream, "image/png");
+                var uploads = Path.Combine(_environment.ContentRootPath, "uploads");
+                var filePath = Path.Combine(uploads, $"{id}.png");
+                if (System.IO.File.Exists(filePath))
+                {
+                    var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                    return File(fileStream, "image/png");
+                }
+                else
+                {
+                    return NotFound("Изображение не найдено");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return NotFound("Изображение не найдено");
+                _logger.LogError(e, "Ошибка возникла в FileController -> GetImage()");
+                return StatusCode(500, $"Внутренняя ошибка сервера");
             }
         }
     }

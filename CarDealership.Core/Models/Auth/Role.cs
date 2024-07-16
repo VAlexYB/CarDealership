@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models.Auth
 {
@@ -8,7 +9,8 @@ namespace CarDealership.Core.Models.Auth
         public string Value { get; }
         private readonly List<User> users = new List<User>();
         public IReadOnlyCollection<User> Users => users.AsReadOnly();
-
+        
+        [JsonConstructor]
         private Role(int id, string value)
         {
             Id = id;
