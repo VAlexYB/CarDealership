@@ -18,14 +18,14 @@ namespace CarDealership.Web.Api.Controllers
         private readonly IOrdersService _ordersService;
         private readonly IOrderRMFactory _orderRMFactory;
         private readonly ILogger<OrdersController> _logger;
-        private readonly RabbitMQMessageSender _messageSender;
+        private readonly IRabbitMQMessageSender _messageSender;
         private readonly IConfiguration _configuration;
 
         public OrdersController(
             IOrdersService service,
             IOrderRMFactory factory,
             ILogger<OrdersController> logger,
-            RabbitMQMessageSender messageSender,
+            IRabbitMQMessageSender messageSender,
             IConfiguration configuration
         ) : base(service, factory, logger)
         {

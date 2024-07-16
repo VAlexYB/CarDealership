@@ -17,13 +17,13 @@ namespace CarDealership.Web.Api.Controllers
         private readonly IDealsService _dealsService;
         private readonly IDealRMFactory _dealRMFactory;
         private readonly ILogger<DealsController> _logger;
-        private readonly RabbitMQMessageSender _messageSender;
+        private readonly IRabbitMQMessageSender _messageSender;
         private readonly IConfiguration _configuration;
         public DealsController(
             IDealsService service,
             IDealRMFactory factory,
             ILogger<DealsController> logger,
-             RabbitMQMessageSender messageSender,
+            IRabbitMQMessageSender messageSender,
             IConfiguration configuration
         ) : base(service, factory, logger)
         {

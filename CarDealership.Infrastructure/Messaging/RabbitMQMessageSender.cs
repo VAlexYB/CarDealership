@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace CarDealership.Infrastructure.Messaging
 {
-    public class RabbitMQMessageSender
+    public class RabbitMQMessageSender : IRabbitMQMessageSender
     {
 
         private readonly ConnectionFactory _connectionFactory;

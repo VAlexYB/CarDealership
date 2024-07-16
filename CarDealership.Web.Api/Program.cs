@@ -61,7 +61,7 @@ try
         .AddControllersSupport()
         .ConfigureSupportingServices();
 
-    services.AddSingleton(new RabbitMQMessageSender(
+    services.AddSingleton<IRabbitMQMessageSender>(provider => new RabbitMQMessageSender(
         config["RabbitMQ:HostName"],
         config["RabbitMQ:UserName"],
         config["RabbitMQ:Password"]

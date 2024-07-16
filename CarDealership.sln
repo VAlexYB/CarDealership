@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarDealership.DataAccess", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarDealership.Application", "CarDealership.Application\CarDealership.Application.csproj", "{95E38318-72EF-483B-9DB3-1C5DF9AB857C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarDealership.Infrastructure", "CarDealership.Infrastructure\CarDealership.Infrastructure.csproj", "{25A656D5-B207-4C6A-B48C-B179B7CF076F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarDealership.Infrastructure", "CarDealership.Infrastructure\CarDealership.Infrastructure.csproj", "{25A656D5-B207-4C6A-B48C-B179B7CF076F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarDealership.Tests", "CarDealership.Tests\CarDealership.Tests.csproj", "{283F76B6-48B0-49AC-9E4E-2C71D4510FEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{25A656D5-B207-4C6A-B48C-B179B7CF076F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25A656D5-B207-4C6A-B48C-B179B7CF076F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25A656D5-B207-4C6A-B48C-B179B7CF076F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{283F76B6-48B0-49AC-9E4E-2C71D4510FEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{283F76B6-48B0-49AC-9E4E-2C71D4510FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{283F76B6-48B0-49AC-9E4E-2C71D4510FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{283F76B6-48B0-49AC-9E4E-2C71D4510FEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
