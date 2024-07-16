@@ -11,7 +11,7 @@ namespace CarDealership.Web.Api.Factories
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
             
-            var transmissionTypeCreateResult = TransmissionType.Create(req.Id, req.Value, req.IsDeleted);
+            var transmissionTypeCreateResult = TransmissionType.Create(req.Id, req.Value);
             if(transmissionTypeCreateResult.IsFailure)
             {
                 throw new InvalidOperationException(transmissionTypeCreateResult.Error);

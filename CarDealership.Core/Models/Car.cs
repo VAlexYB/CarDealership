@@ -1,5 +1,6 @@
 ﻿
 using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {
@@ -9,6 +10,8 @@ namespace CarDealership.Core.Models
         public string VIN { get; }
         public Guid AutoConfigurationId { get; }
         public AutoConfiguration? AutoConfiguration { get; }
+        
+        [JsonConstructor]
         private Car(Guid id, string VIN, Guid autoConfigurationId, bool isDeleted, AutoConfiguration? autoConfiguration) : base(id)
         {
             this.VIN = VIN;
@@ -17,7 +20,7 @@ namespace CarDealership.Core.Models
             AutoConfiguration = autoConfiguration;
         }
 
-        public static Result<Car> Create(Guid id, string VIN, Guid autoConfigurationId, bool isDeleted, AutoConfiguration? autoConfiguration = null)
+        public static Result<Car> Create(Guid id, string VIN, Guid autoConfigurationId, bool isDeleted = false, AutoConfiguration? autoConfiguration = null)
         {
             var error = string.Empty;
 

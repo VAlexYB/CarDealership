@@ -33,7 +33,7 @@ namespace CarDealership.Web.Api.Factories
                 req.Price,
                 req.EngineTypeId,
                 req.TransmissionTypeId,
-                req.IsDeleted,
+                false,
                 engineType,
                 transmissionType
             );

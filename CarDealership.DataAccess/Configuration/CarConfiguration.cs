@@ -13,6 +13,9 @@ namespace CarDealership.DataAccess.Configuration
             builder.HasOne(c => c.AutoConfiguration)
                 .WithMany(ac => ac.Cars)
                 .HasForeignKey(c => c.AutoConfigurationId);
+
+            builder.HasIndex(c => c.VIN)
+                .IsUnique();
         }
     }
 }

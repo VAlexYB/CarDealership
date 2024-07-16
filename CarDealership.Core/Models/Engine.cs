@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {
@@ -19,6 +20,7 @@ namespace CarDealership.Core.Models
         private readonly List<AutoConfiguration> configurations = new List<AutoConfiguration>();
         public IReadOnlyCollection<AutoConfiguration> Configurations => configurations.AsReadOnly();
 
+        [JsonConstructor]
         private Engine(Guid id, int power, int consumption, decimal price, Guid engineTypeId, 
              Guid transmissionTypeId, bool isDeleted, EngineType? engineType, TransmissionType? transmissionType) : base(id)
         {
@@ -39,7 +41,7 @@ namespace CarDealership.Core.Models
         }
 
         public static Result<Engine> Create(Guid id, int power, int consumption, decimal price, Guid engineTypeId,
-             Guid transmissionTypeId, bool isDeleted, EngineType? engineType = null, TransmissionType? transmissionType = null)
+             Guid transmissionTypeId, bool isDeleted = false, EngineType? engineType = null, TransmissionType? transmissionType = null)
         {
             var errorBuilder = new StringBuilder();
 

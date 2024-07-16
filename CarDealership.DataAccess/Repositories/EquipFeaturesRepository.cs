@@ -2,12 +2,13 @@
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Factories;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace CarDealership.DataAccess.Repositories
 {
-    public class EquipFeaturesRepository : BaseRepository<EquipmentFeature, EquipmentFeatureEntity, BaseFilter>, IEquipFeaturesRepository
+    public class EquipFeaturesRepository : BaseRepository<Core.Models.EquipmentFeature, Entities.EquipmentFeatureEntity, BaseFilter>, IEquipFeaturesRepository
     {
-        public EquipFeaturesRepository(CarDealershipDbContext context, IEntityModelFactory<EquipmentFeature, EquipmentFeatureEntity> factory) : base(context, factory)
+        public EquipFeaturesRepository(CarDealershipDbContext context, IEntityModelFactory<Core.Models.EquipmentFeature, Entities.EquipmentFeatureEntity> factory,  IDistributedCache cache) : base(context, factory, cache)
         {
         }
     }

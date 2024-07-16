@@ -25,6 +25,101 @@ namespace CarDealership.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("CarDealership.DataAccess.Entities.Auth.RoleEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Value = "User"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Value = "Manager"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Value = "SeniorManager"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Value = "Admin"
+                        });
+                });
+
+            modelBuilder.Entity("CarDealership.DataAccess.Entities.Auth.UserEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstCardDigits")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<bool?>("HasLinkedCard")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LastCardDigits")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("CarDealership.DataAccess.Entities.AutoConfigurationEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -40,10 +135,16 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("ColorId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("DriveTypeId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("EngineId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("EquipmentId")
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IsDeleted")
@@ -64,6 +165,8 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasIndex("EngineId");
 
+                    b.HasIndex("EquipmentId");
+
                     b.ToTable("AutoConfigurations");
                 });
 
@@ -75,6 +178,9 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.Property<Guid>("BrandId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -89,7 +195,8 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId");
+                    b.HasIndex("BrandId", "Name")
+                        .IsUnique();
 
                     b.ToTable("AutoModels");
                 });
@@ -99,6 +206,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -111,6 +221,9 @@ namespace CarDealership.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Value")
+                        .IsUnique();
 
                     b.ToTable("BodyTypes");
                 });
@@ -124,6 +237,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("CountryId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -134,6 +250,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Brands");
                 });
@@ -147,6 +266,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("AutoConfigurationId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -158,6 +280,9 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasIndex("AutoConfigurationId");
 
+                    b.HasIndex("VIN")
+                        .IsUnique();
+
                     b.ToTable("Cars");
                 });
 
@@ -166,6 +291,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -178,6 +306,9 @@ namespace CarDealership.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Value")
+                        .IsUnique();
 
                     b.ToTable("Colors");
                 });
@@ -188,6 +319,9 @@ namespace CarDealership.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -197,7 +331,51 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("CarDealership.DataAccess.Entities.DealEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CarId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DealDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("ManagerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ManagerId");
+
+                    b.ToTable("Deals");
                 });
 
             modelBuilder.Entity("CarDealership.DataAccess.Entities.DriveTypeEntity", b =>
@@ -205,6 +383,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -217,6 +398,9 @@ namespace CarDealership.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Value")
+                        .IsUnique();
 
                     b.ToTable("DriveTypes");
                 });
@@ -229,6 +413,9 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.Property<int>("Consumption")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("EngineTypeId")
                         .HasColumnType("uuid");
@@ -260,6 +447,9 @@ namespace CarDealership.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -268,6 +458,9 @@ namespace CarDealership.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Value")
+                        .IsUnique();
 
                     b.ToTable("EngineTypes");
                 });
@@ -280,6 +473,9 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.Property<Guid>("AutoModelId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -308,6 +504,9 @@ namespace CarDealership.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("EquipmentId")
                         .HasColumnType("uuid");
 
@@ -319,9 +518,10 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EquipmentId");
-
                     b.HasIndex("FeatureId");
+
+                    b.HasIndex("EquipmentId", "FeatureId")
+                        .IsUnique();
 
                     b.ToTable("EquipmentFeatures");
                 });
@@ -331,6 +531,9 @@ namespace CarDealership.DataAccess.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -344,11 +547,58 @@ namespace CarDealership.DataAccess.Migrations
                     b.ToTable("Features");
                 });
 
+            modelBuilder.Entity("CarDealership.DataAccess.Entities.OrderEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AutoConfigurationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CompleteDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("ManagerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AutoConfigurationId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ManagerId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("CarDealership.DataAccess.Entities.TransmissionTypeEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -359,7 +609,25 @@ namespace CarDealership.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Value")
+                        .IsUnique();
+
                     b.ToTable("TransmissionTypes");
+                });
+
+            modelBuilder.Entity("RoleEntityUserEntity", b =>
+                {
+                    b.Property<int>("RolesId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RolesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("RoleEntityUserEntity");
                 });
 
             modelBuilder.Entity("CarDealership.DataAccess.Entities.AutoConfigurationEntity", b =>
@@ -394,6 +662,12 @@ namespace CarDealership.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CarDealership.DataAccess.Entities.EquipmentEntity", "Equipment")
+                        .WithMany("Configurations")
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("AutoModel");
 
                     b.Navigation("BodyType");
@@ -403,6 +677,8 @@ namespace CarDealership.DataAccess.Migrations
                     b.Navigation("DriveType");
 
                     b.Navigation("Engine");
+
+                    b.Navigation("Equipment");
                 });
 
             modelBuilder.Entity("CarDealership.DataAccess.Entities.AutoModelEntity", b =>
@@ -436,6 +712,31 @@ namespace CarDealership.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("AutoConfiguration");
+                });
+
+            modelBuilder.Entity("CarDealership.DataAccess.Entities.DealEntity", b =>
+                {
+                    b.HasOne("CarDealership.DataAccess.Entities.CarEntity", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarDealership.DataAccess.Entities.Auth.UserEntity", "Customer")
+                        .WithMany("CustomerDeals")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarDealership.DataAccess.Entities.Auth.UserEntity", "Manager")
+                        .WithMany("ManagedDeals")
+                        .HasForeignKey("ManagerId");
+
+                    b.Navigation("Car");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Manager");
                 });
 
             modelBuilder.Entity("CarDealership.DataAccess.Entities.EngineEntity", b =>
@@ -487,9 +788,62 @@ namespace CarDealership.DataAccess.Migrations
                     b.Navigation("Feature");
                 });
 
+            modelBuilder.Entity("CarDealership.DataAccess.Entities.OrderEntity", b =>
+                {
+                    b.HasOne("CarDealership.DataAccess.Entities.AutoConfigurationEntity", "AutoConfiguration")
+                        .WithMany("Orders")
+                        .HasForeignKey("AutoConfigurationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarDealership.DataAccess.Entities.Auth.UserEntity", "Customer")
+                        .WithMany("CustomerOrders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarDealership.DataAccess.Entities.Auth.UserEntity", "Manager")
+                        .WithMany("ManagedOrders")
+                        .HasForeignKey("ManagerId");
+
+                    b.Navigation("AutoConfiguration");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("RoleEntityUserEntity", b =>
+                {
+                    b.HasOne("CarDealership.DataAccess.Entities.Auth.RoleEntity", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarDealership.DataAccess.Entities.Auth.UserEntity", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CarDealership.DataAccess.Entities.Auth.UserEntity", b =>
+                {
+                    b.Navigation("CustomerDeals");
+
+                    b.Navigation("CustomerOrders");
+
+                    b.Navigation("ManagedDeals");
+
+                    b.Navigation("ManagedOrders");
+                });
+
             modelBuilder.Entity("CarDealership.DataAccess.Entities.AutoConfigurationEntity", b =>
                 {
                     b.Navigation("Cars");
+
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("CarDealership.DataAccess.Entities.AutoModelEntity", b =>
@@ -536,6 +890,8 @@ namespace CarDealership.DataAccess.Migrations
 
             modelBuilder.Entity("CarDealership.DataAccess.Entities.EquipmentEntity", b =>
                 {
+                    b.Navigation("Configurations");
+
                     b.Navigation("equipmentFeatures");
                 });
 

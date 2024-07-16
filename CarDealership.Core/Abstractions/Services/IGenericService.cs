@@ -13,8 +13,8 @@ namespace CarDealership.Core.Abstractions.Services
 
         Task<M> GetByIdAsync(Guid entityId);
 
-        Task CreateOrEditAsync(M entity);
+        Task<Guid> CreateOrEditAsync(M entity);
 
-        Task DeleteAsync(Guid entityId);
+        Task<Guid> DeleteAsync(Guid entityId);
     }
 }

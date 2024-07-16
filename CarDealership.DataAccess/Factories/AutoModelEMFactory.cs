@@ -20,13 +20,21 @@ namespace CarDealership.DataAccess.Factories
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+            var modelCountryEntity = entity.Brand?.Country;
+            var modelCountry = modelCountryEntity != null ? Country.Create(
+                modelCountryEntity.Id,
+                modelCountryEntity.Name,
+                modelCountryEntity.IsDeleted
+            ).Value : null;
+
             var brand = entity.Brand != null ? Brand.Create(
                 entity.BrandId,
                 entity.Brand.Name,
                 entity.Brand.CountryId,
-                entity.Brand.IsDeleted
+                entity.Brand.IsDeleted,
+                modelCountry
             ).Value : null;
-
+            
             var autoModelResult = AutoModel.Create(
                 entity.Id,
                 entity.Name,

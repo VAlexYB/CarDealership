@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {
@@ -10,7 +11,9 @@ namespace CarDealership.Core.Models
         private readonly List<Engine> engines = new List<Engine>();
 
         public IReadOnlyCollection<Engine> Engines => engines.AsReadOnly();
-        public EngineType(Guid id, string value, bool isDeleted) : base(id)
+        
+        [JsonConstructor]
+        private EngineType(Guid id, string value, bool isDeleted) : base(id)
         {
             Value = value;
             IsDeleted = isDeleted;
@@ -22,7 +25,7 @@ namespace CarDealership.Core.Models
             engines.Add(engine);
         }
         
-        public static Result<EngineType> Create(Guid id, string value, bool isDeleted)
+        public static Result<EngineType> Create(Guid id, string value, bool isDeleted = false)
         {
             string error = string.Empty;
 
@@ -31,7 +34,7 @@ namespace CarDealership.Core.Models
                 error += $"Тип двигателя не может быть пустым или иметь более {MAX_VALUE_LENGTH} символов. ";
             }
 
-            if(!string.IsNullOrEmpty(value))
+            if(!string.IsNullOrEmpty(error))
             {
                 return Result.Failure<EngineType>(error.Trim());
             }

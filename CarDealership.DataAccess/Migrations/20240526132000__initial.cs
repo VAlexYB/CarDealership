@@ -317,9 +317,16 @@ namespace CarDealership.DataAccess.Migrations
                 column: "EngineId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AutoModels_BrandId",
+                name: "IX_AutoModels_BrandId_Name",
                 table: "AutoModels",
-                column: "BrandId");
+                columns: new[] { "BrandId", "Name" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BodyTypes_Value",
+                table: "BodyTypes",
+                column: "Value",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Brands_CountryId",
@@ -327,9 +334,33 @@ namespace CarDealership.DataAccess.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Brands_Name",
+                table: "Brands",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cars_AutoConfigurationId",
                 table: "Cars",
                 column: "AutoConfigurationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Colors_Value",
+                table: "Colors",
+                column: "Value",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Countries_Name",
+                table: "Countries",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DriveTypes_Value",
+                table: "DriveTypes",
+                column: "Value",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Engines_EngineTypeId",
@@ -342,9 +373,16 @@ namespace CarDealership.DataAccess.Migrations
                 column: "TransmissionTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EquipmentFeatures_EquipmentId",
+                name: "IX_EngineTypes_Value",
+                table: "EngineTypes",
+                column: "Value",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EquipmentFeatures_EquipmentId_FeatureId",
                 table: "EquipmentFeatures",
-                column: "EquipmentId");
+                columns: new[] { "EquipmentId", "FeatureId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_EquipmentFeatures_FeatureId",
@@ -355,6 +393,12 @@ namespace CarDealership.DataAccess.Migrations
                 name: "IX_Equipments_AutoModelId",
                 table: "Equipments",
                 column: "AutoModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TransmissionTypes_Value",
+                table: "TransmissionTypes",
+                column: "Value",
+                unique: true);
         }
 
         /// <inheritdoc />

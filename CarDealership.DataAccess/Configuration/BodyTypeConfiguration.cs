@@ -9,10 +9,14 @@ namespace CarDealership.DataAccess.Configuration
         public void Configure(EntityTypeBuilder<BodyTypeEntity> builder)
         {
             builder.HasKey(bt => bt.Id);
-
+            
             builder.HasMany(bt => bt.Configurations)
                 .WithOne(c => c.BodyType)
                 .HasForeignKey(c => c.BodyTypeId);
+
+            builder.HasIndex(bt => bt.Value)
+                .IsUnique();
+                
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {
@@ -12,6 +12,8 @@ namespace CarDealership.Core.Models
 
         private readonly List<AutoConfiguration> configurations = new List<AutoConfiguration>();
         public IReadOnlyCollection<AutoConfiguration> Configurations => configurations.AsReadOnly();
+        
+        [JsonConstructor]
         private BodyType(Guid id, string value, decimal price, bool isDeleted) : base(id)
         {
             Value = value;
@@ -25,7 +27,7 @@ namespace CarDealership.Core.Models
             configurations.Add(configuration);
         }
 
-        public static Result<BodyType> Create(Guid id, string value, decimal price, bool isDeleted)
+        public static Result<BodyType> Create(Guid id, string value, decimal price, bool isDeleted = false)
         {
             var error = string.Empty;
 

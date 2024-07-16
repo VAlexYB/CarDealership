@@ -11,7 +11,7 @@ namespace CarDealership.Web.Api.Factories
         {
             if(req == null) throw new ArgumentNullException(nameof(req));
 
-            var countryCreateResult = Country.Create(req.Id, req.Name, req.IsDeleted);
+            var countryCreateResult = Country.Create(req.Id, req.Name);
             if(countryCreateResult.IsFailure)
             {
                 throw new InvalidOperationException(countryCreateResult.Error);

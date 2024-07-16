@@ -8,10 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/enginetype")]
     public class EngineTypesController : BaseController<EngineType, BaseFilter, EngineTypeRequest, EngineTypeResponse>
     {
-        public EngineTypesController(IEngineTypesService service, IEngineTypeRMFactory factory) : base(service, factory)
+        public EngineTypesController(IEngineTypesService service, IEngineTypeRMFactory factory, ILogger<EngineTypesController> logger) : base(service, factory, logger)
         {
         }
     }

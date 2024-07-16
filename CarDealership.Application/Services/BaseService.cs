@@ -16,35 +16,72 @@ namespace CarDealership.Application.Services
 
         public async Task<List<M>> GetAllAsync()
         {
-            return await _repository.GetAllAsync();
+            try
+            {
+                return await _repository.GetAllAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<List<M>> GetFilteredAsync(F filter)
         {
-            return await _repository.GetFilteredAsync(filter);
+            try
+            {
+                return await _repository.GetFilteredAsync(filter);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<M> GetByIdAsync(Guid entityId)
         {
-            return await _repository.GetByIdAsync(entityId);
-        }
-
-        public async Task CreateOrEditAsync(M model)
-        {
-            bool _exist = await _repository.ExistsAsync(model.Id);
-            if (_exist)
+            try
             {
-                await _repository.UpdateAsync(model);
+                return await _repository.GetByIdAsync(entityId);
             }
-            else
+            catch (Exception)
             {
-                await _repository.InsertAsync(model);
+                throw;
             }
         }
 
-        public async Task DeleteAsync(Guid entityId)
+        public virtual async Task<Guid> CreateOrEditAsync(M model)
         {
-            await _repository.DeleteAsync(entityId);
+            try
+            {
+                bool _exist = await _repository.ExistsAsync(model.Id);
+                Guid id = Guid.Empty;
+                if (_exist)
+                {
+                    id = await _repository.UpdateAsync(model);
+                }
+                else
+                {
+                    id = await _repository.InsertAsync(model);
+                }
+                return id;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<Guid> DeleteAsync(Guid entityId)
+        {
+            try
+            {
+                return await _repository.DeleteAsync(entityId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

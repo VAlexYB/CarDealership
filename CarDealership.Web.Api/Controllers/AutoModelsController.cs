@@ -1,4 +1,5 @@
 ﻿using CarDealership.Core.Abstractions.Services;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
@@ -8,10 +9,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/automodel")]
-    public class AutoModelsController : BaseController<AutoModel, BaseFilter, AutoModelRequest, AutoModelResponse>
+    public class AutoModelsController : BaseController<AutoModel, AutoModelsFilter, AutoModelRequest, AutoModelResponse>
     {
-        public AutoModelsController(IAutoModelsService service, IAutoModelRMFactory factory) : base(service, factory)
+        public AutoModelsController(IAutoModelsService service, IAutoModelRMFactory factory, ILogger<AutoModelsController> logger) : base(service, factory, logger)
         {
         }
     }

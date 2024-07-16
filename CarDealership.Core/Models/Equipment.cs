@@ -1,20 +1,39 @@
 ﻿
 using CSharpFunctionalExtensions;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {
     public class Equipment : BaseModel
     {
+        private readonly List<EquipmentFeature> equipmentFeatures = new List<EquipmentFeature>();
+
+        private readonly List<AutoConfiguration> configurations = new List<AutoConfiguration>();
+
         public const int MAX_NAME_LENGTH = 100;
         public string Name { get; } 
         public decimal Price { get; }
         public string ReleaseYear { get; }
         public Guid AutoModelId { get; }
         public AutoModel? AutoModel { get; }
-        private readonly List<EquipmentFeature> equipmentFeatures = new List<EquipmentFeature>();
+
         public IReadOnlyCollection<EquipmentFeature> EquipmentFeatures => equipmentFeatures.AsReadOnly();
-        public Equipment(Guid id, string name, decimal price, string releaseYear, Guid autoModelId, bool isDeleted, AutoModel? autoModel) : base(id)
+        public IReadOnlyCollection<AutoConfiguration> Configurations => configurations.AsReadOnly();
+        
+        [JsonConstructor]
+        private Equipment(Guid id, string name, decimal price, string releaseYear, Guid autoModelId, bool isDeleted, AutoModel? autoModel, List<EquipmentFeature> equipmentFeatures) : base(id)
+        {
+            Name = name;
+            Price = price;
+            ReleaseYear = releaseYear;
+            AutoModelId = autoModelId;
+            IsDeleted = isDeleted;
+            AutoModel = autoModel;
+            this.equipmentFeatures = equipmentFeatures;
+        }
+
+        private Equipment(Guid id, string name, decimal price, string releaseYear, Guid autoModelId, bool isDeleted, AutoModel? autoModel) : base(id)
         {
             Name = name;
             Price = price;
@@ -30,8 +49,14 @@ namespace CarDealership.Core.Models
             equipmentFeatures.Add(feature);
         }
 
+        public void AddConfiguration(AutoConfiguration configuration)
+        {
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+            configurations.Add(configuration);
+        }
+
         public static Result<Equipment> Create(Guid id, string name, decimal price, string releaseYear,
-            Guid autoModelId, bool isDeleted, AutoModel? autoModel = null)
+            Guid autoModelId, bool isDeleted = false, AutoModel? autoModel = null)
         {
             var errorBuilder = new StringBuilder();
 

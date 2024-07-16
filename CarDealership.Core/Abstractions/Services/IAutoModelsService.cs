@@ -1,8 +1,9 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Filters;
+using CarDealership.Core.Models;
 
 namespace CarDealership.Core.Abstractions.Services
 {
-    public interface IAutoModelsService : IGenericService<AutoModel, BaseFilter>
+    public interface IAutoModelsService : IGenericService<AutoModel, AutoModelsFilter>
     {
     }
 }

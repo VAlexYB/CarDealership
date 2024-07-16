@@ -11,7 +11,7 @@ namespace CarDealership.Web.Api.Factories
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
-            var engineTypeCreateResult = EngineType.Create(req.Id, req.Value, req.IsDeleted);
+            var engineTypeCreateResult = EngineType.Create(req.Id, req.Value);
 
             if(engineTypeCreateResult.IsFailure)
             {

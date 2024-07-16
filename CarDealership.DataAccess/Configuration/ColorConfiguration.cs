@@ -13,6 +13,9 @@ namespace CarDealership.DataAccess.Configuration
             builder.HasMany(c => c.Configurations)
                 .WithOne(conf => conf.Color)
                 .HasForeignKey(conf => conf.ColorId);
+
+            builder.HasIndex(c => c.Value)
+                .IsUnique();
         }
     }
 }

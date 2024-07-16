@@ -1,9 +1,11 @@
-﻿using CarDealership.Application.Services;
+﻿using System.Diagnostics;
+using CarDealership.Application.Services;
 using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 using CarDealership.Web.Api.Factories.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarDealership.Web.Api.Controllers
@@ -22,11 +24,15 @@ namespace CarDealership.Web.Api.Controllers
         protected readonly IResponseBuilder<Res, M> _factory;
         protected readonly IModelBuilder<Req, M> _modelBuilder;
         protected readonly IModelBuilderAsync<Req, M> _modelBuilderAsync;
+
+        protected readonly ILogger _logger;
+
         private readonly bool _useAsyncBuilder;
 
         public BaseController(
             IGenericService<M, F> service,
-            IResponseBuilder<Res, M> factory
+            IResponseBuilder<Res, M> factory,
+            ILogger logger
         )
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
@@ -35,10 +41,10 @@ namespace CarDealership.Web.Api.Controllers
             _modelBuilder = factory as IModelBuilder<Req, M>;
             _modelBuilderAsync = factory as IModelBuilderAsync<Req, M>;
 
+            _logger = logger;
             _useAsyncBuilder = _modelBuilderAsync != null;
-        }   
-        
-        
+        }
+
         [Route("getAll")]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
@@ -49,10 +55,14 @@ namespace CarDealership.Web.Api.Controllers
                 var response = models.Select(model => _factory.CreateResponse(model)).ToList();
                 return Ok(response);
             }
-            catch (Exception)
+            catch (InvalidOperationException e)
             {
-
-                return StatusCode(500, "Ошибки случаются");
+                return StatusCode(400, e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Ошибка возникла в {Controller} -> GetAllAsync()", GetType().Name);
+                return StatusCode(500, "Внутренняя ошибка сервера");
             }
            
         }
@@ -67,15 +77,20 @@ namespace CarDealership.Web.Api.Controllers
                 var response = models.Select(model => _factory.CreateResponse(model)).ToList();
                 return Ok(response);
             }
-            catch(Exception)
+            catch (InvalidOperationException e)
             {
-                return StatusCode(500, "Ошибки случаются");
+                return StatusCode(400, e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Ошибка возникла в {Controller} -> GetByFilterAsync()", GetType().Name);
+                return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
 
         [Route("getById/{itemId}")]
         [HttpGet]
-        public async Task<IActionResult> GetById(Guid itemId)
+        public async Task<IActionResult> GetByIdAsync(Guid itemId)
         {
             try
             {
@@ -87,15 +102,20 @@ namespace CarDealership.Web.Api.Controllers
                 var response = _factory.CreateResponse(model);
                 return Ok(response);
             }
-            catch (Exception)
+            catch (InvalidOperationException e)
             {
-                return StatusCode(500, "Ошибки случаются");
+                return StatusCode(400, e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Ошибка возникла в {Controller} -> GetByIdAsync()", GetType().Name);
+                return StatusCode(500, e.Message);
             }
         }
 
         [Route("add")]
         [HttpPost]
-        public async Task<IActionResult> CreateOrEdit(Req req)
+        public virtual async Task<IActionResult> CreateOrEditAsync([FromBody] Req req)
         {
             try
             {
@@ -111,25 +131,35 @@ namespace CarDealership.Web.Api.Controllers
                 await _service.CreateOrEditAsync(model);
                 return Ok();
             }
-            catch (Exception)
+            catch (InvalidOperationException e)
             {
-                return StatusCode(500, "Ошибки случаются");
+                return StatusCode(400, e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Ошибка возникла в {Controller} -> CreateOrEditAsync()", GetType().Name);
+                return StatusCode(500, e.Message);
             }
         }
 
 
         [Route("deleteById/{itemId}")]
         [HttpGet]
-        public async Task<IActionResult> DeleteById(Guid itemId)
+        public async Task<IActionResult> DeleteByIdAsync(Guid itemId)
         {
             try
             {
                 await _service.DeleteAsync(itemId);
                 return Ok();
             }
-            catch (Exception)
+            catch (InvalidOperationException e)
             {
-                return StatusCode(500, "Ошибки случаются");
+                return StatusCode(400, e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Ошибка возникла в {Controller} -> DeleteByIdAsync()", GetType().Name);
+                return StatusCode(500, e.Message);
             }
         }
     }

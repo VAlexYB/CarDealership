@@ -29,7 +29,7 @@ namespace CarDealership.Web.Api.Factories
                 req.Name,
                 req.Price,
                 req.BrandId,
-                req.IsDeleted,
+                false,
                 modelBrand
             );
 
@@ -55,6 +55,7 @@ namespace CarDealership.Web.Api.Factories
                 BrandId = model.BrandId,
                 BrandName = model.Brand?.Name ?? string.Empty,
                 Country = model.Brand?.Country?.Name ?? string.Empty,
+                Price = model.Price
             };
 
             return response;

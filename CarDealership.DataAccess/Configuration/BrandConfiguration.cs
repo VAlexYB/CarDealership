@@ -17,6 +17,9 @@ namespace CarDealership.DataAccess.Configuration
             builder.HasOne(b => b.Country)
                 .WithMany(c => c.Brands)
                 .HasForeignKey(b => b.CountryId);
+
+            builder.HasIndex(b => b.Name)
+                .IsUnique();
         }
     }
 }

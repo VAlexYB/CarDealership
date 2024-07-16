@@ -1,4 +1,5 @@
 ﻿using CarDealership.Core.Abstractions.Services;
+using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
@@ -9,10 +10,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/autoconfig")]
-    public class AutoConfigController : BaseController<AutoConfiguration, BaseFilter, AutoConfigurationRequest, AutoConfigurationResponse>
+    public class AutoConfigController : BaseController<AutoConfiguration, ConfigurationsFilter, AutoConfigurationRequest, AutoConfigurationResponse>
     {
-        public AutoConfigController(IAutoConfigsService service, IAutoConfigRMFactory factory) : base(service, factory)
+        public AutoConfigController(IAutoConfigsService service, IAutoConfigRMFactory factory, ILogger<AutoConfigController> logger) : base(service, factory, logger)
         {
         }
     }

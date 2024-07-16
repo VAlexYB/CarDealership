@@ -1,5 +1,5 @@
-﻿
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {
@@ -11,6 +11,7 @@ namespace CarDealership.Core.Models
         public Guid FeatureId { get; }
         public Feature? Feature { get; }
 
+        [JsonConstructor]
         private EquipmentFeature(Guid id, Guid equipmentId, Guid featureId, Equipment? equipment, Feature? feature) : base(id)
         {
             EquipmentId = equipmentId;

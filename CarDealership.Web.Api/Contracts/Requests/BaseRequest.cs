@@ -2,8 +2,6 @@
 {
     public abstract class BaseRequest
     {
-        public Guid Id;
-
-        public bool IsDeleted;
+        public Guid Id { get; set; }
     }
 }

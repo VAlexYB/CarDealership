@@ -26,6 +26,8 @@ namespace CarDealership.DataAccess.Configuration
                 .WithOne(e => e.AutoModel)
                 .HasForeignKey(e => e.AutoModelId);
 
+            builder.HasIndex(am => new { am.BrandId, am.Name })
+                 .IsUnique();
         }
     }
 }

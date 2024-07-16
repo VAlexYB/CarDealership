@@ -8,10 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/color")]
     public class ColorsController : BaseController<Color, BaseFilter, ColorRequest, ColorResponse>
     {
-        public ColorsController(IColorsService service, IColorRMFactory factory) : base(service, factory)
+        public ColorsController(IColorsService service, IColorRMFactory factory, ILogger<ColorsController> logger) : base(service, factory, logger)
         {
         }
     }

@@ -8,10 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace CarDealership.Web.Api.Controllers
 {
-    [Route("api/country")]
     public class CountriesController : BaseController<Country, BaseFilter, CountryRequest, CountryResponse>
     {
-        public CountriesController(ICountriesService service, ICountryRMFactory factory) : base(service, factory)
+        public CountriesController(ICountriesService service, ICountryRMFactory factory, ILogger<CountriesController> logger) : base(service, factory, logger)
         {
         }
     }

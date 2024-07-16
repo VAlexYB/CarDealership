@@ -13,11 +13,11 @@ namespace CarDealership.Core.Abstractions.Repositories
 
         Task<M> GetByIdAsync(Guid entityId);
 
-        Task InsertAsync(M entity);
+        Task<Guid> InsertAsync(M entity);
 
-        Task UpdateAsync(M entity);
+        Task<Guid> UpdateAsync(M entity);
 
-        Task DeleteAsync(Guid entityId);
+        Task<Guid> DeleteAsync(Guid entityId);
 
         Task<bool> ExistsAsync(Guid entityId);
     }
