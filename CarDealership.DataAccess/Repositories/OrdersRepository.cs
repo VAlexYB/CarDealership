@@ -4,6 +4,7 @@ using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
+using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -13,6 +14,36 @@ namespace CarDealership.DataAccess.Repositories
     {
         public OrdersRepository(CarDealershipDbContext context, IEntityModelFactory<Order, OrderEntity> factory,  IDistributedCache cache) : base(context, factory, cache)
         {
+        }
+
+        public override async Task<Order> GetByIdAsync(Guid entityId)
+        {
+            try
+            {
+                var entity = await _dbSet.FindAsync(entityId);
+                return _factory.CreateModel(entity);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public override async Task<List<Order>> GetAllAsync()
+        {
+            try
+            {
+                var entities = await _dbSet
+                .AsNoTracking()
+                .Where(d => !d.IsDeleted)
+                .OrderBy(x => x.Id)
+                .ToListAsync();
+
+                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public override async Task<Guid> UpdateAsync(Order model)

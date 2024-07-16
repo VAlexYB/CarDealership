@@ -22,7 +22,18 @@ namespace CarDealership.Core.Models
         public IReadOnlyCollection<AutoConfiguration> Configurations => configurations.AsReadOnly();
         
         [JsonConstructor]
-        public Equipment(Guid id, string name, decimal price, string releaseYear, Guid autoModelId, bool isDeleted, AutoModel? autoModel) : base(id)
+        private Equipment(Guid id, string name, decimal price, string releaseYear, Guid autoModelId, bool isDeleted, AutoModel? autoModel, List<EquipmentFeature> equipmentFeatures) : base(id)
+        {
+            Name = name;
+            Price = price;
+            ReleaseYear = releaseYear;
+            AutoModelId = autoModelId;
+            IsDeleted = isDeleted;
+            AutoModel = autoModel;
+            this.equipmentFeatures = equipmentFeatures;
+        }
+
+        private Equipment(Guid id, string name, decimal price, string releaseYear, Guid autoModelId, bool isDeleted, AutoModel? autoModel) : base(id)
         {
             Name = name;
             Price = price;

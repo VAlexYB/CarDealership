@@ -13,7 +13,7 @@ namespace CarDealership.Core.Models
         public IReadOnlyCollection<Engine> Engines => engines.AsReadOnly();
         
         [JsonConstructor]
-        public EngineType(Guid id, string value, bool isDeleted) : base(id)
+        private EngineType(Guid id, string value, bool isDeleted) : base(id)
         {
             Value = value;
             IsDeleted = isDeleted;
