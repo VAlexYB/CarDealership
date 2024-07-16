@@ -1,5 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
+
 namespace CarDealership.Core.Models
 {
     public class Country : BaseModel
