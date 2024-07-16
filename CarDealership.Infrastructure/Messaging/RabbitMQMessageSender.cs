@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Text;
-using System.Text.Json;
+
 
 namespace CarDealership.Infrastructure.Messaging
 {
@@ -31,7 +32,7 @@ namespace CarDealership.Infrastructure.Messaging
                                   autoDelete: false,
                                   arguments: null);
 
-            var jsonMessage = JsonSerializer.Serialize(message);
+            var jsonMessage = JsonConvert.SerializeObject(message);
             var body = Encoding.UTF8.GetBytes(jsonMessage);
             channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
             

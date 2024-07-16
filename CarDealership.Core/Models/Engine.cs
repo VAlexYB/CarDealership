@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using System.IO;
 using System.Text;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace CarDealership.Core.Models
 {

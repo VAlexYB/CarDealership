@@ -1,11 +1,10 @@
-﻿using System.Net.Cache;
-using System.Text.Json;
-using CarDealership.Core.Abstractions.Repositories;
+﻿using CarDealership.Core.Abstractions.Repositories;
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 
 namespace CarDealership.DataAccess.Repositories
 {
@@ -18,6 +17,7 @@ namespace CarDealership.DataAccess.Repositories
         protected readonly IEntityModelFactory<M, E> _factory;
         protected readonly DbSet<E> _dbSet;
         protected readonly IDistributedCache _cache;
+        
         public BaseRepository(CarDealershipDbContext context, IEntityModelFactory<M, E> factory, IDistributedCache cache)
         {
             _context = context;
@@ -38,7 +38,7 @@ namespace CarDealership.DataAccess.Repositories
                 var cachedData = await _cache.GetStringAsync(key);
                 if (!string.IsNullOrEmpty(cachedData))
                 {
-                    var cachedModels = JsonSerializer.Deserialize<List<M>>(cachedData);
+                    var cachedModels = JsonConvert.DeserializeObject<List<M>>(cachedData);
                     if (cachedModels != null)
                     {
                         Console.WriteLine("Данные получены из кэша");
@@ -56,7 +56,7 @@ namespace CarDealership.DataAccess.Repositories
 
                 if (models.Count != 0)
                 {
-                    await _cache.SetStringAsync(key, JsonSerializer.Serialize(models));
+                    await _cache.SetStringAsync(key, JsonConvert.SerializeObject(models));
                 }
                 
                 return models;
@@ -89,12 +89,13 @@ namespace CarDealership.DataAccess.Repositories
         {
             try
             {
+                
                 var key = $"{typeof(M).Name}_{entityId}";
                 
                 var cachedData = await _cache.GetStringAsync(key);
                 if (!string.IsNullOrEmpty(cachedData))
                 {
-                    var cachedModels = JsonSerializer.Deserialize<M>(cachedData);
+                    var cachedModels = JsonConvert.DeserializeObject<M>(cachedData);
                     if (cachedModels != null)
                     {
                         Console.WriteLine("Данные получены из кэша");
@@ -104,7 +105,7 @@ namespace CarDealership.DataAccess.Repositories
                 var entity = await _dbSet.FindAsync(entityId);
                 if (entity != null)
                 {
-                    await _cache.SetStringAsync(key, JsonSerializer.Serialize(entity));
+                    await _cache.SetStringAsync(key, JsonConvert.SerializeObject(entity));
                 }
 
                 return _factory.CreateModel(entity);
@@ -183,7 +184,7 @@ namespace CarDealership.DataAccess.Repositories
                 var cachedData = await _cache.GetStringAsync(key);
                 if (!string.IsNullOrEmpty(cachedData))
                 {
-                    var cachedModels = JsonSerializer.Deserialize<M>(cachedData);
+                    var cachedModels = JsonConvert.DeserializeObject<M>(cachedData);
                     if (cachedModels != null)
                     {
                         Console.WriteLine("Данные получены из кэша");

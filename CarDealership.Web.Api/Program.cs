@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using NLog.Web;
 using Quartz;
 using System.Reflection;
+using Newtonsoft.Json;
 
 var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
@@ -30,7 +31,13 @@ try
     var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
     services.AddApiAuthentication(Options.Create(jwtOptions));
 
-    services.AddControllers();
+    services.AddControllers().AddNewtonsoftJson();
+    
+    JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
+    {
+        PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+    };
 
     services.AddEndpointsApiExplorer();
 
