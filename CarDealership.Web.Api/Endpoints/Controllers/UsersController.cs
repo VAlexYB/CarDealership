@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace CarDealership.Web.Api.Controllers
+namespace CarDealership.Web.Api.Endpoints.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -34,7 +34,7 @@ namespace CarDealership.Web.Api.Controllers
             {
                 var hashedPassword = _passwordHasher.Generate(request.Password);
 
-                var userCreateResult = CarDealership.Core.Models.Auth.User.Create(
+                var userCreateResult = Core.Models.Auth.User.Create(
                     request.Id,
                     request.UserName,
                     request.Email,
@@ -61,8 +61,8 @@ namespace CarDealership.Web.Api.Controllers
 
                 await _usersService.AddAsync(user);
                 return Ok();
-            } 
-            catch (InvalidOperationException e) 
+            }
+            catch (InvalidOperationException e)
             {
                 return StatusCode(400, e.Message);
             }
@@ -71,7 +71,7 @@ namespace CarDealership.Web.Api.Controllers
                 _logger.LogError(e, "Ошибка возникла в UsersController ->  Register()");
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
-           
+
         }
 
 
@@ -84,7 +84,7 @@ namespace CarDealership.Web.Api.Controllers
             {
                 var hashedPassword = _passwordHasher.Generate(request.Password);
 
-                var userCreateResult = CarDealership.Core.Models.Auth.User.Create(
+                var userCreateResult = Core.Models.Auth.User.Create(
                     request.Id,
                     request.UserName,
                     request.Email,
@@ -111,7 +111,7 @@ namespace CarDealership.Web.Api.Controllers
 
                 await _usersService.AddAsync(user);
                 return Ok();
-            } 
+            }
             catch (InvalidOperationException e)
             {
                 return StatusCode(400, e.Message);

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 
-namespace CarDealership.Web.Api.Controllers
+namespace CarDealership.Web.Api.Endpoints.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

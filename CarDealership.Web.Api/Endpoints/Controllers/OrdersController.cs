@@ -11,7 +11,7 @@ using CarDealership.Web.Api.Factories.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarDealership.Web.Api.Controllers
+namespace CarDealership.Web.Api.Endpoints.Controllers
 {
     public class OrdersController : BaseController<Order, OrdersFilter, OrderRequest, OrderResponse>
     {
@@ -43,7 +43,7 @@ namespace CarDealership.Web.Api.Controllers
         {
             try
             {
-                if(request.Status > Enum.GetValues(typeof(OrderStatus)).Cast<int>().Max())
+                if (request.Status > Enum.GetValues(typeof(OrderStatus)).Cast<int>().Max())
                 {
                     return BadRequest("Нет такого статуса заказа");
                 }
@@ -58,7 +58,7 @@ namespace CarDealership.Web.Api.Controllers
                     Type = MessageTypes.Order.ToString("g")
                 };
                 _messageSender.SendMessage(message, _configuration["RabbitMQ:Queues:CDQueue"]);
-                return Ok();    
+                return Ok();
             }
             catch (InvalidOperationException e)
             {

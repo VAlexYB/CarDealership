@@ -6,11 +6,11 @@ using CarDealership.Web.Api.Factories;
 using CarDealership.Web.Api.Factories.Abstract;
 using Microsoft.AspNetCore.Components;
 
-namespace CarDealership.Web.Api.Controllers
+namespace CarDealership.Web.Api.Endpoints.Controllers
 {
-    public class EngineTypesController : BaseController<EngineType, BaseFilter, EngineTypeRequest, EngineTypeResponse>
+    public class ColorsController : BaseController<Color, BaseFilter, ColorRequest, ColorResponse>
     {
-        public EngineTypesController(IEngineTypesService service, IEngineTypeRMFactory factory, ILogger<EngineTypesController> logger) : base(service, factory, logger)
+        public ColorsController(IColorsService service, IColorRMFactory factory, ILogger<ColorsController> logger) : base(service, factory, logger)
         {
         }
     }

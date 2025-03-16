@@ -6,7 +6,7 @@ using CarDealership.Web.Api.Factories;
 using CarDealership.Web.Api.Factories.Abstract;
 using Microsoft.AspNetCore.Components;
 
-namespace CarDealership.Web.Api.Controllers
+namespace CarDealership.Web.Api.Endpoints.Controllers
 {
     public class TransmissionTypesController : BaseController<TransmissionType, BaseFilter, TransmissionTypeRequest, TransmissionTypeResponse>
     {

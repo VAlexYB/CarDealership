@@ -7,7 +7,7 @@ using CarDealership.Web.Api.Factories;
 using CarDealership.Web.Api.Factories.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarDealership.Web.Api.Controllers
+namespace CarDealership.Web.Api.Endpoints.Controllers
 {
     [Route("api/[controller]")]
     public class EquipmentsController : BaseController<Equipment, EquipmentsFilter, EquipmentRequest, EquipmentResponse>
@@ -81,5 +81,5 @@ namespace CarDealership.Web.Api.Controllers
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
         }
-    } 
+    }
 }

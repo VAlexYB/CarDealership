@@ -7,7 +7,7 @@ using CarDealership.Web.Api.Factories.Abstract;
 using Microsoft.AspNetCore.Components;
 using DriveType = CarDealership.Core.Models.DriveType;
 
-namespace CarDealership.Web.Api.Controllers
+namespace CarDealership.Web.Api.Endpoints.Controllers
 {
     public class DriveTypesController : BaseController<DriveType, BaseFilter, DriveTypeRequest, DriveTypeResponse>
     {

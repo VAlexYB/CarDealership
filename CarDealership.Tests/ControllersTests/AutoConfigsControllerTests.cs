@@ -2,7 +2,7 @@
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
-using CarDealership.Web.Api.Controllers;
+using CarDealership.Web.Api.Endpoints.Controllers;
 using CarDealership.Web.Api.Factories.Abstract;
 using Castle.Core.Logging;
 using Microsoft.AspNetCore.Mvc;

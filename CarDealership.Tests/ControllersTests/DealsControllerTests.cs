@@ -9,7 +9,7 @@ using CarDealership.Core.Models.Auth;
 using CarDealership.Infrastructure.Messaging;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
-using CarDealership.Web.Api.Controllers;
+using CarDealership.Web.Api.Endpoints.Controllers;
 using CarDealership.Web.Api.Factories.Abstract;
 using Castle.Core.Resource;
 using Microsoft.AspNetCore.Mvc;

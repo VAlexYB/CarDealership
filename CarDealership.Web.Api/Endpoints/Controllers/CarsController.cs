@@ -5,7 +5,7 @@ using CarDealership.Web.Api.Contracts.Responses;
 using CarDealership.Web.Api.Factories;
 using CarDealership.Web.Api.Factories.Abstract;
 
-namespace CarDealership.Web.Api.Controllers
+namespace CarDealership.Web.Api.Endpoints.Controllers
 {
     public class CarsController : BaseController<Car, BaseFilter, CarRequest, CarResponse>
     {

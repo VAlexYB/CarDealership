@@ -111,6 +111,7 @@ try
 }
 catch (Exception ex)
 {
+    Console.WriteLine(ex);
     logger.Error(ex, "������ ��� ������� ���������");
     throw;
 }
