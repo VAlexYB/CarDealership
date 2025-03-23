@@ -1,5 +1,6 @@
 ﻿using CarDealership.Application.Auth;
 using CarDealership.Application.Services;
+using CarDealership.Application.Services.DataProviders;
 using CarDealership.Core.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,7 +26,9 @@ namespace CarDealership.Application
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IRolesService, RolesService>();
             services.AddTransient<IOrdersService, OrdersService>();
-            services.AddTransient<IDealsService, DealsService>();            
+            services.AddTransient<IDealsService, DealsService>();
+
+            services.AddTransient<IEntityDataProvider, DealReceiptDataProvider>();
 
             return services;
         }

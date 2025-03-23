@@ -17,7 +17,7 @@ namespace CarDealership.Core.Models.Auth
         public string? FirstCardDigits { get; }
         public string? LastCardDigits { get; }
         public bool? HasLinkedCard { get; }
-
+        public string FullName => $" {FirstName} {MiddleName} {LastName}".Trim();
 
         private readonly List<Role> roles = new List<Role>();
 

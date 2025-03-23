@@ -43,11 +43,18 @@ namespace CarDealership.DataAccess.Factories
             var carEngineTypeEntity = carConfigEntity?.Engine?.EngineType;
             var carTransmissionTypeEntity = carConfigEntity?.Engine?.TransmissionType;
 
+            var country = carBrandEntity?.Country != null ? Country.Create(
+                carBrandEntity.Country.Id,
+                carBrandEntity.Country.Name,
+                carBrandEntity.Country.IsDeleted
+            ).Value : null;
+
             var carBrand = carBrandEntity != null ? Brand.Create(
                carBrandEntity.Id,
                carBrandEntity.Name,
                carBrandEntity.CountryId,
-               carBrandEntity.IsDeleted
+               carBrandEntity.IsDeleted,
+               country
            ).Value : null;
 
             var autoModel = carConfigEntity?.AutoModel != null ? AutoModel.Create(

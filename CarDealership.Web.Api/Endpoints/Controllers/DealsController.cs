@@ -1,16 +1,16 @@
-﻿using CarDealership.Application.Services;
-using CarDealership.Core.Abstractions.Services;
+﻿using CarDealership.Core.Abstractions.Services;
 using CarDealership.Core.Enums;
 using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
 using CarDealership.Infrastructure.Messaging;
+using CarDealership.Shared.Messaging;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 using CarDealership.Web.Api.Factories.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarDealership.Web.Api.Controllers
+namespace CarDealership.Web.Api.Endpoints.Controllers
 {
     public class DealsController : BaseController<Deal, DealsFilter, DealRequest, DealResponse>
     {
@@ -53,7 +53,8 @@ namespace CarDealership.Web.Api.Controllers
                     Id = dealInfo.Id.ToString(),
                     PhoneNumber = dealInfo?.Customer?.PhoneNumber ?? string.Empty,
                     Status = request.Status.ToString("d"),
-                    Type = MessageTypes.Deal.ToString("g")
+                    Type = MessageTypes.Deal.ToString("g"),
+                    Path = request.Path ?? string.Empty
                 };
                 _messageSender.SendMessage(message, _configuration["RabbitMQ:Queues:CDQueue"]);
 

@@ -4,5 +4,6 @@
     {
         public Guid Id { get; set; }
         public int Status { get; set; }
+        public string Path { get; set; } // если сформирован документ
     }
 }

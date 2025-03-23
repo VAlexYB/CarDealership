@@ -8,16 +8,16 @@ using CarDealership.Web.Api.Factories.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarDealership.Web.Api.Controllers
+namespace CarDealership.Web.Api.Endpoints.Controllers
 {
     //TODO: добавить ActionResult, обработку ошибок
     [ApiController]
     [Route("api/[controller]")]
-    public abstract class BaseController <M, F, Req, Res> : ControllerBase
-        where M: BaseModel
-        where F: BaseFilter
-        where Req: BaseRequest
-        where Res: BaseResponse
+    public abstract class BaseController<M, F, Req, Res> : ControllerBase
+        where M : BaseModel
+        where F : BaseFilter
+        where Req : BaseRequest
+        where Res : BaseResponse
     {
         protected readonly IGenericService<M, F> _service;
 
@@ -64,7 +64,7 @@ namespace CarDealership.Web.Api.Controllers
                 _logger.LogError(e, "Ошибка возникла в {Controller} -> GetAllAsync()", GetType().Name);
                 return StatusCode(500, "Внутренняя ошибка сервера");
             }
-           
+
         }
 
         [Route("getByFilter")]

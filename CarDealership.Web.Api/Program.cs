@@ -14,12 +14,28 @@ using NLog.Web;
 using Quartz;
 using System.Reflection;
 using Newtonsoft.Json;
+using CarDealership.Web.Api.Endpoints.Grpc;
+using CarDealership.DataAccess.Extensions;
 
 var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(5177, listenOptions =>
+        {
+            listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1;
+        });
+
+        options.ListenAnyIP(7243, listenOptions =>
+        {
+            listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+        });
+    });
+
     var config = builder.Configuration;
     var services = builder.Services;
 
@@ -32,6 +48,8 @@ try
     services.AddApiAuthentication(Options.Create(jwtOptions));
 
     services.AddControllers().AddNewtonsoftJson();
+
+    services.AddGrpc();
     
     JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
     {
@@ -76,11 +94,16 @@ try
 
     var app = builder.Build();
 
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
+    if (app.Environment.IsDevelopment())
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Car Dealership API V1");
-    });
+        app.ApplyMigrations();
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Car Dealership API V1");
+        });
+    }
+
 
     app.UseHttpsRedirection();
 
@@ -95,6 +118,7 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
+    app.MapGrpcService<DataGrpcService>();
 
     app.UseCors(x =>
     {
