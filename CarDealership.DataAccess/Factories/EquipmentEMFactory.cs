@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Exceptions;
+using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 
 namespace CarDealership.DataAccess.Factories
@@ -78,7 +79,7 @@ namespace CarDealership.DataAccess.Factories
 
             if (equipmentCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(equipmentCreateResult.Error);
+                throw new ClientInformationException(equipmentCreateResult.Error);
             }
 
             var equipment = equipmentCreateResult.Value;

@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 
 namespace CarDealership.Web.Api.Endpoints.Controllers
 {
+    // Так-то хранить на серваке вроде теперь не надо, может снести?!!
     [Route("api/[controller]")]
     [ApiController]
     public class FileController : ControllerBase
@@ -20,57 +21,41 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpPost]
         public IActionResult Upload()
         {
-            try
+            var file = Request.Form.Files[0];
+            if (file == null || file.Length == 0)
             {
-                var file = Request.Form.Files[0];
-                if (file == null || file.Length == 0)
-                {
-                    return BadRequest("Файл пуст");
-                }
-
-                var uploads = Path.Combine(_environment.ContentRootPath, "uploads");
-                if (!Directory.Exists(uploads))
-                {
-                    Directory.CreateDirectory(uploads);
-                }
-                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                var newFileName = Path.Combine(uploads, fileName);
-
-                using (var fileStream = new FileStream(newFileName, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
-                return Ok("Файл успешно загружен");
+                return BadRequest("Файл пуст");
             }
-            catch (Exception ex)
+
+            var uploads = Path.Combine(_environment.ContentRootPath, "uploads");
+            if (!Directory.Exists(uploads))
             {
-                _logger.LogError(ex, "Ошибка возникла в FileController -> Upload()");
-                return StatusCode(500, $"Внутренняя ошибка сервера");
+                Directory.CreateDirectory(uploads);
             }
+            var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var newFileName = Path.Combine(uploads, fileName);
+
+            using (var fileStream = new FileStream(newFileName, FileMode.Create))
+            {
+                file.CopyTo(fileStream);
+            }
+            return Ok("Файл успешно загружен");
         }
 
         [Route("getImage/{id}")]
         [HttpGet]
         public IActionResult GetImage(Guid id)
         {
-            try
+            var uploads = Path.Combine(_environment.ContentRootPath, "uploads");
+            var filePath = Path.Combine(uploads, $"{id}.png");
+            if (System.IO.File.Exists(filePath))
             {
-                var uploads = Path.Combine(_environment.ContentRootPath, "uploads");
-                var filePath = Path.Combine(uploads, $"{id}.png");
-                if (System.IO.File.Exists(filePath))
-                {
-                    var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-                    return File(fileStream, "image/png");
-                }
-                else
-                {
-                    return NotFound("Изображение не найдено");
-                }
+                var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                return File(fileStream, "image/png");
             }
-            catch (Exception e)
+            else
             {
-                _logger.LogError(e, "Ошибка возникла в FileController -> GetImage()");
-                return StatusCode(500, $"Внутренняя ошибка сервера");
+                return NotFound("Изображение не найдено");
             }
         }
     }

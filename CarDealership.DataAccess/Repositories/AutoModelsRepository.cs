@@ -16,47 +16,33 @@ namespace CarDealership.DataAccess.Repositories
         }
 
         public override async Task<Guid> UpdateAsync(AutoModel model)
-        {
-            try
-            {
-                var entity = _factory.CreateEntity(model);
-                var existEntity = await _dbSet.FindAsync(entity.Id);
+        { 
+            var entity = _factory.CreateEntity(model);
+            var existEntity = await _dbSet.FindAsync(entity.Id);
 
-                if (existEntity == null) throw new InvalidOperationException();
-                _context.Entry(existEntity).CurrentValues.SetValues(entity);
-                if (existEntity.BrandId != entity.BrandId)
-                {
-                    existEntity.BrandId = entity.BrandId;
-                }
-
-                await _context.SaveChangesAsync();
-                await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
-                await _cache.RemoveAsync($"{model.GetType().Name}_All");
-                return existEntity.Id;
-            }
-            catch (Exception)
+            if (existEntity == null) throw new InvalidOperationException("На редактирование пришла модель, не существующая в системе");
+            _context.Entry(existEntity).CurrentValues.SetValues(entity);
+            if (existEntity.BrandId != entity.BrandId)
             {
-                throw;
+                existEntity.BrandId = entity.BrandId;
             }
+
+            await _context.SaveChangesAsync();
+            await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
+            await _cache.RemoveAsync($"{model.GetType().Name}_All");
+            return existEntity.Id;
         }
 
         public async override Task<List<AutoModel>> GetFilteredAsync(AutoModelsFilter filter)
         {
-            try
-            {
-                var entities = await _dbSet
-                .AsNoTracking()
-                .Where(am => !am.IsDeleted)
-                .WhereIf(filter.BrandId.HasValue, am => am.BrandId == filter.BrandId)
-                .OrderBy(am => am.Id)
-                .ToListAsync();
+            var entities = await _dbSet
+            .AsNoTracking()
+            .Where(am => !am.IsDeleted)
+            .WhereIf(filter.BrandId.HasValue, am => am.BrandId == filter.BrandId)
+            .OrderBy(am => am.Id)
+            .ToListAsync();
 
-                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Exceptions;
+using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using Color = CarDealership.Core.Models.Color;
 
@@ -46,7 +47,7 @@ namespace CarDealership.DataAccess.Factories
 
             if (colorCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(colorCreateResult.Error);
+                throw new ClientInformationException(colorCreateResult.Error);
             }
 
             var color = colorCreateResult.Value;

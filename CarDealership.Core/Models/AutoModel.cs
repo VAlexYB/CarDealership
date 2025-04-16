@@ -56,7 +56,7 @@ namespace CarDealership.Core.Models
 
             if (brandId == Guid.Empty)
             {
-                errorBuilder.Append("BrandId не должен быть пустым. ");
+                errorBuilder.Append("Бренд модели должен быть указан. ");
             }
 
             if (errorBuilder.Length > 0)

@@ -1,4 +1,5 @@
 ﻿using CarDealership.Core.Abstractions.Services;
+using CarDealership.Core.Exceptions;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
@@ -56,7 +57,7 @@ namespace CarDealership.Web.Api.Factories
 
             if (configCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(configCreateResult.Error);
+                throw new ClientInformationException(configCreateResult.Error);
             }
 
             var autoConfig = configCreateResult.Value;

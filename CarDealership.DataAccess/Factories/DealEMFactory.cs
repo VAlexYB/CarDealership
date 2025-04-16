@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Exceptions;
+using CarDealership.Core.Models;
 using CarDealership.Core.Models.Auth;
 using CarDealership.DataAccess.Entities;
 using DriveType = CarDealership.Core.Models.DriveType;
@@ -195,7 +196,7 @@ namespace CarDealership.DataAccess.Factories
 
             if(dealCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(dealCreateResult.Error);
+                throw new ClientInformationException(dealCreateResult.Error);
             }
 
             var deal = dealCreateResult.Value;

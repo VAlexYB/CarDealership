@@ -77,7 +77,7 @@ namespace CarDealership.Core.Models
 
             if (autoModelId == Guid.Empty)
             {
-                errorBuilder.Append("AutoModelId не должен быть пустым. ");
+                errorBuilder.Append("Модель машины обязательно должна быть указана. ");
             }
 
             if (errorBuilder.Length > 0)

@@ -44,7 +44,7 @@ namespace CarDealership.Core.Models
 
             if (carId == Guid.Empty)
             {
-                errorBuilder.Append("CarId не должен быть пустым. ");
+                errorBuilder.Append("Машина обязательна. ");
             }
 
             if(price <= 0)

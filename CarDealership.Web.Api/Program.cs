@@ -1,5 +1,4 @@
 using CarDealership.Application;
-using CarDealership.Application.Auth;
 using CarDealership.DataAccess;
 using CarDealership.Infrastructure;
 using CarDealership.Infrastructure.Auth;
@@ -16,6 +15,8 @@ using System.Reflection;
 using Newtonsoft.Json;
 using CarDealership.Web.Api.Endpoints.Grpc;
 using CarDealership.DataAccess.Extensions;
+using CarDealership.Web.Api.Middlewares;
+using NLog;
 
 var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
@@ -110,15 +111,9 @@ try
     app.UseCookiePolicy(new CookiePolicyOptions
     {
         MinimumSameSitePolicy = SameSiteMode.Strict,
-        HttpOnly = HttpOnlyPolicy.Always,
-        Secure = CookieSecurePolicy.Always
+        HttpOnly = HttpOnlyPolicy.None,
+        Secure = CookieSecurePolicy.None
     });
-
-    app.UseAuthentication();
-    app.UseAuthorization();
-
-    app.MapControllers();
-    app.MapGrpcService<DataGrpcService>();
 
     app.UseCors(x =>
     {
@@ -128,6 +123,15 @@ try
         x.AllowCredentials();
     });
 
+    app.UseMiddleware<ExceptionMiddleware>();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+
+    app.MapControllers();
+    app.MapGrpcService<DataGrpcService>();
+
     var scheduler = app.Services.GetService<IScheduler>();
     scheduler.Start().Wait();
 
@@ -136,7 +140,7 @@ try
 catch (Exception ex)
 {
     Console.WriteLine(ex);
-    logger.Error(ex, "������ ��� ������� ���������");
+    logger.Fatal(ex, $"Фатальная ошибка запуска приложения. Message: {ex.Message}");
     throw;
 }
 finally

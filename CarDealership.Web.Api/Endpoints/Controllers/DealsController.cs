@@ -39,36 +39,24 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeStatus([FromBody] ChangeStatusRequest request)
         {
-            try
+            if (request.Status > Enum.GetValues(typeof(DealStatus)).Cast<int>().Max())
             {
-                if (request.Status > Enum.GetValues(typeof(DealStatus)).Cast<int>().Max())
-                {
-                    return BadRequest("Нет такого статуса заказа");
-                }
-                await _dealsService.ChangeStatus(request.Id, request.Status);
+                return BadRequest("Нет такого статуса заказа");
+            }
+            await _dealsService.ChangeStatus(request.Id, request.Status);
 
-                var dealInfo = await _dealsService.GetByIdAsync(request.Id);
-                var message = new MessageInfo
-                {
-                    Id = dealInfo.Id.ToString(),
-                    PhoneNumber = dealInfo?.Customer?.PhoneNumber ?? string.Empty,
-                    Status = request.Status.ToString("d"),
-                    Type = MessageTypes.Deal.ToString("g"),
-                    Path = request.Path ?? string.Empty
-                };
-                _messageSender.SendMessage(message, _configuration["RabbitMQ:Queues:CDQueue"]);
+            var dealInfo = await _dealsService.GetByIdAsync(request.Id);
+            var message = new MessageInfo
+            {
+                Id = dealInfo.Id.ToString(),
+                PhoneNumber = dealInfo?.Customer?.PhoneNumber ?? string.Empty,
+                Status = request.Status.ToString("d"),
+                Type = MessageTypes.Deal.ToString("g"),
+                Path = request.Path ?? string.Empty
+            };
+            _messageSender.SendMessage(message, _configuration["RabbitMQ:Queues:CDQueue"]);
 
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в DealsController -> ChangeStatus()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            return Ok();
         }
 
         [Authorize(Roles = "SeniorManager")]
@@ -76,21 +64,9 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDealsWithoutManager()
         {
-            try
-            {
-                var deals = await _dealsService.GetDealsWithoutManager();
-                var response = deals.Select(deal => _dealRMFactory.CreateResponse(deal)).ToList();
-                return Ok(response);
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в DealsController -> GetDealsWithoutManager()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            var deals = await _dealsService.GetDealsWithoutManager();
+            var response = deals.Select(deal => _dealRMFactory.CreateResponse(deal)).ToList();
+            return Ok(response);
         }
 
         [Authorize(Roles = "SeniorManager")]
@@ -98,20 +74,8 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpPost]
         public async Task<IActionResult> TakeDealInProcess([FromBody] TakeTaskRequest request)
         {
-            try
-            {
-                await _dealsService.TakeDealInProcess(request.ManagerId, request.TaskId);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в DealsController -> TakeDealInProcess()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            await _dealsService.TakeDealInProcess(request.ManagerId, request.TaskId);
+            return Ok();
         }
 
         [Authorize(Roles = "SeniorManager")]
@@ -119,20 +83,8 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpPost]
         public async Task<IActionResult> LeaveDeal(Guid dealId)
         {
-            try
-            {
-                await _dealsService.LeaveDeal(dealId);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в DealsController -> LeaveDeal()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            await _dealsService.LeaveDeal(dealId);
+            return Ok();
         }
     }
 }

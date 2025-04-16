@@ -15,64 +15,36 @@ namespace CarDealership.Application.Services
 
         public async Task<Guid> ChangeStatus(Guid id, int status)
         {
-            try
-            {
-                var deal = await _repository.GetByIdAsync(id);
-                if (deal == null) throw new InvalidOperationException("Сделка не найдена");
-                deal.ChangeStatus((DealStatus)status);
-                await _repository.UpdateAsync(deal);
-                return deal.Id;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var deal = await _repository.GetByIdAsync(id);
+            if (deal == null) throw new InvalidOperationException("Сделка не найдена");
+            deal.ChangeStatus((DealStatus)status);
+            await _repository.UpdateAsync(deal);
+            return deal.Id;
         }
 
         public async Task<List<Deal>> GetDealsWithoutManager()
         {
-            try
-            {
-                return await _dealsRepository.GetDealsWithoutManager();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return await _dealsRepository.GetDealsWithoutManager();
         }
 
         public async Task<Guid> LeaveDeal(Guid taskId)
         {
-            try
-            {
-                var deal = await _repository.GetByIdAsync(taskId);
-                if (deal == null) throw new InvalidOperationException("Сделка не найдена");
-                deal.RemoveManager();
-                deal.ChangeStatus(DealStatus.Negotiation);
-                await _repository.UpdateAsync(deal);
-                return deal.Id;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var deal = await _repository.GetByIdAsync(taskId);
+            if (deal == null) throw new InvalidOperationException("Сделка не найдена");
+            deal.RemoveManager();
+            deal.ChangeStatus(DealStatus.Negotiation);
+            await _repository.UpdateAsync(deal);
+            return deal.Id;
         }
 
         public async Task<Guid> TakeDealInProcess(Guid managerId, Guid taskId)
         {
-            try
-            {
-                var deal = await _repository.GetByIdAsync(taskId);
-                if (deal == null) throw new InvalidOperationException("Сделка не найдена");
-                deal.SetAsManager(managerId);
-                deal.ChangeStatus(DealStatus.Negotiation);
-                await _repository.UpdateAsync(deal);
-                return deal.Id;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var deal = await _repository.GetByIdAsync(taskId);
+            if (deal == null) throw new InvalidOperationException("Сделка не найдена");
+            deal.SetAsManager(managerId);
+            deal.ChangeStatus(DealStatus.Negotiation);
+            await _repository.UpdateAsync(deal);
+            return deal.Id;
         }
     }
 }

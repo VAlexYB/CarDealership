@@ -3,6 +3,7 @@ using CarDealership.Core.Enums;
 using CarDealership.Core.Models;
 using CarDealership.Core.Models.Auth;
 using CarDealership.Infrastructure.Messaging;
+using CarDealership.Shared.Messaging;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 using CarDealership.Web.Api.Endpoints.Controllers;

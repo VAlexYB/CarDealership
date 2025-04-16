@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Exceptions;
+using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 
 namespace CarDealership.DataAccess.Factories
@@ -43,7 +44,7 @@ namespace CarDealership.DataAccess.Factories
 
             if(transmissionTypeCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(transmissionTypeCreateResult.Error);
+                throw new ClientInformationException(transmissionTypeCreateResult.Error);
             }
 
             var transmissionType = transmissionTypeCreateResult.Value;

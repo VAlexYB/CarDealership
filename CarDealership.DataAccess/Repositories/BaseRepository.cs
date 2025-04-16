@@ -1,5 +1,6 @@
 ﻿using CarDealership.Core.Abstractions.Repositories;
 using CarDealership.Core.Models;
+using CarDealership.DataAccess.Attributes;
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
@@ -26,180 +27,137 @@ namespace CarDealership.DataAccess.Repositories
             _cache = cache;
         }
 
-
-        // при необходимости можно сделать переопределение, пока virtual не ставлю
-
         public virtual async Task<List<M>> GetAllAsync()
         {
-            try
+            var key = $"{typeof(M).Name}_All";
+                
+            var cachedData = await _cache.GetStringAsync(key);
+            if (!string.IsNullOrEmpty(cachedData))
             {
-                var key = $"{typeof(M).Name}_All";
-                
-                var cachedData = await _cache.GetStringAsync(key);
-                if (!string.IsNullOrEmpty(cachedData))
+                var cachedModels = JsonConvert.DeserializeObject<List<M>>(cachedData);
+                if (cachedModels != null)
                 {
-                    var cachedModels = JsonConvert.DeserializeObject<List<M>>(cachedData);
-                    if (cachedModels != null)
-                    {
-                        Console.WriteLine("Данные получены из кэша");
-                        return cachedModels;
-                    }
+                    Console.WriteLine("Данные получены из кэша");
+                    return cachedModels;
                 }
-                
-                var entities = await _dbSet
-                .AsNoTracking()
-                .Where(x => !x.IsDeleted)
-                .OrderBy(x => x.Id)
-                .ToListAsync();
-
-                var models =  entities.Select(entity => _factory.CreateModel(entity)).ToList();
-
-                if (models.Count != 0)
-                {
-                    await _cache.SetStringAsync(key, JsonConvert.SerializeObject(models));
-                }
-                
-                return models;
             }
-            catch (Exception)
+                
+            var entities = await _dbSet
+            .AsNoTracking()
+            .Where(x => !x.IsDeleted)
+            .OrderBy(x => x.Id)
+            .ToListAsync();
+
+            var models =  entities.Select(entity => _factory.CreateModel(entity)).ToList();
+
+            if (models.Count != 0)
             {
-                throw;
+                await _cache.SetStringAsync(key, JsonConvert.SerializeObject(models));
             }
+                
+            return models;
         }
 
         public virtual async Task<List<M>> GetFilteredAsync(F filter)
         {
-            try
-            {
-                var entities = await _dbSet
-                .AsNoTracking()
-                .Where(x => !x.IsDeleted)
-                .OrderBy(x => x.Id)
-                .ToListAsync();
+            var entities = await _dbSet
+            .AsNoTracking()
+            .Where(x => !x.IsDeleted)
+            .OrderBy(x => x.Id)
+            .ToListAsync();
 
-                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
 
         public virtual async Task<M> GetByIdAsync(Guid entityId)
         {
-            try
+            var key = $"{typeof(M).Name}_{entityId}";
+                
+            var cachedData = await _cache.GetStringAsync(key);
+            if (!string.IsNullOrEmpty(cachedData))
             {
-                
-                var key = $"{typeof(M).Name}_{entityId}";
-                
-                var cachedData = await _cache.GetStringAsync(key);
-                if (!string.IsNullOrEmpty(cachedData))
+                var cachedModels = JsonConvert.DeserializeObject<M>(cachedData);
+                if (cachedModels != null)
                 {
-                    var cachedModels = JsonConvert.DeserializeObject<M>(cachedData);
-                    if (cachedModels != null)
-                    {
-                        Console.WriteLine("Данные получены из кэша");
-                        return cachedModels;
-                    }
+                    Console.WriteLine("Данные получены из кэша");
+                    return cachedModels;
                 }
-                var entity = await _dbSet.FindAsync(entityId);
-                if (entity != null)
-                {
-                    await _cache.SetStringAsync(key, JsonConvert.SerializeObject(entity));
-                }
+            }
+            var entity = await _dbSet.FindAsync(entityId);
+            if (entity != null)
+            {
+                await _cache.SetStringAsync(key, JsonConvert.SerializeObject(entity));
+            }
 
-                return _factory.CreateModel(entity);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-           
+            return _factory.CreateModel(entity);           
         }
 
-        public async Task<Guid> InsertAsync(M model)
+        public virtual async Task<Guid> InsertAsync(M model)
         {
-            try
-            {
-                var entity = _factory.CreateEntity(model);
-                await _dbSet.AddAsync(entity);
-                await _context.SaveChangesAsync();
-                await _cache.RemoveAsync($"{typeof(M).Name}_All");
-                return entity.Id;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            
+            var entity = _factory.CreateEntity(model);
+
+            await AttributesHelper<E>.EnsureAttributesUniqueness(_dbSet, entity, _context);
+
+            await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            await _cache.RemoveAsync($"{typeof(M).Name}_All");
+            return entity.Id;
         }
 
         public virtual async Task<Guid> UpdateAsync(M model)
         {
-            try
-            {
-                var entity = _factory.CreateEntity(model);
-                var existEntity = await _dbSet.FindAsync(entity.Id);
-                if (existEntity == null) throw new InvalidOperationException("");
-                _context.Entry(existEntity).CurrentValues.SetValues(entity);
-                await _context.SaveChangesAsync();
-                await _cache.RemoveAsync($"{typeof(M).Name}_{existEntity.Id}");
-                await _cache.RemoveAsync($"{typeof(M).Name}_All");
-                return entity.Id;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var entity = _factory.CreateEntity(model);
+            var existEntity = await _dbSet.FindAsync(entity.Id);
+            if (existEntity == null) throw new InvalidOperationException("На редактирование пришла сущность, не существующая в системе");
+            await AttributesHelper<E>.EnsureAttributesUniqueness(_dbSet, entity, _context);
+            _context.Entry(existEntity).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
+            await _cache.RemoveAsync($"{typeof(M).Name}_{existEntity.Id}");
+            await _cache.RemoveAsync($"{typeof(M).Name}_All");
+            return entity.Id;
         }
 
         public async Task<Guid> DeleteAsync(Guid entityId)
         {
-            try
+            var entity = await _dbSet.FindAsync(entityId);
+            if (entity != null)
             {
-                var entity = await _dbSet.FindAsync(entityId);
-                if (entity != null)
-                {
-                    entity.IsDeleted = true;
-                    entity.DeletedDate = DateTime.UtcNow;
-                    //_dbSet.Remove(entity);
-                }
-                await _context.SaveChangesAsync();
-                await _cache.RemoveAsync($"{typeof(M).Name}_All");
-                await _cache.RemoveAsync($"{typeof(M).Name}_{entityId}");
-                return entityId;
+                entity.IsDeleted = true;
+                entity.DeletedDate = DateTime.UtcNow;
+                //_dbSet.Remove(entity);
             }
-            catch (Exception)
-            {
-                throw;
-            }
+            await _context.SaveChangesAsync();
+            await _cache.RemoveAsync($"{typeof(M).Name}_All");
+            await _cache.RemoveAsync($"{typeof(M).Name}_{entityId}");
+            return entityId;
         }
 
         public async Task<bool> ExistsAsync(Guid entityId)
         {
-            try
-            {
-                var key = $"{typeof(M).Name}_{entityId}";
+            var key = $"{typeof(M).Name}_{entityId}";
                 
-                var cachedData = await _cache.GetStringAsync(key);
-                if (!string.IsNullOrEmpty(cachedData))
+            var cachedData = await _cache.GetStringAsync(key);
+            if (!string.IsNullOrEmpty(cachedData))
+            {
+                var cachedModels = JsonConvert.DeserializeObject<M>(cachedData);
+                if (cachedModels != null)
                 {
-                    var cachedModels = JsonConvert.DeserializeObject<M>(cachedData);
-                    if (cachedModels != null)
-                    {
-                        Console.WriteLine("Данные получены из кэша");
-                        return true;
-                    }
+                    Console.WriteLine("Данные получены из кэша");
+                    return true;
                 }
+            }
                 
-                return await _dbSet
-                .AsNoTracking()
-                .AnyAsync(e => e.Id == entityId);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return await _dbSet
+            .AsNoTracking()
+            .AnyAsync(e => e.Id == entityId);
         }
+
+        //public IQueryable<M> Query()
+        //{
+        //    var projection = SqlProjectionFactory.CreateProjectionExpression<E, M>();
+        //    return _dbSet
+        //        .Select(projection)
+        //        .AsQueryable();
+        //}
     }
 }

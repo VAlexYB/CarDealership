@@ -1,5 +1,6 @@
 ﻿using CarDealership.Application.Services;
 using CarDealership.Core.Abstractions.Services;
+using CarDealership.Core.Exceptions;
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Factories;
 using CarDealership.Web.Api.Contracts.Requests;
@@ -43,7 +44,7 @@ namespace CarDealership.Web.Api.Factories
 
             if (equipmentCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(equipmentCreateResult.Error);
+                throw new ClientInformationException(equipmentCreateResult.Error);
             }
 
             var equipment = equipmentCreateResult.Value;

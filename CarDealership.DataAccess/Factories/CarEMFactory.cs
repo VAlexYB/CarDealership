@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Exceptions;
+using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using DriveType = CarDealership.Core.Models.DriveType;
 
@@ -158,7 +159,7 @@ namespace CarDealership.DataAccess.Factories
 
             if(carCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(carCreateResult.Error);
+                throw new ClientInformationException(carCreateResult.Error);
             }
 
             var car = carCreateResult.Value;

@@ -20,5 +20,7 @@ namespace CarDealership.Core.Abstractions.Repositories
         Task<Guid> DeleteAsync(Guid entityId);
 
         Task<bool> ExistsAsync(Guid entityId);
+
+        //IQueryable<M> Query();
     }
 }

@@ -42,7 +42,7 @@ namespace CarDealership.Core.Models
 
             if(countryId == Guid.Empty)
             {
-                error += "CountryId не может быть пустым. ";
+                error += "Страна должна быть указана. ";
             }
 
             if (!string.IsNullOrEmpty(error))

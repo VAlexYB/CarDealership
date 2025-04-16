@@ -61,12 +61,12 @@ namespace CarDealership.Core.Models
 
             if (engineTypeId == Guid.Empty)
             {
-                errorBuilder.Append("EngineTypeId не должен быть пустым. ");
+                errorBuilder.Append("Должен быть указан тип двигателя. ");
             }
 
             if (transmissionTypeId == Guid.Empty)
             {
-                errorBuilder.Append("TransmissionTypeId не должен быть пустым. ");
+                errorBuilder.Append("Должен быть указан тип трансмиссии. ");
             }
 
             if (errorBuilder.Length > 0)

@@ -1,4 +1,5 @@
 ﻿using CarDealership.Core.Abstractions.Services;
+using CarDealership.Core.Exceptions;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
@@ -50,7 +51,7 @@ namespace CarDealership.Web.Api.Factories
 
             if(dealCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(dealCreateResult.Error);
+                throw new ClientInformationException(dealCreateResult.Error);
             }
 
             var deal = dealCreateResult.Value;

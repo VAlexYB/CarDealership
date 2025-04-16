@@ -25,61 +25,25 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
 
         public override async Task<IActionResult> CreateOrEditAsync(EquipmentRequest request)
         {
-            try
-            {
-                Equipment model = await _equipRMFactory.CreateModelAsync(request);
-                await equipService.CreateOrEditAsync(model, request.FeatureIds);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в EquipmentsController -> CreateOrEditAsync()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            Equipment model = await _equipRMFactory.CreateModelAsync(request);
+            Guid equipmentId = await equipService.CreateOrEditAsync(model, request.FeatureIds);
+            return Ok(equipmentId);
         }
 
         [Route("removeFeature")]
         [HttpPost]
         public async Task<IActionResult> RemoveFeature(EquipFeatureChangeRequest request)
         {
-            try
-            {
-                await equipService.RemoveFeatureFromEquipment(request.EquipmentId, request.FeatureId);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в EquipmentsController -> RemoveFeature()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            await equipService.RemoveFeatureFromEquipment(request.EquipmentId, request.FeatureId);
+            return Ok();
         }
 
         [Route("addFeature")]
         [HttpPost]
         public async Task<IActionResult> AddFeature(EquipFeatureChangeRequest request)
         {
-            try
-            {
-                await equipService.AddFeatureToEquipment(request.EquipmentId, request.FeatureId);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в EquipmentsController -> AddFeature()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            await equipService.AddFeatureToEquipment(request.EquipmentId, request.FeatureId);
+            return Ok();
         }
     }
 }

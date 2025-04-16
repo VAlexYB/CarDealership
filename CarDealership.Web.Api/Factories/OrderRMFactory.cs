@@ -1,4 +1,5 @@
 ﻿using CarDealership.Core.Abstractions.Services;
+using CarDealership.Core.Exceptions;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
@@ -50,7 +51,7 @@ namespace CarDealership.Web.Api.Factories
 
             if (orderCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(orderCreateResult.Error);
+                throw new ClientInformationException(orderCreateResult.Error);
             }
 
             var order = orderCreateResult.Value;

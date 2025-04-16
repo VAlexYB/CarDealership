@@ -1,5 +1,8 @@
-﻿namespace CarDealership.DataAccess.Entities
+﻿using CarDealership.DataAccess.Attributes;
+
+namespace CarDealership.DataAccess.Entities
 {
+    [Unique("Name", "BrandId")]
     public class AutoModelEntity : BaseEntity
     {
         public string Name { get; set; } = string.Empty;

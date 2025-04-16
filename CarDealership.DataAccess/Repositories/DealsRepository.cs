@@ -20,7 +20,7 @@ namespace CarDealership.DataAccess.Repositories
             var entity = _factory.CreateEntity(model);
             var existEntity = await _dbSet.FindAsync(entity.Id);
 
-            if (existEntity == null) throw new InvalidOperationException();
+            if (existEntity == null) throw new InvalidOperationException("На редактирование пришла сделка, не существующая в системе");
             _context.Entry(existEntity).CurrentValues.SetValues(entity);
             if (existEntity.CarId != entity.CarId)
             {
@@ -44,43 +44,28 @@ namespace CarDealership.DataAccess.Repositories
 
         public override async Task<List<Deal>> GetFilteredAsync(DealsFilter filter)
         {
-            try
-            {
-                var entities = await _dbSet
-                .AsNoTracking()
-                .Where(d => !d.IsDeleted)
-                .WhereIf(filter.CustomerId.HasValue, d => d.CustomerId == filter.CustomerId)
-                .WhereIf(filter.ManagerId.HasValue, d => d.ManagerId == filter.ManagerId)
-                .WhereIf(filter.DealStatus.HasValue, d => d.Status == filter.DealStatus)
-                .OrderBy(x => x.Id)
-                .ToListAsync();
+            var entities = await _dbSet
+            .AsNoTracking()
+            .Where(d => !d.IsDeleted)
+            .WhereIf(filter.CustomerId.HasValue, d => d.CustomerId == filter.CustomerId)
+            .WhereIf(filter.ManagerId.HasValue, d => d.ManagerId == filter.ManagerId)
+            .WhereIf(filter.DealStatus.HasValue, d => d.Status == filter.DealStatus)
+            .OrderBy(x => x.Id)
+            .ToListAsync();
 
-                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
 
         public async Task<List<Deal>> GetDealsWithoutManager()
         {
-            try
-            {
-                var entities = await _dbSet
-                .AsNoTracking()
-                .Where(d => !d.IsDeleted)
-                .Where(d => d.ManagerId == null)
-                .OrderBy(x => x.Id)
-                .ToListAsync();
+            var entities = await _dbSet
+            .AsNoTracking()
+            .Where(d => !d.IsDeleted)
+            .Where(d => d.ManagerId == null)
+            .OrderBy(x => x.Id)
+            .ToListAsync();
 
-                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
-
     }
 }

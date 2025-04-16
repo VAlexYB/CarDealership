@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Exceptions;
+using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 
 namespace CarDealership.DataAccess.Factories
@@ -44,7 +45,7 @@ namespace CarDealership.DataAccess.Factories
 
             if (bodyTypeResult.IsFailure)
             {
-                throw new InvalidOperationException(bodyTypeResult.Error);
+                throw new ClientInformationException(bodyTypeResult.Error);
             }
 
             var bodyType = bodyTypeResult.Value;

@@ -21,67 +21,45 @@ namespace CarDealership.DataAccess.Repositories
 
         public async Task RemoveFeatureFromEquipment(Guid equipmentId, Guid featureId)
         {
-            try
-            {
-                var equipFeature = await _equipFeaturesSet.FirstOrDefaultAsync(ef => ef.EquipmentId == equipmentId && ef.FeatureId == featureId);
+            var equipFeature = await _equipFeaturesSet.FirstOrDefaultAsync(ef => ef.EquipmentId == equipmentId && ef.FeatureId == featureId);
 
-                if (equipFeature == null)
-                {
-                    throw new InvalidOperationException("Такая сущность не найдена");
-                }
-
-                _equipFeaturesSet.Remove(equipFeature);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception)
+            if (equipFeature == null)
             {
-                throw;
+                throw new InvalidOperationException("При удалении связки фичи с комплектацией не найдена соответствиующая запись в БД");
             }
+
+            _equipFeaturesSet.Remove(equipFeature);
+            await _context.SaveChangesAsync();
         }
 
         public override async Task<Guid> UpdateAsync(Equipment model)
         {
-            try
-            {
-                var entity = _factory.CreateEntity(model);
-                var existEntity = await _dbSet.FindAsync(entity.Id);
+            var entity = _factory.CreateEntity(model);
+            var existEntity = await _dbSet.FindAsync(entity.Id);
 
-                if (existEntity == null) throw new InvalidOperationException();
-                _context.Entry(existEntity).CurrentValues.SetValues(entity);
-                if (existEntity.AutoModelId != entity.AutoModelId)
-                {
-                    existEntity.AutoModelId = entity.AutoModelId;
-                }
-
-                await _context.SaveChangesAsync();
-                await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
-                await _cache.RemoveAsync($"{model.GetType().Name}_All");
-                return existEntity.Id;
-            }
-            catch (Exception)
+            if (existEntity == null) throw new InvalidOperationException("На редактирование пришла комплектация, не существующая в системе");
+            _context.Entry(existEntity).CurrentValues.SetValues(entity);
+            if (existEntity.AutoModelId != entity.AutoModelId)
             {
-                throw;
+                existEntity.AutoModelId = entity.AutoModelId;
             }
-            
+
+            await _context.SaveChangesAsync();
+            await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
+            await _cache.RemoveAsync($"{model.GetType().Name}_All");
+            return existEntity.Id;
         }
 
         public override async Task<List<Equipment>> GetFilteredAsync(EquipmentsFilter filter)
         {
-            try
-            {
-                var entities = await _dbSet
-                .AsNoTracking()
-                .Where(e => !e.IsDeleted)
-                .WhereIf(filter.AutoModelId.HasValue, e => e.AutoModelId == filter.AutoModelId)
-                .OrderBy(e => e.Id)
-                .ToListAsync();
+            var entities = await _dbSet
+            .AsNoTracking()
+            .Where(e => !e.IsDeleted)
+            .WhereIf(filter.AutoModelId.HasValue, e => e.AutoModelId == filter.AutoModelId)
+            .OrderBy(e => e.Id)
+            .ToListAsync();
 
-                return entities.Select(entity => _factory.CreateModel(entity)).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return entities.Select(entity => _factory.CreateModel(entity)).ToList();
         }
     }
 }

@@ -14,31 +14,24 @@ namespace CarDealership.DataAccess.Repositories
 
         public override async Task<Guid> UpdateAsync(Engine model)
         {
-            try
-            {
-                var entity = _factory.CreateEntity(model);
-                var existEntity = await _dbSet.FindAsync(entity.Id);
+            var entity = _factory.CreateEntity(model);
+            var existEntity = await _dbSet.FindAsync(entity.Id);
 
-                if (existEntity == null) throw new InvalidOperationException();
-                _context.Entry(existEntity).CurrentValues.SetValues(entity);
-                if (existEntity.EngineTypeId != entity.EngineTypeId)
-                {
-                    existEntity.EngineTypeId = entity.EngineTypeId;
-                }
-
-                if (existEntity.TransmissionTypeId != entity.TransmissionTypeId)
-                {
-                    existEntity.TransmissionTypeId = entity.TransmissionTypeId;
-                }
-                await _context.SaveChangesAsync();
-                await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
-                await _cache.RemoveAsync($"{model.GetType().Name}_All");
-                return existEntity.Id;
-            }
-            catch (Exception)
+            if (existEntity == null) throw new InvalidOperationException("На редактирование пришел двигатель, не существующий в системе");
+            _context.Entry(existEntity).CurrentValues.SetValues(entity);
+            if (existEntity.EngineTypeId != entity.EngineTypeId)
             {
-                throw;
+                existEntity.EngineTypeId = entity.EngineTypeId;
             }
+
+            if (existEntity.TransmissionTypeId != entity.TransmissionTypeId)
+            {
+                existEntity.TransmissionTypeId = entity.TransmissionTypeId;
+            }
+            await _context.SaveChangesAsync();
+            await _cache.RemoveAsync($"{model.GetType().Name}_{existEntity.Id}");
+            await _cache.RemoveAsync($"{model.GetType().Name}_All");
+            return existEntity.Id;
         }
     }
 }

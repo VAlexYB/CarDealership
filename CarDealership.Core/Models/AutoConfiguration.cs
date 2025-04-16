@@ -78,32 +78,32 @@ namespace CarDealership.Core.Models
 
             if(autoModelId == Guid.Empty)
             {
-                errorBuilder.Append("AutoModelId не должен быть пустым. ");
+                errorBuilder.Append("Модель должна быть указана. ");
             }
 
             if(bodyTypeId == Guid.Empty)
             {
-                errorBuilder.Append("BodyTypeId не должен быть пустым. ");
+                errorBuilder.Append("Тип кузова должен быть указан. ");
             }
 
             if(driveTypeId == Guid.Empty)
             {
-                errorBuilder.Append("DriveTypeId не должен быть пустым. ");
+                errorBuilder.Append("Тип привода должен быть указан. ");
             }
 
             if(engineId == Guid.Empty)
             {
-                errorBuilder.Append("EngineId не должен быть пустым. ");
+                errorBuilder.Append("Двигатель должен быть указан. ");
             }
 
             if(colorId == Guid.Empty)
             {
-                errorBuilder.Append("ColorId не должен быть пустым. ");
+                errorBuilder.Append("Цвет должен быть указан. ");
             }
 
             if(equipmentId == Guid.Empty)
             {
-                errorBuilder.Append("EquipmentId не должен быть пустым. ");
+                errorBuilder.Append("Комплектация должна быть указана. ");
             }
 
             if (errorBuilder.Length > 0)

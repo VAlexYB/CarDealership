@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Exceptions;
+using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
 using CarDealership.Web.Api.Contracts.Responses;
 using CarDealership.Web.Api.Factories.Abstract;
@@ -15,7 +16,7 @@ namespace CarDealership.Web.Api.Factories
 
             if(engineTypeCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(engineTypeCreateResult.Error);
+                throw new ClientInformationException(engineTypeCreateResult.Error);
             }
 
             return engineTypeCreateResult.Value;

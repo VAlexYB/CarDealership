@@ -30,48 +30,35 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
         {
-            try
+            var hashedPassword = _passwordHasher.Generate(request.Password);
+
+            var userCreateResult = Core.Models.Auth.User.Create(
+                request.Id,
+                request.UserName,
+                request.Email,
+                hashedPassword,
+                request.FirstName,
+                request.MiddleName,
+                request.LastName,
+                request.PhoneNumber,
+                request.FirstCardDigits,
+                request.LastCardDigits
+            );
+
+
+            if (userCreateResult.IsFailure)
             {
-                var hashedPassword = _passwordHasher.Generate(request.Password);
-
-                var userCreateResult = Core.Models.Auth.User.Create(
-                    request.Id,
-                    request.UserName,
-                    request.Email,
-                    hashedPassword,
-                    request.FirstName,
-                    request.MiddleName,
-                    request.LastName,
-                    request.PhoneNumber,
-                    request.FirstCardDigits,
-                    request.LastCardDigits
-                );
-
-
-                if (userCreateResult.IsFailure)
-                {
-                    return BadRequest(userCreateResult.Error);
-                }
-
-                var user = userCreateResult.Value;
-
-                var role = await _rolesService.GetByIdAsync((int)Roles.User);
-                user.AddRole(role);
-
-
-                await _usersService.AddAsync(user);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController ->  Register()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
+                return BadRequest(userCreateResult.Error);
             }
 
+            var user = userCreateResult.Value;
+
+            var role = await _rolesService.GetByIdAsync((int)Roles.User);
+            user.AddRole(role);
+
+
+            await _usersService.AddAsync(user);
+            return Ok();
         }
 
 
@@ -80,47 +67,35 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpPost]
         public async Task<IActionResult> AddManager([FromBody] RegistrationRequest request)
         {
-            try
+            var hashedPassword = _passwordHasher.Generate(request.Password);
+
+            var userCreateResult = Core.Models.Auth.User.Create(
+                request.Id,
+                request.UserName,
+                request.Email,
+                hashedPassword,
+                request.FirstName,
+                request.MiddleName,
+                request.LastName,
+                request.PhoneNumber,
+                request.FirstCardDigits,
+                request.LastCardDigits
+            );
+
+
+            if (userCreateResult.IsFailure)
             {
-                var hashedPassword = _passwordHasher.Generate(request.Password);
-
-                var userCreateResult = Core.Models.Auth.User.Create(
-                    request.Id,
-                    request.UserName,
-                    request.Email,
-                    hashedPassword,
-                    request.FirstName,
-                    request.MiddleName,
-                    request.LastName,
-                    request.PhoneNumber,
-                    request.FirstCardDigits,
-                    request.LastCardDigits
-                );
-
-
-                if (userCreateResult.IsFailure)
-                {
-                    return BadRequest(userCreateResult.Error);
-                }
-
-                var user = userCreateResult.Value;
-
-                var role = await _rolesService.GetByIdAsync((int)Roles.Manager);
-                user.AddRole(role);
-
-
-                await _usersService.AddAsync(user);
-                return Ok();
+                return BadRequest(userCreateResult.Error);
             }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController ->  AddManager()");
-                return StatusCode(500, "Внутренняя ошибка");
-            }
+
+            var user = userCreateResult.Value;
+
+            var role = await _rolesService.GetByIdAsync((int)Roles.Manager);
+            user.AddRole(role);
+
+
+            await _usersService.AddAsync(user);
+            return Ok();
         }
 
         [Authorize(Roles = "Admin")]
@@ -128,20 +103,8 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpGet]
         public async Task<IActionResult> AssignSenior(Guid mgrId)
         {
-            try
-            {
-                await _usersService.AssignSenior(mgrId);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController ->  AssignSenior()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            await _usersService.AssignSenior(mgrId);
+            return Ok();
         }
 
         [Authorize(Roles = "Admin")]
@@ -149,61 +112,25 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpGet]
         public async Task<IActionResult> SuspendSenior(Guid mgrId)
         {
-            try
-            {
-                await _usersService.SuspendSenior(mgrId);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController ->  SuspendSenior()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            await _usersService.SuspendSenior(mgrId);
+            return Ok();
         }
 
         [Route("login")]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            try
-            {
-                var token = await _usersService.Login(request.Identifier, request.Password);
-                HttpContext.Response.Cookies.Append("altertroublesuckykey", token);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController ->  Login()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            var token = await _usersService.Login(request.Identifier, request.Password);
+            HttpContext.Response.Cookies.Append("altertroublesuckykey", token);
+            return Ok();
         }
 
         [Route("logout")]
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            try
-            {
-                HttpContext.Response.Cookies.Delete("altertroublesuckykey");
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController ->  Logout()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            HttpContext.Response.Cookies.Delete("altertroublesuckykey");
+            return Ok();
         }
 
         [Authorize(Roles = "Admin")]
@@ -211,61 +138,37 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllMgrs()
         {
-            try
+            var users = await _usersService.GetUsersAsync((int)Roles.Manager);
+            var response = users.Select(u => new UserResponse(u.Id)
             {
-                var users = await _usersService.GetUsersAsync((int)Roles.Manager);
-                var response = users.Select(u => new UserResponse(u.Id)
-                {
-                    UserName = u.UserName,
-                    Email = u.Email,
-                    FirstName = u.FirstName ?? "",
-                    MiddleName = u.MiddleName ?? "",
-                    LastName = u.LastName ?? "",
-                    PhoneNumber = u.PhoneNumber ?? "",
-                    CardDigits = u.FirstCardDigits != null && u.FirstCardDigits != null ? $"{u.FirstCardDigits}########{u.LastCardDigits}" : ""
-                }).ToList();
-                return Ok(response);
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController -> GetAllMgrs()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+                UserName = u.UserName,
+                Email = u.Email,
+                FirstName = u.FirstName ?? "",
+                MiddleName = u.MiddleName ?? "",
+                LastName = u.LastName ?? "",
+                PhoneNumber = u.PhoneNumber ?? "",
+                CardDigits = u.FirstCardDigits != null && u.FirstCardDigits != null ? $"{u.FirstCardDigits}########{u.LastCardDigits}" : ""
+            }).ToList();
+            return Ok(response);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager")]
         [Route("getUsers")]
         [HttpGet]
         public async Task<IActionResult> GetOnlyUsers()
         {
-            try
+            var users = await _usersService.GetUsersAsync((int)Roles.User);
+            var response = users.Select(u => new UserResponse(u.Id)
             {
-                var users = await _usersService.GetUsersAsync((int)Roles.User);
-                var response = users.Select(u => new UserResponse(u.Id)
-                {
-                    UserName = u.UserName,
-                    Email = u.Email,
-                    FirstName = u.FirstName ?? "",
-                    MiddleName = u.MiddleName ?? "",
-                    LastName = u.LastName ?? "",
-                    PhoneNumber = u.PhoneNumber ?? "",
-                    CardDigits = u.FirstCardDigits != null && u.FirstCardDigits != null ? $"{u.FirstCardDigits}########{u.LastCardDigits}" : ""
-                }).ToList();
-                return Ok(response);
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController ->  GetOnlyUsers()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+                UserName = u.UserName,
+                Email = u.Email,
+                FirstName = u.FirstName ?? "",
+                MiddleName = u.MiddleName ?? "",
+                LastName = u.LastName ?? "",
+                PhoneNumber = u.PhoneNumber ?? "",
+                CardDigits = u.FirstCardDigits != null && u.FirstCardDigits != null ? $"{u.FirstCardDigits}########{u.LastCardDigits}" : ""
+            }).ToList();
+            return Ok(response);
         }
 
         [Authorize(Roles = "Admin")]
@@ -273,30 +176,18 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            try
+            var users = await _usersService.GetUsersAsync();
+            var response = users.Select(u => new UserResponse(u.Id)
             {
-                var users = await _usersService.GetUsersAsync();
-                var response = users.Select(u => new UserResponse(u.Id)
-                {
-                    UserName = u.UserName,
-                    Email = u.Email,
-                    FirstName = u.FirstName,
-                    MiddleName = u.MiddleName,
-                    LastName = u.LastName,
-                    PhoneNumber = u.PhoneNumber,
-                    CardDigits = u.FirstCardDigits != null && u.FirstCardDigits != null ? $"{u.FirstCardDigits}########{u.LastCardDigits}" : ""
-                }).ToList();
-                return Ok(response);
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController ->  GetAll()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+                UserName = u.UserName,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                MiddleName = u.MiddleName,
+                LastName = u.LastName,
+                PhoneNumber = u.PhoneNumber,
+                CardDigits = u.FirstCardDigits != null && u.FirstCardDigits != null ? $"{u.FirstCardDigits}########{u.LastCardDigits}" : ""
+            }).ToList();
+            return Ok(response);
         }
 
 
@@ -305,20 +196,8 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(Guid userId)
         {
-            try
-            {
-                await _usersService.DeleteAsync(userId);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController ->  Delete()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            await _usersService.DeleteAsync(userId);
+            return Ok();
         }
 
 
@@ -326,30 +205,18 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserInfo(Guid userId)
         {
-            try
+            var user = await _usersService.GetByIdAsync(userId);
+            var response = new UserResponse(user.Id)
             {
-                var user = await _usersService.GetByIdAsync(userId);
-                var response = new UserResponse(user.Id)
-                {
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    MiddleName = user.MiddleName,
-                    LastName = user.LastName,
-                    PhoneNumber = user.PhoneNumber,
-                    CardDigits = user.FirstCardDigits != null && user.FirstCardDigits != null ? $"{user.FirstCardDigits}########{user.LastCardDigits}" : ""
-                };
-                return Ok(response);
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в UsersController ->  GetUserInfo()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                MiddleName = user.MiddleName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                CardDigits = user.FirstCardDigits != null && user.FirstCardDigits != null ? $"{user.FirstCardDigits}########{user.LastCardDigits}" : ""
+            };
+            return Ok(response);
         }
     }
 }

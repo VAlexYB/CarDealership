@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Exceptions;
+using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 using DriveType = CarDealership.Core.Models.DriveType;
 
@@ -140,7 +141,7 @@ namespace CarDealership.DataAccess.Factories
 
             if (autoConfigurationResult.IsFailure)
             {
-                throw new InvalidOperationException(autoConfigurationResult.Error);
+                throw new ClientInformationException(autoConfigurationResult.Error);
             }
 
             var autoConfiguration = autoConfigurationResult.Value;

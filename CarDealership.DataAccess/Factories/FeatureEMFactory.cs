@@ -1,4 +1,5 @@
-﻿using CarDealership.Core.Models;
+﻿using CarDealership.Core.Exceptions;
+using CarDealership.Core.Models;
 using CarDealership.DataAccess.Entities;
 
 namespace CarDealership.DataAccess.Factories
@@ -43,7 +44,7 @@ namespace CarDealership.DataAccess.Factories
 
             if (featureCreateResult.IsFailure)
             {
-                throw new InvalidOperationException(featureCreateResult.Error);
+                throw new ClientInformationException(featureCreateResult.Error);
             }
 
             var feature = featureCreateResult.Value;

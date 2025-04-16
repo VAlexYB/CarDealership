@@ -31,7 +31,7 @@ namespace CarDealership.Core.Models
 
             if (autoConfigurationId == Guid.Empty)
             {
-                error += $"AutoConfigurationId не должен быть пустым. ";
+                error += $"Конфигурация обязательна. ";
             }
 
             if (!string.IsNullOrEmpty(error))

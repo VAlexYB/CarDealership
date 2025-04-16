@@ -42,34 +42,22 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeStatus([FromBody] ChangeStatusRequest request)
         {
-            try
+            if (request.Status > Enum.GetValues(typeof(OrderStatus)).Cast<int>().Max())
             {
-                if (request.Status > Enum.GetValues(typeof(OrderStatus)).Cast<int>().Max())
-                {
-                    return BadRequest("Нет такого статуса заказа");
-                }
-                await _ordersService.ChangeStatus(request.Id, request.Status);
+                return BadRequest("Нет такого статуса заказа");
+            }
+            await _ordersService.ChangeStatus(request.Id, request.Status);
 
-                var orderInfo = await _ordersService.GetByIdAsync(request.Id);
-                var message = new MessageInfo
-                {
-                    Id = orderInfo.Id.ToString(),
-                    PhoneNumber = orderInfo?.Customer?.PhoneNumber ?? string.Empty,
-                    Status = request.Status.ToString("d"),
-                    Type = MessageTypes.Order.ToString("g")
-                };
-                _messageSender.SendMessage(message, _configuration["RabbitMQ:Queues:CDQueue"]);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
+            var orderInfo = await _ordersService.GetByIdAsync(request.Id);
+            var message = new MessageInfo
             {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в OrdersController -> ChangeStatus()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+                Id = orderInfo.Id.ToString(),
+                PhoneNumber = orderInfo?.Customer?.PhoneNumber ?? string.Empty,
+                Status = request.Status.ToString("d"),
+                Type = MessageTypes.Order.ToString("g")
+            };
+            _messageSender.SendMessage(message, _configuration["RabbitMQ:Queues:CDQueue"]);
+            return Ok();
         }
 
         [Authorize(Roles = "Manager")]
@@ -77,21 +65,9 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrdersWithoutManager()
         {
-            try
-            {
-                var orders = await _ordersService.GetOrdersWithoutManager();
-                var response = orders.Select(order => _orderRMFactory.CreateResponse(order)).ToList();
-                return Ok(response);
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в OrdersController -> GetOrdersWithoutManager()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            var orders = await _ordersService.GetOrdersWithoutManager();
+            var response = orders.Select(order => _orderRMFactory.CreateResponse(order)).ToList();
+            return Ok(response);
         }
 
         [Authorize(Roles = "Manager")]
@@ -99,41 +75,17 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpPost]
         public async Task<IActionResult> TakeOrderInProcess([FromBody] TakeTaskRequest request)
         {
-            try
-            {
-                await _ordersService.TakeOrderInProcess(request.ManagerId, request.TaskId);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в OrdersController -> TakeOrderInProcess()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            await _ordersService.TakeOrderInProcess(request.ManagerId, request.TaskId);
+            return Ok();
         }
 
         [Authorize(Roles = "Manager")]
         [Route("leaveOrder/{orderId}")]
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> LeaveOrder(Guid orderId)
         {
-            try
-            {
-                await _ordersService.LeaveOrder(orderId);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в OrdersController ->  LeaveOrder()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            await _ordersService.LeaveOrder(orderId);
+            return Ok();
         }
 
         [Authorize(Roles = "User")]
@@ -141,20 +93,8 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpGet]
         public async Task<IActionResult> CancelOrder(Guid orderId)
         {
-            try
-            {
-                await _ordersService.ChangeStatus(orderId, (int)OrderStatus.Cancelled);
-                return Ok();
-            }
-            catch (InvalidOperationException e)
-            {
-                return StatusCode(400, e.Message);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Ошибка возникла в OrdersController ->  CancelOrder()");
-                return StatusCode(500, "Внутренняя ошибка сервера");
-            }
+            await _ordersService.ChangeStatus(orderId, (int)OrderStatus.Cancelled);
+            return Ok();
         }
     }
 }

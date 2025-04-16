@@ -27,12 +27,12 @@ namespace CarDealership.Core.Models
 
             if(equipmentId == Guid.Empty)
             {
-                error += "EquipmentId не должен быть пустым. ";
+                error += "При формировании связки фичи с комплектацией id комплектации пустой. ";
             }
 
             if(featureId == Guid.Empty)
             {
-                error += "FeatureId не должен быть пустым. ";
+                error += "При формировании связки фичи с комплектацией id фичи пустой. ";
             }
 
             if (!string.IsNullOrEmpty(error))
