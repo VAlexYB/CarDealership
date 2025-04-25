@@ -9,14 +9,18 @@ namespace CarDealership.Application.Services
     {
         private readonly IEquipFeaturesRepository _equipFeaturesRepository;
         private readonly IEquipmentsRepository _equipmentsRepository;
+        private readonly IFeaturesRepository _featuresRepository;
+
         public EquipmentsService
         (
             IEquipmentsRepository equipmentsRepository,
-            IEquipFeaturesRepository equipFeaturesRepository
+            IEquipFeaturesRepository equipFeaturesRepository,
+            IFeaturesRepository featuresRepository
         ) : base(equipmentsRepository)
         {
             _equipFeaturesRepository = equipFeaturesRepository ?? throw new ArgumentNullException(nameof(equipFeaturesRepository));
             _equipmentsRepository = equipmentsRepository ?? throw new ArgumentNullException(nameof(equipmentsRepository));
+            _featuresRepository = featuresRepository ?? throw new ArgumentNullException(nameof(equipmentsRepository)); 
         }
 
         public async Task<Guid> CreateOrEditAsync(Equipment model, List<Guid> featureIds)
@@ -59,6 +63,18 @@ namespace CarDealership.Application.Services
             }
             var equipmentFeature = equipmentFeatureCreateResult.Value;
             await _equipFeaturesRepository.InsertAsync(equipmentFeature);
+        }
+
+        public async Task<(Equipment, List<Feature>)> GetModelFeatures(EquipmentsFilter filter)
+        {
+            List<Equipment> equipments = await _equipmentsRepository.GetFilteredAsync(filter);
+
+            List<Feature> features = (await _featuresRepository.GetAllAsync())
+                .Where(f => equipments.Any(e => e.EquipmentFeatures.Any(ef => ef.FeatureId == f.Id))
+                    && !filter.Features.Contains(f.Id))
+                .ToList();
+
+            return (equipments.First(), features);
         }
     }
 }

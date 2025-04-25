@@ -9,5 +9,6 @@ namespace CarDealership.Core.Abstractions.Services
 
         Task RemoveFeatureFromEquipment(Guid equipmentId, Guid featureId);
         Task AddFeatureToEquipment(Guid equipmentId, Guid featureId);
+        Task<(Equipment, List<Feature>)> GetModelFeatures(EquipmentsFilter filter);
     }
 }

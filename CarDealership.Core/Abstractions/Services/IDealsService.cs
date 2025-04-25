@@ -1,5 +1,6 @@
 ﻿using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
+using CarDealership.Core.Models.AnalyticsDto;
 
 namespace CarDealership.Core.Abstractions.Services
 {
@@ -10,5 +11,7 @@ namespace CarDealership.Core.Abstractions.Services
 
         Task<Guid> TakeDealInProcess(Guid managerId, Guid taskId);
         Task<Guid> LeaveDeal(Guid taskId);
+
+        Task<DealAnalyticsDto> GetAnalytics(bool byConfiguration);
     }
 }

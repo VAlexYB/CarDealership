@@ -56,6 +56,7 @@ namespace CarDealership.DataAccess.Repositories
             .AsNoTracking()
             .Where(e => !e.IsDeleted)
             .WhereIf(filter.AutoModelId.HasValue, e => e.AutoModelId == filter.AutoModelId)
+            .WhereIf(filter.Features.Any(), e => filter.Features.All(featureId => e.equipmentFeatures.Any(ef => ef.FeatureId == featureId)))
             .OrderBy(e => e.Id)
             .ToListAsync();
 

@@ -91,6 +91,8 @@ namespace CarDealership.Web.Api.Factories
                 AutoModelName = model.AutoModel?.Name ?? string.Empty,
                
                 BrandName = model.AutoModel?.Brand?.Name ?? string.Empty,
+                BrandId = model.AutoModel.BrandId,
+
                 CountryName = model.AutoModel?.Brand?.Country?.Name ?? string.Empty,
 
                 BodyTypeId = model.BodyTypeId,

@@ -13,11 +13,19 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
     public class EquipmentsController : BaseController<Equipment, EquipmentsFilter, EquipmentRequest, EquipmentResponse>
     {
         private readonly IEquipmentRMFactory _equipRMFactory;
+        private readonly IFeatureRMFactory _featureRMFactory;
         private readonly IEquipmentsService equipService;
         private readonly ILogger _logger;
-        public EquipmentsController(IEquipmentsService service, IEquipmentRMFactory factory, ILogger<EquipmentsController> logger) : base(service, factory, logger)
+        public EquipmentsController
+        (
+            IEquipmentsService service,
+            IEquipmentRMFactory factory,
+            IFeatureRMFactory featureFactory,
+            ILogger<EquipmentsController> logger
+        ) : base(service, factory, logger)
         {
             _equipRMFactory = factory ?? throw new ArgumentNullException(nameof(factory));
+            _featureRMFactory = featureFactory ?? throw new ArgumentNullException(nameof(featureFactory));
             equipService = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -44,6 +52,20 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         {
             await equipService.AddFeatureToEquipment(request.EquipmentId, request.FeatureId);
             return Ok();
+        }
+
+        [Route("getFeatures")]
+        [HttpPost]
+        public async Task<IActionResult> GetFeatures(EquipmentsFilter filter)
+        {
+            (Equipment equipment, List<Feature> features) = await equipService.GetModelFeatures(filter);
+            EquipmentResponse response = new EquipmentResponse(equipment.Id);
+            response.Name = equipment.Name;
+            response.Price = equipment.Price;
+            response.ReleaseYear = equipment.ReleaseYear;   
+            response.Features = features.Select(f => _featureRMFactory.CreateResponse(f)).ToList();
+
+            return Ok(response);
         }
     }
 }

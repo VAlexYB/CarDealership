@@ -86,5 +86,14 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
             await _dealsService.LeaveDeal(dealId);
             return Ok();
         }
+
+        [Authorize(Roles = "Admin")]
+        [Route("analytics")]
+        [HttpGet]
+        public async Task<IActionResult> GetAnalytics([FromQuery] bool byConfiguration)
+        {
+            var stats = await _dealsService.GetAnalytics(byConfiguration);
+            return Ok(stats);
+        }
     }
 }

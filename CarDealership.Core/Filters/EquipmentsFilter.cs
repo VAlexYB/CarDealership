@@ -5,5 +5,7 @@ namespace CarDealership.Core.Filters
     public class EquipmentsFilter : BaseFilter
     {
         public Guid? AutoModelId { get; set; }
+
+        public List<Guid> Features { get; set; } = [];
     }
 }
