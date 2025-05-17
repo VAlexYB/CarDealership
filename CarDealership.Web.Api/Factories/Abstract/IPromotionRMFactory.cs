@@ -4,10 +4,7 @@ using CarDealership.Web.Api.Contracts.Responses;
 
 namespace CarDealership.Web.Api.Factories.Abstract
 {
-    public interface IResponseBuilder<Res, M>
-        where Res : BaseResponse
-        where M : BaseModel
+    public interface IPromotionRMFactory : IReqResModelFactory<PromotionRequest, PromotionResponse, Promotion>
     {
-        Res CreateResponse(M model);
     }
 }

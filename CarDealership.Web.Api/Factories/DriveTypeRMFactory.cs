@@ -9,7 +9,7 @@ namespace CarDealership.Web.Api.Factories
 {
     public class DriveTypeRMFactory : IDriveTypeRMFactory
     {
-        public DriveType CreateModel(DriveTypeRequest req)
+        public Task<DriveType> CreateModel(DriveTypeRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
@@ -20,10 +20,10 @@ namespace CarDealership.Web.Api.Factories
                 throw new ClientInformationException(driveTypeCreateResult.Error);
             }
 
-            return driveTypeCreateResult.Value;
+            return Task.FromResult(driveTypeCreateResult.Value);
         }
 
-        public DriveTypeResponse CreateResponse(DriveType model)
+        public Task<DriveTypeResponse> CreateResponse(DriveType model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
@@ -33,7 +33,7 @@ namespace CarDealership.Web.Api.Factories
                 Price = model.Price,
             };
 
-            return driveTypeRes;
+            return Task.FromResult(driveTypeRes);
         }
     }
 }

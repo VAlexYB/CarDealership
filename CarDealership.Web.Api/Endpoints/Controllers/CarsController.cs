@@ -20,13 +20,15 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
             _carsService = service;
         }
 
-        [Authorize(Roles = "Manager")]
+        //[Authorize(Roles = "Manager")]
         [Route("getFreeCars")]
         [HttpGet]
         public async Task<IActionResult> GetFreeCars()
         {
             var cars = await _carsService.GetFreeCars();
-            var response = cars.Select(car => _factory.CreateResponse(car)).ToList();
+
+            IEnumerable<Task<CarResponse>> tasks = cars.Select(car => _factory.CreateResponse(car));
+            List<CarResponse> response = (await Task.WhenAll(tasks)).ToList();
             return Ok(response);
         }
     }

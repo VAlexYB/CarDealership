@@ -58,7 +58,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var country = Country.Create(Guid.NewGuid(), "страна1").Value;
             _serviceMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(country);
-            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<Country>())).Returns(new CountryResponse(country.Id) { Name = country.Name });
+            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<Country>())).ReturnsAsync(new CountryResponse(country.Id) { Name = country.Name });
 
             // Act
             var result = await _controller.GetByIdAsync(country.Id);
@@ -75,7 +75,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var countryRequest = new CountryRequest();
             var country = Country.Create(Guid.NewGuid(), "страна1").Value;
-            _factoryMock.Setup(f => f.CreateModel(It.IsAny<CountryRequest>())).Returns(country);
+            _factoryMock.Setup(f => f.CreateModel(It.IsAny<CountryRequest>())).ReturnsAsync(country);
             _serviceMock.Setup(s => s.CreateOrEditAsync(It.IsAny<Country>())).ReturnsAsync(country.Id);
 
             // Act

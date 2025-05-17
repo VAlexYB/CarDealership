@@ -7,7 +7,7 @@ namespace CarDealership.Web.Api.Factories
 {
     public class FeatureRMFactory : IFeatureRMFactory
     {
-        public Feature CreateModel(FeatureRequest req)
+        public Task<Feature> CreateModel(FeatureRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
@@ -18,10 +18,10 @@ namespace CarDealership.Web.Api.Factories
                 throw new ArgumentNullException(featureCreateResult.Error);
             }
 
-            return featureCreateResult.Value;
+            return Task.FromResult(featureCreateResult.Value);
         }
 
-        public FeatureResponse CreateResponse(Feature model)
+        public Task<FeatureResponse> CreateResponse(Feature model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
@@ -30,7 +30,7 @@ namespace CarDealership.Web.Api.Factories
                 Description = model.Description
             };
 
-            return response;
+            return Task.FromResult(response);
         }
     }
 }

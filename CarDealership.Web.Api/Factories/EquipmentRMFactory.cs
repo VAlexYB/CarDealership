@@ -24,7 +24,7 @@ namespace CarDealership.Web.Api.Factories
             _featuresService = featuresService ?? throw new ArgumentNullException(nameof(featuresService));
             _featureRMFactory = featureRMFactory ?? throw new ArgumentNullException(nameof(featureRMFactory));
         }
-        public async Task<Equipment> CreateModelAsync(EquipmentRequest req)
+        public async Task<Equipment> CreateModel(EquipmentRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
@@ -52,11 +52,13 @@ namespace CarDealership.Web.Api.Factories
             return equipment;
         }
 
-        public EquipmentResponse CreateResponse(Equipment model)
+        public async Task<EquipmentResponse> CreateResponse(Equipment model)
         {
+            var equipment = await _featuresService.
             var features = model.EquipmentFeatures.Select(ef => ef.Feature).ToList();
-            List<FeatureResponse> featureResponses = features.Select(feature => _featureRMFactory.CreateResponse(feature)).ToList();
 
+            IEnumerable<Task<FeatureResponse>> tasks = features.Select(f => _featureRMFactory.CreateResponse(f));
+            List<FeatureResponse> featureResponses = (await Task.WhenAll(tasks)).ToList();
 
             var response = new EquipmentResponse(model.Id)
             {

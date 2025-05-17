@@ -39,7 +39,7 @@ namespace CarDealership.Web.Api.Factories
             _equipmentRMFactory = equipmentRMFactory ?? throw new ArgumentNullException(nameof(equipmentRMFactory));
         }
 
-        public async Task<AutoConfiguration> CreateModelAsync(AutoConfigurationRequest req)
+        public async Task<AutoConfiguration> CreateModel(AutoConfigurationRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
@@ -70,12 +70,12 @@ namespace CarDealership.Web.Api.Factories
             return autoConfig;
         }
 
-        public AutoConfigurationResponse CreateResponse(AutoConfiguration model)
+        public async Task<AutoConfigurationResponse> CreateResponse(AutoConfiguration model)
         {
             if(model == null) throw new ArgumentNullException(nameof(model));
 
-            var configEngineRes = _engineRMFactory.CreateResponse(model.Engine);
-            var configEquipRes = _equipmentRMFactory.CreateResponse(model.Equipment);
+            var configEngineRes = await _engineRMFactory.CreateResponse(model.Engine);
+            var configEquipRes = await _equipmentRMFactory.CreateResponse(model.Equipment);
 
             decimal autoModelPrice = model.AutoModel?.Price ?? 0;
             decimal bodyTypePrice = model.BodyType?.Price ?? 0;

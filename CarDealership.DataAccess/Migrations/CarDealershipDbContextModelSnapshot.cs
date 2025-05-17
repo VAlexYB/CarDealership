@@ -17,13 +17,28 @@ namespace CarDealership.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("AutoConfigurationEntityPromotionEntity", b =>
+                {
+                    b.Property<Guid>("AppliableConfigsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PromotionEntityId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("AppliableConfigsId", "PromotionEntityId");
+
+                    b.HasIndex("PromotionEntityId");
+
+                    b.ToTable("AutoConfigurationEntityPromotionEntity");
+                });
 
             modelBuilder.Entity("CarDealership.DataAccess.Entities.Auth.RoleEntity", b =>
                 {
@@ -591,6 +606,47 @@ namespace CarDealership.DataAccess.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("CarDealership.DataAccess.Entities.PromotionEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("DealDiscountPercent")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<decimal?>("OrderDiscountPercent")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Promocode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Promocode")
+                        .IsUnique();
+
+                    b.ToTable("Promotions", t =>
+                        {
+                            t.HasCheckConstraint("CK_Promotion_Dates", "\"EndDate\" > \"StartDate\"");
+
+                            t.HasCheckConstraint("CK_Promotion_Discounts", "\"OrderDiscountPercent\" IS NOT NULL OR \"DealDiscountPercent\" IS NOT NULL");
+                        });
+                });
+
             modelBuilder.Entity("CarDealership.DataAccess.Entities.TransmissionTypeEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -615,6 +671,21 @@ namespace CarDealership.DataAccess.Migrations
                     b.ToTable("TransmissionTypes");
                 });
 
+            modelBuilder.Entity("PromotionEntityUserEntity", b =>
+                {
+                    b.Property<Guid>("ParticipantsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PromotionEntityId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ParticipantsId", "PromotionEntityId");
+
+                    b.HasIndex("PromotionEntityId");
+
+                    b.ToTable("PromotionEntityUserEntity");
+                });
+
             modelBuilder.Entity("RoleEntityUserEntity", b =>
                 {
                     b.Property<int>("RolesId")
@@ -628,6 +699,21 @@ namespace CarDealership.DataAccess.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("RoleEntityUserEntity");
+                });
+
+            modelBuilder.Entity("AutoConfigurationEntityPromotionEntity", b =>
+                {
+                    b.HasOne("CarDealership.DataAccess.Entities.AutoConfigurationEntity", null)
+                        .WithMany()
+                        .HasForeignKey("AppliableConfigsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarDealership.DataAccess.Entities.PromotionEntity", null)
+                        .WithMany()
+                        .HasForeignKey("PromotionEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CarDealership.DataAccess.Entities.AutoConfigurationEntity", b =>
@@ -811,6 +897,21 @@ namespace CarDealership.DataAccess.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("PromotionEntityUserEntity", b =>
+                {
+                    b.HasOne("CarDealership.DataAccess.Entities.Auth.UserEntity", null)
+                        .WithMany()
+                        .HasForeignKey("ParticipantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarDealership.DataAccess.Entities.PromotionEntity", null)
+                        .WithMany()
+                        .HasForeignKey("PromotionEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RoleEntityUserEntity", b =>

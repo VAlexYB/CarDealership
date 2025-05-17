@@ -9,5 +9,6 @@ namespace CarDealership.Core.Abstractions.Services
         Task<List<Order>> GetOrdersWithoutManager();
         Task<Guid> TakeOrderInProcess(Guid managerId, Guid taskId);
         Task<Guid> LeaveOrder(Guid taskId);
+        Task<decimal> GetOrderPrice(Guid orderId);
     }
 }

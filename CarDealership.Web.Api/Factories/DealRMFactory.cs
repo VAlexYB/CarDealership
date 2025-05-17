@@ -1,4 +1,6 @@
-﻿using CarDealership.Core.Abstractions.Services;
+﻿using CarDealership.Application.Services;
+using CarDealership.Core.Abstractions.Services;
+using CarDealership.Core.Consts;
 using CarDealership.Core.Exceptions;
 using CarDealership.Core.Models;
 using CarDealership.Web.Api.Contracts.Requests;
@@ -11,15 +13,17 @@ namespace CarDealership.Web.Api.Factories
     {
         private readonly IUsersService _usersService;
         private readonly ICarsService _carsService;
+        private readonly IDealsService _dealsService;
 
         private readonly ICarRMFactory _carRMFactory;
-        public DealRMFactory(IUsersService usersService, ICarsService carsService, ICarRMFactory carRMFactory)
+        public DealRMFactory(IUsersService usersService, ICarsService carsService, IDealsService dealsService, ICarRMFactory carRMFactory)
         {
             _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
             _carsService = carsService ?? throw new ArgumentNullException(nameof(carsService));
+            _dealsService = dealsService ?? throw new ArgumentNullException(nameof(dealsService));
             _carRMFactory = carRMFactory ?? throw new ArgumentNullException(nameof(carRMFactory));
         }
-        public async Task<Deal> CreateModelAsync(DealRequest req)
+        public async Task<Deal> CreateModel(DealRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
@@ -27,13 +31,17 @@ namespace CarDealership.Web.Api.Factories
             var manager = req.ManagerId != null ? await _usersService.GetByIdAsync((Guid)req.ManagerId) ?? throw new ArgumentException($"Менеджер с Id = {req.ManagerId} не найден") : null;
             var customer = await _usersService.GetByIdAsync(req.CustomerId) ?? throw new ArgumentNullException($"Покупатель с Id = {req.CustomerId} не найден");
             var car = await _carsService.GetByIdAsync(req.CarId) ?? throw new ArgumentNullException($"Автомобиль с Id = {req.CarId} не найден");
-            decimal autoModelPrice = car?.AutoConfiguration.AutoModel?.Price ?? 0;
-            decimal bodyTypePrice = car?.AutoConfiguration.BodyType?.Price ?? 0;
-            decimal driveTypePrice = car?.AutoConfiguration.DriveType?.Price ?? 0;
-            decimal colorPrice = car?.AutoConfiguration.Color?.Price ?? 0;
-            decimal equipmentPrice = car?.AutoConfiguration.Equipment?.Price ?? 0;
-             
-            var dealPrice = (car.AutoConfiguration.Price + autoModelPrice + bodyTypePrice + driveTypePrice + colorPrice + equipmentPrice) * 0.70m;
+
+            decimal dealPrice = 0.0m;
+
+            if (req.Id == Guid.Empty)
+            {
+                dealPrice = req.Price * CDConstants.PaymentPartition.Deal;
+            }
+            else
+            {
+                dealPrice = await _dealsService.GetDealPrice(req.Id);
+            }
 
             var dealCreateResult = Deal.Create(
                 req.Id,
@@ -65,9 +73,11 @@ namespace CarDealership.Web.Api.Factories
             return deal;
         }
 
-        public DealResponse CreateResponse(Deal model)
+        public async Task<DealResponse> CreateResponse(Deal model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
+
+            var car = await _carsService.GetByIdAsync(model.CarId);
 
             var response = new DealResponse(model.Id)
             {
@@ -75,7 +85,7 @@ namespace CarDealership.Web.Api.Factories
                 Status = model.Status,
                 Price = model.Price,
                 CarId = model.CarId,
-                Car = _carRMFactory.CreateResponse(model.Car),
+                Car = await _carRMFactory.CreateResponse(car),
                 ManagerId = model.ManagerId,
                 CustomerId = model.CustomerId,
             };

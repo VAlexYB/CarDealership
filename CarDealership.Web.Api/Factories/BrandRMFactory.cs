@@ -15,7 +15,7 @@ namespace CarDealership.Web.Api.Factories
         {
             _countriesService = countriesService ?? throw new ArgumentNullException(nameof(countriesService));
         }
-        public async Task<Brand> CreateModelAsync(BrandRequest req)
+        public async Task<Brand> CreateModel(BrandRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof (req));
 
@@ -32,7 +32,7 @@ namespace CarDealership.Web.Api.Factories
             return brand;
         }
 
-        public BrandResponse CreateResponse(Brand model)
+        public Task<BrandResponse> CreateResponse(Brand model)
         {
             var response = new BrandResponse(model.Id)
             {
@@ -40,7 +40,7 @@ namespace CarDealership.Web.Api.Factories
                 CountryId = model.CountryId,
                 Country = model.Country?.Name ?? string.Empty
             };
-            return response;
+            return Task.FromResult(response);
         }
     }
 }

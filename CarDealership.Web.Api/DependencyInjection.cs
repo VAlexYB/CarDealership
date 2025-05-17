@@ -24,6 +24,7 @@ namespace CarDealership.Web.Api
             services.AddTransient<ITransmissionTypeRMFactory, TransmissionTypeRMFactory>();
             services.AddTransient<IOrderRMFactory, OrderRMFactory>();
             services.AddTransient<IDealRMFactory, DealRMFactory>();
+            services.AddTransient<IPromotionRMFactory, PromotionRMFactory>();
 
             services.AddScoped<IJwtProvider, JwtProvider>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();

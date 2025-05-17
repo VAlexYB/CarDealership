@@ -2,6 +2,7 @@
 using CarDealership.Core.Models;
 using CarDealership.DataAccess.Attributes;
 using CarDealership.DataAccess.Entities;
+using CarDealership.DataAccess.Extensions;
 using CarDealership.DataAccess.Factories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
@@ -63,6 +64,7 @@ namespace CarDealership.DataAccess.Repositories
             var entities = await _dbSet
             .AsNoTracking()
             .Where(x => !x.IsDeleted)
+            .WhereIf(filter.Guids != null, x => filter.Guids.Contains(x.Id))
             .OrderBy(x => x.Id)
             .ToListAsync();
 

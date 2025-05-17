@@ -4,7 +4,7 @@ using CarDealership.Core.Models;
 
 namespace CarDealership.Application.Services
 {
-    public class BaseService<M, F> : IGenericService<M, F>
+    public abstract class BaseService<M, F> : IGenericService<M, F>
         where M : BaseModel
         where F : BaseFilter
     {

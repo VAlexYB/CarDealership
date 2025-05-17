@@ -20,7 +20,7 @@ namespace CarDealership.Web.Api.Factories
             _engineTypesService = engineTypesService ?? throw new ArgumentNullException(nameof(engineTypesService));
             _transmissionTypesService = transmissionTypesService ?? throw new ArgumentNullException(nameof(transmissionTypesService));
         }
-        public async Task<Engine> CreateModelAsync(EngineRequest req)
+        public async Task<Engine> CreateModel(EngineRequest req)
         {
             if(req == null) throw new ArgumentNullException(nameof(req));
 
@@ -51,7 +51,7 @@ namespace CarDealership.Web.Api.Factories
             return engine;
         }
 
-        public EngineResponse CreateResponse(Engine model)
+        public Task<EngineResponse> CreateResponse(Engine model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
@@ -66,7 +66,7 @@ namespace CarDealership.Web.Api.Factories
                 TransmissionType = model.TransmissionType?.Value ?? "Неизвестный тип трансмиссии"
             };
 
-            return response;
+            return Task.FromResult(response);
         }
     }
 }

@@ -2,6 +2,7 @@
 using CarDealership.DataAccess.Entities;
 using CarDealership.DataAccess.Jobs;
 using CarDealership.Infrastructure.Auth;
+using CarDealership.Infrastructure.Jobs;
 using CarDealership.Infrastructure.JobSheduling;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
@@ -30,6 +31,7 @@ namespace CarDealership.Infrastructure
             services.AddScoped<CleanUpJob<FeatureEntity>>();
             services.AddScoped<CleanUpJob<OrderEntity>>();
             services.AddScoped<CleanUpJob<TransmissionTypeEntity>>();
+            services.AddScoped<PromotionDistributeJob>();
 
             services.AddSingleton<IJobFactory, ScopedJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
@@ -216,6 +218,17 @@ namespace CarDealership.Infrastructure
                     .WithSchedule(CalendarIntervalScheduleBuilder
                         .Create()
                         .WithIntervalInYears(5))
+                    .Build()
+            ));
+
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(PromotionDistributeJob),
+                trigger: TriggerBuilder.Create()
+                    .WithIdentity("PromotionDistributeJobTrigger", "Group1")
+                    .StartNow()
+                    .WithSchedule(CalendarIntervalScheduleBuilder
+                        .Create()
+                        .WithIntervalInDays(5))
                     .Build()
             ));
 

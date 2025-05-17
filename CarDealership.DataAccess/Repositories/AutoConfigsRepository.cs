@@ -73,6 +73,7 @@ namespace CarDealership.DataAccess.Repositories
             .WhereIf(filter.EngineId.HasValue, ac => ac.EngineId == filter.EngineId)
             .WhereIf(filter.ColorId.HasValue, ac => ac.ColorId == filter.ColorId)
             .WhereIf(filter.DriveTypeId.HasValue, ac => ac.DriveTypeId == filter.DriveTypeId)
+            .WhereIf(filter.Guids != null, x => filter.Guids.Contains(x.Id))
             .OrderBy(x => x.Id)
             .ToListAsync();
 

@@ -4,6 +4,7 @@ using CarDealership.Core.Enums;
 using CarDealership.Core.Exceptions;
 using CarDealership.Core.Filters;
 using CarDealership.Core.Models;
+using System.Threading.Tasks;
 
 namespace CarDealership.Application.Services
 {
@@ -48,6 +49,12 @@ namespace CarDealership.Application.Services
             order.ChangeStatus(OrderStatus.Pending);
             await _repository.UpdateAsync(order);
             return order.Id;
+        }
+
+        public async Task<decimal> GetOrderPrice(Guid orderId)
+        {
+            var order = await _repository.GetByIdAsync(orderId);
+            return order.Price;
         }
     }
 }

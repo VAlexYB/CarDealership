@@ -19,7 +19,7 @@ namespace CarDealership.Web.Api.Factories
             _autoConfigRMFactory = autoConfigRMFactory;
         }
 
-        public async Task<Car> CreateModelAsync(CarRequest req)
+        public async Task<Car> CreateModel(CarRequest req)
         {
             if(req == null) throw new ArgumentNullException(nameof(req));
 
@@ -37,11 +37,11 @@ namespace CarDealership.Web.Api.Factories
             return car;         
         }
 
-        public CarResponse CreateResponse(Car model)
+        public async Task<CarResponse> CreateResponse(Car model)
         {
             if(model == null) throw new ArgumentNullException(nameof(model));
 
-            var autoConfigRes = _autoConfigRMFactory.CreateResponse(model.AutoConfiguration);
+            var autoConfigRes = await _autoConfigRMFactory.CreateResponse(model.AutoConfiguration);
             var response = new CarResponse(model.Id)
             {
                 VIN = model.VIN,

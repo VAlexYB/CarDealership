@@ -4,7 +4,7 @@ using CarDealership.Web.Api.Contracts.Responses;
 
 namespace CarDealership.Web.Api.Factories.Abstract
 {
-    public interface IFeatureRMFactory : IModelBuilder<FeatureRequest, Feature>, IResponseBuilder<FeatureResponse, Feature>
+    public interface IFeatureRMFactory : IReqResModelFactory<FeatureRequest, FeatureResponse, Feature>
     {
     }
 }

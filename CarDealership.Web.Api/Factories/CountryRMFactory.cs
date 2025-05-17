@@ -8,7 +8,7 @@ namespace CarDealership.Web.Api.Factories
 {
     public class CountryRMFactory : ICountryRMFactory
     {
-        public Country CreateModel(CountryRequest req)
+        public Task<Country> CreateModel(CountryRequest req)
         {
             if(req == null) throw new ArgumentNullException(nameof(req));
 
@@ -18,17 +18,17 @@ namespace CarDealership.Web.Api.Factories
                 throw new ClientInformationException(countryCreateResult.Error);
             }
 
-            return countryCreateResult.Value;
+            return Task.FromResult(countryCreateResult.Value);
         }
 
-        public CountryResponse CreateResponse(Country model)
+        public Task<CountryResponse> CreateResponse(Country model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             var countryResponse = new CountryResponse(model.Id)
             {
                 Name = model.Name
             };
-            return countryResponse;
+            return Task.FromResult(countryResponse);
         }
     }
 }

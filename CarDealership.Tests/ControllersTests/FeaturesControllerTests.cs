@@ -61,7 +61,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var feature = Feature.Create(Guid.NewGuid(), "описание1").Value;
             _serviceMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(feature);
-            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<Feature>())).Returns(new FeatureResponse(feature.Id) { Description = feature.Description });
+            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<Feature>())).ReturnsAsync(new FeatureResponse(feature.Id) { Description = feature.Description });
 
             // Act
             var result = await _controller.GetByIdAsync(feature.Id);
@@ -78,7 +78,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var featureRequest = new FeatureRequest();
             var feature = Feature.Create(Guid.NewGuid(), "описание1").Value;
-            _factoryMock.Setup(f => f.CreateModel(It.IsAny<FeatureRequest>())).Returns(feature);
+            _factoryMock.Setup(f => f.CreateModel(It.IsAny<FeatureRequest>())).ReturnsAsync(feature);
             _serviceMock.Setup(s => s.CreateOrEditAsync(It.IsAny<Feature>())).ReturnsAsync(feature.Id);
 
             // Act

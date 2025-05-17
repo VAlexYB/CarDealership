@@ -4,7 +4,7 @@ using CarDealership.Web.Api.Contracts.Responses;
 
 namespace CarDealership.Web.Api.Factories.Abstract
 {
-    public interface ITransmissionTypeRMFactory : IModelBuilder<TransmissionTypeRequest, TransmissionType>, IResponseBuilder<TransmissionTypeResponse, TransmissionType>
+    public interface ITransmissionTypeRMFactory : IReqResModelFactory<TransmissionTypeRequest, TransmissionTypeResponse, TransmissionType>
     {
     }
 }

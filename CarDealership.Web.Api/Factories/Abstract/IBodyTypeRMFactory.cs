@@ -4,7 +4,7 @@ using CarDealership.Web.Api.Contracts.Responses;
 
 namespace CarDealership.Web.Api.Factories.Abstract
 {
-    public interface IBodyTypeRMFactory : IResponseBuilder<BodyTypeResponse, BodyType>, IModelBuilder<BodyTypeRequest, BodyType>
+    public interface IBodyTypeRMFactory : IReqResModelFactory<BodyTypeRequest, BodyTypeResponse, BodyType>
     {
     }
 }

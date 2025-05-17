@@ -4,7 +4,7 @@ using CarDealership.Web.Api.Contracts.Responses;
 
 namespace CarDealership.Web.Api.Factories.Abstract
 {
-    public interface IOrderRMFactory : IModelBuilderAsync<OrderRequest, Order>, IResponseBuilder<OrderResponse, Order>
+    public interface IOrderRMFactory : IReqResModelFactory<OrderRequest, OrderResponse, Order>
     {
     }
 }

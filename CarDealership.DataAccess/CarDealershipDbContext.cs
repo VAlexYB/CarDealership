@@ -29,6 +29,7 @@ namespace CarDealership.DataAccess
         public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<DealEntity> Deals { get; set; }
+        public DbSet<PromotionEntity> Promotions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,7 +52,8 @@ namespace CarDealership.DataAccess
                 .ApplyConfiguration(new UserConfiguration())
                 .ApplyConfiguration(new OrderConfiguration())
                 .ApplyConfiguration(new DealConfiguration())
-                .ApplyConfiguration(new RoleConfiguration());
+                .ApplyConfiguration(new RoleConfiguration())
+                .ApplyConfiguration(new PromotionConfiguration());
             
 
             base.OnModelCreating(modelBuilder);

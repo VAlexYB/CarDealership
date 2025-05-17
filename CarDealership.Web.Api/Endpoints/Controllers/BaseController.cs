@@ -21,9 +21,7 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
     {
         protected readonly IGenericService<M, F> _service;
 
-        protected readonly IResponseBuilder<Res, M> _factory;
-        protected readonly IModelBuilder<Req, M> _modelBuilder;
-        protected readonly IModelBuilderAsync<Req, M> _modelBuilderAsync;
+        protected readonly IReqResModelFactory<Req, Res, M> _factory;
 
         protected readonly ILogger _logger;
 
@@ -31,18 +29,13 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
 
         public BaseController(
             IGenericService<M, F> service,
-            IResponseBuilder<Res, M> factory,
+            IReqResModelFactory<Req, Res, M> factory,
             ILogger logger
         )
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-
-            _modelBuilder = factory as IModelBuilder<Req, M>;
-            _modelBuilderAsync = factory as IModelBuilderAsync<Req, M>;
-
             _logger = logger;
-            _useAsyncBuilder = _modelBuilderAsync != null;
         }
 
         [Route("getAll")]
@@ -50,7 +43,9 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         public async Task<IActionResult> GetAllAsync()
         {
             var models = await _service.GetAllAsync();
-            var response = models.Select(model => _factory.CreateResponse(model)).ToList();
+
+            IEnumerable<Task<Res>> tasks = models.Select(model => _factory.CreateResponse(model));
+            var response = (await Task.WhenAll(tasks)).ToList();
             return Ok(response);
         }
 
@@ -59,7 +54,9 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         public async Task<IActionResult> GetByFilterAsync(F filter)
         {
             var models = await _service.GetFilteredAsync(filter);
-            var response = models.Select(model => _factory.CreateResponse(model)).ToList();
+
+            IEnumerable<Task<Res>> tasks = models.Select(model => _factory.CreateResponse(model));
+            var response = (await Task.WhenAll(tasks)).ToList();
             return Ok(response);
         }
 
@@ -72,7 +69,7 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
             {
                 return NotFound();
             }
-            var response = _factory.CreateResponse(model);
+            var response = await _factory.CreateResponse(model);
             return Ok(response);
         }
 
@@ -80,15 +77,8 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> CreateOrEditAsync([FromBody] Req req)
         {
-            M model;
-            if (_useAsyncBuilder)
-            {
-                model = await _modelBuilderAsync.CreateModelAsync(req);
-            }
-            else
-            {
-                model = _modelBuilder.CreateModel(req);
-            }
+
+            M model = await _factory.CreateModel(req);
             Guid modelId = await _service.CreateOrEditAsync(model);
             return Ok(modelId);
         }

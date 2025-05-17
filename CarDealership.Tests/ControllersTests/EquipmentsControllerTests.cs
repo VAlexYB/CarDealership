@@ -17,6 +17,7 @@ namespace CarDealership.Tests.ControllersTests
     {
         private readonly Mock<IEquipmentsService> _equipmentsServiceMock;
         private readonly Mock<IEquipmentRMFactory> _equipmentRMFactoryMock;
+        private readonly Mock<IFeatureRMFactory> _featureRMFactoryMock;
         private readonly Mock<ILogger<EquipmentsController>> _loggerMock;
         private readonly EquipmentsController _controller;
 
@@ -24,11 +25,13 @@ namespace CarDealership.Tests.ControllersTests
         {
             _equipmentsServiceMock = new Mock<IEquipmentsService>();
             _equipmentRMFactoryMock = new Mock<IEquipmentRMFactory>();
+            _featureRMFactoryMock = new Mock<IFeatureRMFactory>();
             _loggerMock = new Mock<ILogger<EquipmentsController>>();
 
             _controller = new EquipmentsController(
                 _equipmentsServiceMock.Object,
                 _equipmentRMFactoryMock.Object,
+                _featureRMFactoryMock.Object,
                 _loggerMock.Object
             );
         }
@@ -39,7 +42,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var equipmentRequest = new EquipmentRequest { FeatureIds = new List<Guid> { Guid.NewGuid() } };
             var equipment = Equipment.Create(Guid.NewGuid(), "комплектация1", 1000, "2000", Guid.NewGuid()).Value;
-            _equipmentRMFactoryMock.Setup(f => f.CreateModelAsync(equipmentRequest)).ReturnsAsync(equipment);
+            _equipmentRMFactoryMock.Setup(f => f.CreateModel(equipmentRequest)).ReturnsAsync(equipment);
             _equipmentsServiceMock.Setup(s => s.CreateOrEditAsync(equipment, equipmentRequest.FeatureIds)).ReturnsAsync(equipment.Id);
 
             // Act

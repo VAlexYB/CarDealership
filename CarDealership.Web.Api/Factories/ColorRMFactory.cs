@@ -8,7 +8,7 @@ namespace CarDealership.Web.Api.Factories
 {
     public class ColorRMFactory : IColorRMFactory
     {
-        public Color CreateModel(ColorRequest req)
+        public Task<Color> CreateModel(ColorRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
@@ -19,10 +19,10 @@ namespace CarDealership.Web.Api.Factories
                 throw new ClientInformationException(colorCreateResult.Error);
             }
 
-            return colorCreateResult.Value;
+            return Task.FromResult(colorCreateResult.Value);
         }
 
-        public ColorResponse CreateResponse(Color model)
+        public Task<ColorResponse> CreateResponse(Color model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
@@ -31,7 +31,7 @@ namespace CarDealership.Web.Api.Factories
                 Value = model.Value,
                 Price = model.Price
             };
-            return colorResponse;
+            return Task.FromResult(colorResponse);
         }
     }
 }

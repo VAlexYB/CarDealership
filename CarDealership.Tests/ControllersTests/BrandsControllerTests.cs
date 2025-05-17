@@ -58,7 +58,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var brand = Brand.Create(Guid.NewGuid(), "brandName1", Guid.NewGuid()).Value;
             _serviceMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(brand);
-            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<Brand>())).Returns(new BrandResponse(brand.Id) { Name = brand.Name });
+            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<Brand>())).ReturnsAsync(new BrandResponse(brand.Id) { Name = brand.Name });
 
             // Act
             var result = await _controller.GetByIdAsync(brand.Id);
@@ -75,7 +75,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var brandRequest = new BrandRequest();
             var brand = Brand.Create(Guid.NewGuid(), "brandName1", Guid.NewGuid()).Value;
-            _factoryMock.Setup(f => f.CreateModelAsync(It.IsAny<BrandRequest>())).ReturnsAsync(brand);
+            _factoryMock.Setup(f => f.CreateModel(It.IsAny<BrandRequest>())).ReturnsAsync(brand);
             _serviceMock.Setup(s => s.CreateOrEditAsync(It.IsAny<Brand>())).ReturnsAsync(brand.Id);
 
             // Act

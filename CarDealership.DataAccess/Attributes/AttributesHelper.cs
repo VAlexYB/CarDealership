@@ -24,7 +24,7 @@ namespace CarDealership.DataAccess.Attributes
                 var lambda = Expression.Lambda<Func<E, bool>>(equal, parameter);
 
                 var existing = await set.FirstOrDefaultAsync(lambda);
-                if (existing != null)
+                if (existing != null && existing.Id != entity.Id)
                 {
                     if (existing.IsDeleted)
                     {
@@ -61,7 +61,7 @@ namespace CarDealership.DataAccess.Attributes
                 var lambda = Expression.Lambda<Func<E, bool>>(combined, parameter);
 
                 var existing = await set.FirstOrDefaultAsync(lambda);
-                if (existing != null)
+                if (existing != null && existing.Id != entity.Id)
                 {
                     if (existing.IsDeleted)
                     {

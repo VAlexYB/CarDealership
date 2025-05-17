@@ -19,7 +19,7 @@ namespace CarDealership.Web.Api.Factories
             _brandsService = brandsService ?? throw new ArgumentNullException(nameof(brandsService));
         }
 
-        public async Task<AutoModel> CreateModelAsync(AutoModelRequest req)
+        public async Task<AutoModel> CreateModel(AutoModelRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
@@ -46,7 +46,7 @@ namespace CarDealership.Web.Api.Factories
             return autoModel;
         }
 
-        public AutoModelResponse CreateResponse(AutoModel model)
+        public Task<AutoModelResponse> CreateResponse(AutoModel model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
@@ -59,7 +59,7 @@ namespace CarDealership.Web.Api.Factories
                 Price = model.Price
             };
 
-            return response;
+            return Task.FromResult(response);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace CarDealership.Web.Api.Factories
 {
     public class EngineTypeRMFactory : IEngineTypeRMFactory
     {
-        public EngineType CreateModel(EngineTypeRequest req)
+        public Task<EngineType> CreateModel(EngineTypeRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
 
@@ -19,10 +19,10 @@ namespace CarDealership.Web.Api.Factories
                 throw new ClientInformationException(engineTypeCreateResult.Error);
             }
 
-            return engineTypeCreateResult.Value;
+            return Task.FromResult(engineTypeCreateResult.Value);
         }
 
-        public EngineTypeResponse CreateResponse(EngineType model)
+        public Task<EngineTypeResponse> CreateResponse(EngineType model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
@@ -31,7 +31,7 @@ namespace CarDealership.Web.Api.Factories
                 Value = model.Value
             };
 
-            return response;
+            return Task.FromResult(response);
         }
     }
 }

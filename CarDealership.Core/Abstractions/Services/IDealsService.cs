@@ -13,5 +13,6 @@ namespace CarDealership.Core.Abstractions.Services
         Task<Guid> LeaveDeal(Guid taskId);
 
         Task<DealAnalyticsDto> GetAnalytics(bool byConfiguration);
+        Task<decimal> GetDealPrice(Guid dealId);
     }
 }

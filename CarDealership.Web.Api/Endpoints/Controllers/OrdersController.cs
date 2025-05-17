@@ -66,7 +66,9 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         public async Task<IActionResult> GetOrdersWithoutManager()
         {
             var orders = await _ordersService.GetOrdersWithoutManager();
-            var response = orders.Select(order => _orderRMFactory.CreateResponse(order)).ToList();
+
+            IEnumerable<Task<OrderResponse>> tasks = orders.Select(order => _orderRMFactory.CreateResponse(order));
+            var response = (await Task.WhenAll(tasks)).ToList();
             return Ok(response);
         }
 

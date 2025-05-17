@@ -62,7 +62,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var driveType = DriveType.Create(Guid.NewGuid(), "привод1", 1000).Value;
             _serviceMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(driveType);
-            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<DriveType>())).Returns(new DriveTypeResponse(driveType.Id) { Price = driveType.Price });
+            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<DriveType>())).ReturnsAsync(new DriveTypeResponse(driveType.Id) { Price = driveType.Price });
 
             // Act
             var result = await _controller.GetByIdAsync(driveType.Id);
@@ -79,7 +79,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var driveTypeRequest = new DriveTypeRequest { Price = 1000 };
             var driveType = DriveType.Create(Guid.NewGuid(), "привод1", 1000).Value;
-            _factoryMock.Setup(f => f.CreateModel(It.IsAny<DriveTypeRequest>())).Returns(driveType);
+            _factoryMock.Setup(f => f.CreateModel(It.IsAny<DriveTypeRequest>())).ReturnsAsync(driveType);
             _serviceMock.Setup(s => s.CreateOrEditAsync(It.IsAny<DriveType>())).ReturnsAsync(driveType.Id);
 
             // Act

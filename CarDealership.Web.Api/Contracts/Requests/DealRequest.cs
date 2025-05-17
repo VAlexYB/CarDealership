@@ -1,6 +1,4 @@
 ﻿using CarDealership.Core.Enums;
-using CarDealership.DataAccess.Entities.Auth;
-using CarDealership.DataAccess.Entities;
 
 namespace CarDealership.Web.Api.Contracts.Requests
 {
@@ -9,6 +7,7 @@ namespace CarDealership.Web.Api.Contracts.Requests
         public DateTime DealDate { get; set; }
         public DealStatus Status { get; set; }
         public Guid CarId { get; set; }
+        public decimal Price { get; set; }
 
         public Guid? ManagerId { get; set; }
 

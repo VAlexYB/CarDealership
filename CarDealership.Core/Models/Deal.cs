@@ -13,13 +13,13 @@ namespace CarDealership.Core.Models
 
         public decimal Price { get; }
         public Guid CarId { get; }
-        public virtual Car Car { get; }
+        public Car Car { get; }
 
         public Guid? ManagerId { get; private set; }
-        public virtual User Manager { get; }
+        public User Manager { get; }
 
         public Guid CustomerId { get; set; }
-        public virtual User Customer { get; set; }
+        public User Customer { get; set; }
 
         [JsonConstructor]
         private Deal(Guid id, DateTime dealDate, DealStatus status, decimal price,  Guid carId, Guid? managerId, Guid customerId,

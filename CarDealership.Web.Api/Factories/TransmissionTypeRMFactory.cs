@@ -7,7 +7,7 @@ namespace CarDealership.Web.Api.Factories
 {
     public class TransmissionTypeRMFactory : ITransmissionTypeRMFactory
     {
-        public TransmissionType CreateModel(TransmissionTypeRequest req)
+        public Task<TransmissionType> CreateModel(TransmissionTypeRequest req)
         {
             if (req == null) throw new ArgumentNullException(nameof(req));
             
@@ -17,10 +17,10 @@ namespace CarDealership.Web.Api.Factories
                 throw new InvalidOperationException(transmissionTypeCreateResult.Error);
             }
 
-            return transmissionTypeCreateResult.Value;
+            return Task.FromResult(transmissionTypeCreateResult.Value);
         }
 
-        public TransmissionTypeResponse CreateResponse(TransmissionType model)
+        public Task<TransmissionTypeResponse> CreateResponse(TransmissionType model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             var response = new TransmissionTypeResponse(model.Id)
@@ -28,7 +28,7 @@ namespace CarDealership.Web.Api.Factories
                 Value = model.Value
             };
 
-            return response;
+            return Task.FromResult(response);
         }
     }
 }

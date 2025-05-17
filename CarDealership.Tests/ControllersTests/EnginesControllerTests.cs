@@ -61,7 +61,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var engine = Engine.Create(Guid.NewGuid(), 1, 1, 1000, Guid.NewGuid(), Guid.NewGuid()).Value;
             _serviceMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(engine);
-            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<Engine>())).Returns(new EngineResponse(engine.Id) { Price = engine.Price });
+            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<Engine>())).ReturnsAsync(new EngineResponse(engine.Id) { Price = engine.Price });
 
             // Act
             var result = await _controller.GetByIdAsync(engine.Id);
@@ -78,7 +78,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var engineRequest = new EngineRequest { Price = 1000 };
             var engine = Engine.Create(Guid.NewGuid(), 1, 1, 1000, Guid.NewGuid(), Guid.NewGuid()).Value;
-            _factoryMock.Setup(f => f.CreateModelAsync(It.IsAny<EngineRequest>())).ReturnsAsync(engine);
+            _factoryMock.Setup(f => f.CreateModel(It.IsAny<EngineRequest>())).ReturnsAsync(engine);
             _serviceMock.Setup(s => s.CreateOrEditAsync(It.IsAny<Engine>())).ReturnsAsync(engine.Id);
 
             // Act

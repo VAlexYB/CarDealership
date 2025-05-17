@@ -110,5 +110,11 @@ namespace CarDealership.Application.Services
 
             return result;
         }
+
+        public async Task<decimal> GetDealPrice(Guid dealId)
+        {
+            var deal = await _dealsRepository.GetByIdAsync(dealId);
+            return deal.Price;
+        }
     }
 }

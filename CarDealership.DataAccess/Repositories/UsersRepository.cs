@@ -105,6 +105,8 @@ namespace CarDealership.DataAccess.Repositories
             .Where(u => !u.IsDeleted)
             .FirstOrDefaultAsync(u => u.Id == id);
 
+            if (userEntity == null) throw new ClientInformationException("Пользователь не найден");
+
             var user = userEntity != null ? User.Create(
                 userEntity.Id,
                 userEntity.UserName,

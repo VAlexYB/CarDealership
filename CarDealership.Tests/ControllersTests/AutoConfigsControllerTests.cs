@@ -62,7 +62,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var autoConfig = AutoConfiguration.Create(Guid.NewGuid(), 1000, Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()).Value;
             _serviceMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(autoConfig);
-            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<AutoConfiguration>())).Returns(new AutoConfigurationResponse(autoConfig.Id) { Price = autoConfig.Price });
+            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<AutoConfiguration>())).ReturnsAsync(new AutoConfigurationResponse(autoConfig.Id) { Price = autoConfig.Price });
 
             // Act
             var result = await _controller.GetByIdAsync(autoConfig.Id);
@@ -79,7 +79,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var autoConfigRequest = new AutoConfigurationRequest { Price = 1000 };
             var autoConfig = AutoConfiguration.Create(Guid.NewGuid(), autoConfigRequest.Price, Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()).Value;
-            _factoryMock.Setup(f => f.CreateModelAsync(It.IsAny<AutoConfigurationRequest>())).ReturnsAsync(autoConfig);
+            _factoryMock.Setup(f => f.CreateModel(It.IsAny<AutoConfigurationRequest>())).ReturnsAsync(autoConfig);
             _serviceMock.Setup(s => s.CreateOrEditAsync(It.IsAny<AutoConfiguration>())).ReturnsAsync(autoConfig.Id);
 
             // Act

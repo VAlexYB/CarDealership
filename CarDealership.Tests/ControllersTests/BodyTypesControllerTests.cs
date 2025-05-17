@@ -61,7 +61,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var bodyType = BodyType.Create(Guid.NewGuid(), "BodyType1", 1000).Value;
             _serviceMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(bodyType);
-            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<BodyType>())).Returns(new BodyTypeResponse(bodyType.Id) { Price = bodyType.Price });
+            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<BodyType>())).ReturnsAsync(new BodyTypeResponse(bodyType.Id) { Price = bodyType.Price });
 
             // Act
             var result = await _controller.GetByIdAsync(bodyType.Id);
@@ -78,7 +78,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var bodyTypeRequest = new BodyTypeRequest { Price = 1000 };
             var bodyType = BodyType.Create(Guid.NewGuid(), "bodyType1", bodyTypeRequest.Price).Value;
-            _factoryMock.Setup(f => f.CreateModel(It.IsAny<BodyTypeRequest>())).Returns(bodyType);
+            _factoryMock.Setup(f => f.CreateModel(It.IsAny<BodyTypeRequest>())).ReturnsAsync(bodyType);
             _serviceMock.Setup(s => s.CreateOrEditAsync(It.IsAny<BodyType>())).ReturnsAsync(bodyType.Id);
 
             // Act

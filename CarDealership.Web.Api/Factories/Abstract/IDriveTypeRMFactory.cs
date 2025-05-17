@@ -4,7 +4,7 @@ using DriveType = CarDealership.Core.Models.DriveType;
 
 namespace CarDealership.Web.Api.Factories.Abstract
 {
-    public interface IDriveTypeRMFactory : IModelBuilder<DriveTypeRequest, DriveType>, IResponseBuilder<DriveTypeResponse, DriveType>
+    public interface IDriveTypeRMFactory : IReqResModelFactory<DriveTypeRequest, DriveTypeResponse, DriveType>
     {
     }
 }

@@ -4,7 +4,7 @@ using CarDealership.Web.Api.Contracts.Responses;
 
 namespace CarDealership.Web.Api.Factories.Abstract
 {
-    public interface ICountryRMFactory : IModelBuilder<CountryRequest, Country>, IResponseBuilder<CountryResponse, Country>
+    public interface ICountryRMFactory : IReqResModelFactory<CountryRequest, CountryResponse, Country>
     {
     }
 }

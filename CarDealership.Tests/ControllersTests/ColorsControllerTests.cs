@@ -61,7 +61,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var color = Color.Create(Guid.NewGuid(), "цвет1", 1000).Value;
             _serviceMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(color);
-            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<Color>())).Returns(new ColorResponse(color.Id) { Price = color.Price });
+            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<Color>())).ReturnsAsync(new ColorResponse(color.Id) { Price = color.Price });
 
             // Act
             var result = await _controller.GetByIdAsync(color.Id);
@@ -78,7 +78,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var colorRequest = new ColorRequest { Price = 1000 };
             var color = Color.Create(Guid.NewGuid(), "цвет1", 1000).Value;
-            _factoryMock.Setup(f => f.CreateModel(It.IsAny<ColorRequest>())).Returns(color);
+            _factoryMock.Setup(f => f.CreateModel(It.IsAny<ColorRequest>())).ReturnsAsync(color);
             _serviceMock.Setup(s => s.CreateOrEditAsync(It.IsAny<Color>())).ReturnsAsync(color.Id);
 
             // Act

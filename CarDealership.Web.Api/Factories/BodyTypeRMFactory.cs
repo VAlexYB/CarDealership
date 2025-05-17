@@ -8,7 +8,7 @@ namespace CarDealership.Web.Api.Factories
 {
     public class BodyTypeRMFactory : IBodyTypeRMFactory
     {
-        public BodyType CreateModel(BodyTypeRequest req)
+        public Task<BodyType> CreateModel(BodyTypeRequest req)
         {
             if(req == null) throw new ArgumentNullException(nameof(req));
 
@@ -19,10 +19,10 @@ namespace CarDealership.Web.Api.Factories
                 throw new ClientInformationException(bodyTypeCreateResult.Error);
             }
 
-            return bodyTypeCreateResult.Value;
+            return Task.FromResult(bodyTypeCreateResult.Value);
         }
 
-        public BodyTypeResponse CreateResponse(BodyType model)
+        public Task<BodyTypeResponse> CreateResponse(BodyType model)
         {
             if(model == null) throw new ArgumentNullException(nameof(model));
 
@@ -31,7 +31,7 @@ namespace CarDealership.Web.Api.Factories
                 Value = model.Value,
                 Price = model.Price
             };
-            return response;
+            return Task.FromResult(response);
         }
     }
 }

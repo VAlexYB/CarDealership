@@ -30,6 +30,7 @@ namespace CarDealership.DataAccess
             services.AddTransient<IRolesRepository, RolesRepository>();
             services.AddTransient<IOrdersRepository, OrdersRepository>();
             services.AddTransient<IDealsRepository, DealsRepository>();
+            services.AddTransient<IPromotionsRepository, PromotionsRepository>();
 
 
             //services.AddScoped<IEntityModelFactory<>();
@@ -49,6 +50,7 @@ namespace CarDealership.DataAccess
             services.AddTransient<IEntityModelFactory<TransmissionType, TransmissionTypeEntity>, TransmissionTypeEMFactory>();
             services.AddTransient<IEntityModelFactory<Order, OrderEntity>, OrderEMFactory>();
             services.AddTransient<IEntityModelFactory<Deal, DealEntity>, DealEMFactory>();
+            services.AddTransient<IEntityModelFactory<Promotion, PromotionEntity>, PromotionEMFactory>();
             return services;
         }
     }

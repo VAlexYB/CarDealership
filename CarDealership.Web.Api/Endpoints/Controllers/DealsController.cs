@@ -65,7 +65,9 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         public async Task<IActionResult> GetDealsWithoutManager()
         {
             var deals = await _dealsService.GetDealsWithoutManager();
-            var response = deals.Select(deal => _dealRMFactory.CreateResponse(deal)).ToList();
+
+            IEnumerable<Task<DealResponse>> tasks = deals.Select(deal => _dealRMFactory.CreateResponse(deal));
+            var response = (await Task.WhenAll(tasks)).ToList();
             return Ok(response);
         }
 

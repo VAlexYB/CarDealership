@@ -61,7 +61,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var transmissionType = TransmissionType.Create(Guid.NewGuid(), "тип1").Value;
             _serviceMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(transmissionType);
-            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<TransmissionType>())).Returns(new TransmissionTypeResponse(transmissionType.Id) { Value = transmissionType.Value });
+            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<TransmissionType>())).ReturnsAsync(new TransmissionTypeResponse(transmissionType.Id) { Value = transmissionType.Value });
 
             // Act
             var result = await _controller.GetByIdAsync(transmissionType.Id);
@@ -78,7 +78,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var transmissionTypeRequest = new TransmissionTypeRequest();
             var transmissionType = TransmissionType.Create(Guid.NewGuid(), "тип1").Value;
-            _factoryMock.Setup(f => f.CreateModel(It.IsAny<TransmissionTypeRequest>())).Returns(transmissionType);
+            _factoryMock.Setup(f => f.CreateModel(It.IsAny<TransmissionTypeRequest>())).ReturnsAsync(transmissionType);
             _serviceMock.Setup(s => s.CreateOrEditAsync(It.IsAny<TransmissionType>())).ReturnsAsync(transmissionType.Id);
 
             // Act

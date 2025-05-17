@@ -33,7 +33,7 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
 
         public override async Task<IActionResult> CreateOrEditAsync(EquipmentRequest request)
         {
-            Equipment model = await _equipRMFactory.CreateModelAsync(request);
+            Equipment model = await _equipRMFactory.CreateModel(request);
             Guid equipmentId = await equipService.CreateOrEditAsync(model, request.FeatureIds);
             return Ok(equipmentId);
         }
@@ -59,11 +59,17 @@ namespace CarDealership.Web.Api.Endpoints.Controllers
         public async Task<IActionResult> GetFeatures(EquipmentsFilter filter)
         {
             (Equipment equipment, List<Feature> features) = await equipService.GetModelFeatures(filter);
-            EquipmentResponse response = new EquipmentResponse(equipment.Id);
-            response.Name = equipment.Name;
-            response.Price = equipment.Price;
-            response.ReleaseYear = equipment.ReleaseYear;   
-            response.Features = features.Select(f => _featureRMFactory.CreateResponse(f)).ToList();
+
+            IEnumerable<Task<FeatureResponse>> tasks = features.Select(f => _featureRMFactory.CreateResponse(f));
+            List<FeatureResponse> featureResponses = (await Task.WhenAll(tasks)).ToList();
+
+            EquipmentResponse response = new EquipmentResponse(equipment.Id)
+            {
+                Name = equipment.Name,
+                Price = equipment.Price,
+                ReleaseYear = equipment.ReleaseYear,
+                Features = featureResponses
+            };
 
             return Ok(response);
         }

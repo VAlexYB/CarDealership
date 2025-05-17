@@ -58,7 +58,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var autoModel = AutoModel.Create(Guid.NewGuid(), "defaultName", 1000, Guid.NewGuid()).Value;
             _serviceMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(autoModel);
-            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<AutoModel>())).Returns(new AutoModelResponse(autoModel.Id) { Price = 1000});
+            _factoryMock.Setup(f => f.CreateResponse(It.IsAny<AutoModel>())).ReturnsAsync(new AutoModelResponse(autoModel.Id) { Price = 1000 });
 
             // Act
             var result = await _controller.GetByIdAsync(autoModel.Id);
@@ -75,7 +75,7 @@ namespace CarDealership.Tests.ControllersTests
             // Arrange
             var autoModelRequest = new AutoModelRequest();
             var autoModel = AutoModel.Create(Guid.NewGuid(), "defaultName", 1000, Guid.NewGuid()).Value;
-            _factoryMock.Setup(f => f.CreateModelAsync(It.IsAny<AutoModelRequest>())).ReturnsAsync(autoModel);
+            _factoryMock.Setup(f => f.CreateModel(It.IsAny<AutoModelRequest>())).ReturnsAsync(autoModel);
             _serviceMock.Setup(s => s.CreateOrEditAsync(It.IsAny<AutoModel>())).ReturnsAsync(autoModel.Id);
 
             // Act

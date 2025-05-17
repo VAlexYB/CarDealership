@@ -27,6 +27,7 @@ namespace CarDealership.Application
             services.AddTransient<IRolesService, RolesService>();
             services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<IDealsService, DealsService>();
+            services.AddTransient<IPromotionsService, PromotionsService>();
 
             services.AddTransient<IEntityDataProvider, DealReceiptDataProvider>();
 
